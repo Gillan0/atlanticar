@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Définition des anciennes et nouvelles informations d'auteur
-OLD_EMAIL="antonino.gillard@imt-atlantique.net"
-NEW_NAME="Gillan0"
-NEW_EMAIL="antonino.gillard@orange.fr"
+OLD_EMAIL="sami.lameche@imt-atlantique.net"
+NEW_NAME="samosa130"
+NEW_EMAIL="lameche.sami170803@gmail.com"
 
 # Exécution de git filter-branch pour mettre à jour l'historique des commits
 git filter-branch --env-filter "
