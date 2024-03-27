@@ -38,3 +38,4 @@ CREATE TABLE compte
 );
 
 insert into requete values (DEFAULT, 'IMT Atlantique Brest', 'Carrefour Plouzané', '2024-08-01','10h30',0,'ne se prononce pas','JC')
+--bonjour--
