@@ -31,7 +31,7 @@ CREATE TABLE requete
 
 CREATE TABLE compte
 (   
-    identifiant     primary key,
+    identifiant     SERIAL PRIMARY KEY NOT NULL,
     mot_de_passe    TEXT,
     telephone       INT,
     date            DATE,
