@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS offre CASCADE;
-DROP TABLE IF EXISTS requete CASCADE;
-DROP TABLE IF EXISTS compte CASCADE;
-
 CREATE TABLE offre
 (   
     id              SERIAL PRIMARY KEY NULL,
@@ -38,5 +34,3 @@ CREATE TABLE compte
     id_offre_cree   NULL,
     id_requête_cree NULL
 );
-
-insert into requete values (DEFAULT, 'IMT Atlantique Brest', 'Carrefour Plouzané', '2024-08-01','10h30',0,'ne se prononce pas','JC')
