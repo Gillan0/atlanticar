@@ -1,36 +1,37 @@
-CREATE TABLE offre
-(   
-    id              SERIAL PRIMARY KEY NULL,
-    auteur          INTEGER NOT NULL,
-    lieu_depart     TEXT,
-    lieu_arrive     TEXT,
-    date            DATE,
-    heure           TIME
-    prix            DECIMAL,
-    nb_place        INT,
-    commentaire     TEXT,
-    FOREIGN KEY (auteur) REFERENCES compte(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+    CREATE TABLE account
+    (   
+        id                  SERIAL PRIMARY KEY,
+        user                TEXT NOT NULL,
+        password            TEXT NOT NULL,
+        telephone           INT NOT NULL,
+        date                DATE NOT NULL,
+        created_offer_id    INT,
+        created_request_id  INT
+    );
 
-CREATE TABLE requete
-(   
-    id              SERIAL PRIMARY KEY NOT NULL,
-    auteur          INTEGER NOT NULL,
-    lieu_depart     TEXT,
-    lieu_arrive     TEXT,
-    date            DATE,
-    heure           TIME,
-    prix            INT,
-    commentaire     TEXT,
-    FOREIGN KEY (auteur) REFERENCES compte(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+    CREATE TABLE offer
+    (   
+        id              SERIAL PRIMARY KEY,
+        author_id       INT NOT NULL,
+        departure_place TEXT NOT NULL,
+        arrival_place   TEXT NOT NULL,
+        date            DATE NOT NULL,
+        time            TIME NOT NULL,
+        price           DECIMAL NOT NULL,
+        available_seats INT NOT NULL,
+        comment         TEXT,
+        FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
 
-CREATE TABLE compte
-(   
-    identifiant     SERIAL PRIMARY KEY NOT NULL,
-    mot_de_passe    TEXT,
-    telephone       INT,
-    date            DATE,
-    id_offre_cree   NULL,
-    id_requête_cree NULL
-);
+    CREATE TABLE request
+    (   
+        id              SERIAL PRIMARY KEY,
+        author_id       INT NOT NULL,
+        departure_place TEXT NOT NULL,
+        arrival_place   TEXT NOT NULL,
+        date            DATE NOT NULL,
+        time            TIME NOT NULL,
+        price           INT NOT NULL,
+        comment         TEXT,
+        FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
