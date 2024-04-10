@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Platform, UIManager, Pressable, View, Text, Button, LayoutAnimation, StyleSheet, Alert } from 'react-native';
+import url from "./url.js"
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -17,7 +18,7 @@ const OfferItem = props => {
     const dataToSend = {
       username: 'user1',
       password: 'pwd1234',
-      msg : "Je candidate",
+      msg : "Je candidate à une offre",
       offer : props.offer,
     };
     
@@ -29,9 +30,6 @@ const OfferItem = props => {
       },
       body: JSON.stringify(dataToSend) // Convertir les données en format JSON
     };
-    
-    // URL de l'endpoint où envoyer les données
-    const url = 'http://192.168.43.48:3000';
     
     // Envoi de la requête avec fetch
     fetch(url, requestOptions)
