@@ -1,7 +1,7 @@
 import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert, TextInput, FlatList} from "react-native";
 import React, {useState, useCallback} from 'react';
 import RevealView from './../components/RevealView.js';
-
+import RequestItem from './../components/RequestItem.js';
 
 /*
 Gray : #cbcbcb
@@ -9,27 +9,6 @@ Light blue : #00b8de
 Dark blue : #0c2340
 Green : #99cc33
 */ 
-
-const RequestItem = props => {
-  var textList = [];
-  for (i=0; i<props.textList.length; i++) {
-    textList.push(
-      <View style = {{flex : 1}}>
-        <Text style = {{fontSize : props.style.textFontSize,
-                      color : props.style.textColor,
-                       alignSelf : "center"}}> {props.textList[i]}</Text>
-      </View>
-    )
-  }
-
-  return (
-  <RevealView title = {props.title} style = {props.containerStyle} buttonStyle = {{text : props.buttonText, function : props.buttonFunction,  color:props.style.buttonColor}}>    
-      <View style = {{paddingBottom : 10}}>
-        {textList}  
-      </View>
-  </RevealView>   
-  )
-};
 
 const CreateRequestItem = props => {
   const [inputs, setInputs] = useState(['', '', '', '', '', '', '']);
@@ -154,7 +133,20 @@ function test(id) {
   Alert.alert(title = "Candidature enregistrée !", message = "LOREM IPSUM SA MERE");
   return true
 }
-
+export default function RequestScreen() {
+  return (
+    <View style = {{flex : 1, backgroundColor : "white"}}>
+      <StatusBar backgroundColor="#99cc33"/>
+        <ScrollView>
+          <CreateRequestItem/>
+          {dataRequests.map((item) =>   <RequestItem key={item.id}
+                                      style = {styles.offerItemDetails} 
+                                      request = {item}
+                                      />)}
+      </ScrollView>
+    </View>
+    );
+};
 
 const styles = StyleSheet.create({
   RequestItemContainer : {
@@ -197,25 +189,3 @@ const styles = StyleSheet.create({
     childrenBackgroundColor : "#fff"
   }
 });
-
-export default function RequestScreen() {
-  return (
-    <View style = {{flex : 1, backgroundColor : "white"}}>
-      <StatusBar backgroundColor="#99cc33"/>
-        <ScrollView>
-          <CreateRequestItem/>
-          {dataRequests.map((item) =>   <RequestItem key ={item.id}
-                                      style = {styles.RequestItemDetails} 
-                                      containerStyle = {styles.RequestItemContainer}
-                                      title = {"Trajet : " + item.start + " - " + item.end}
-                                      buttonText = "Candidater !" 
-                                      buttonFunction = {() => test(item.id)}
-                                      textList = {["Horaire : " + item.date,
-                                      "Tarif : " + item.toPay + "€",
-                                      "Place : " + item.occupiedPlaces + "/" + item.totalPlaces,
-                                      "Commentaire : " + item.comment]}
-                                      />)}
-      </ScrollView>
-    </View>
-    );
-};
