@@ -1,16 +1,40 @@
 const http = require('http');
 const port = 3000;
 
-var message = {
-    offers : [
-        {id : 0, user : "user1", start : "IMT", end : "Carefour", date : "25/06", time : "09h58", cost : 0, places :2, comment : "Canabis pas cher au i8 !!!"},
-        {id : 1, user : "user1", start : "Carefour", end : "IMT", date : "25/06", time : "20h10", cost : 0,  places :1, comment : "Vive QUCS !"},
-        {id : 2, user : "user2", start : "Aéroport", end : "Carefour", date : "25/06",  time : "05h10", cost : 0, places : 3, comment : "J'aime me battre :)"},
-        {id : 3, user : "user3", start : "Gare", end : "IMT", date : "26/06",  time : "10h30", cost : 0, places : 1, comment : "Je vais envoyer un message très tard dans le groupe IMT A car je ne prévois rien dans ma vie."},
-        {id : 4, user : "user4", start : "Aéroport", end : "Gare", date : "15/06",  time : "12h30", cost : 50, places : 1, comment : "Je suis le Uber de l'IMT. Je coûte très cher"}
-    ],
-    msg : "Bonjour à toi jeune Atlante !"
-};
+// Ps1d4f9x28Clq5TbN6X810z
+const mysql = require('mysql');
+
+// Configuration de la connexion à la base de données MySQL
+const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306, // Port de la base de données MySQL
+    user: 'root',
+    password: 'Ps1d4f9x28Clq5TbN6X810z',
+    database: 'atlanticar'
+}
+);
+
+connection.connect((err) => {
+    if (err) {
+      console.error('Erreur de connexion à la base de données :', err);
+      return;
+    }
+    console.log('Connecté à la base de données MySQL');
+});
+
+function getSQLcommand(data) {
+    switch (data.command, data.type) {
+        case ("get", "default_offers") :
+            return 'SELECT o.id, o.departure, o.arrival, o.date, o.price, o.nb_seat, o.comment, a.user AS author FROM offer AS o JOIN account AS a ON a.id = o.author WHERE o.nb_seat > 0 ORDER BY o.date'
+        case ("get", "default_requests") : 
+            return 'SELECT r.id, r.departure, r.arrival, r.date, r.price, r.comment, a.user as author FROM request as r JOIN account as a ON a.id = r.author'
+        default : 
+            return '';
+    }
+}
+
+
+
 
 const server = http.createServer( (req,res) => {
     console.log(req.method, req.url, req.headers);   
@@ -19,10 +43,23 @@ const server = http.createServer( (req,res) => {
         body += chunk;
     });
     req.on('end', () => {
-        console.log(body)
-        res.write(JSON.stringify(message)); 
-        res.end(); 
-    });
+        let data = JSON.parse(body);
+        let sql_command = getSQLcommand(data);
+        console.log(data.command, data.type);
+        // Exécuter une requête SQL pour récupérer un élément de la base de données
+        connection.query(sql_command, (err, results) => {
+        if (err) {
+            console.error('Erreur lors de l\'exécution de la requête SQL :', err);
+            res.statusCode = 500;
+            res.end('Erreur de serveur');
+            return;
+        }
+
+        // Renvoyer le résultat de la requête au client HTTP
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(results));
+        });
+    })
 })
 
 server.listen(port, function(error) {

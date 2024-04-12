@@ -56,15 +56,15 @@ const OfferItem = props => {
       <Pressable onPress = {toggle}>
         <View style = {{...styles.titleContainer, backgroundColor : displayColor}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Par {props.offer.user}</Text>
-            <Text style = {styles.defaultText}>{props.offer.cost} €</Text>
+            <Text style = {styles.defaultText}>Par {props.offer.author}</Text>
+            <Text style = {styles.defaultText}>{props.offer.price} €</Text>
           </View>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.destinations}>De {props.offer.start}</Text>
-            <Text style = {styles.destinations}>A {props.offer.end}</Text>
+            <Text style = {styles.destinations}>De {props.offer.departure}</Text>
+            <Text style = {styles.destinations}>A {props.offer.arrival}</Text>
           </View>
           <View style = {{ flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Le {props.offer.date} à {props.offer.time}</Text>
+            <Text style = {styles.defaultText}>Le {props.offer.date} </Text>
             <Text style = {styles.defaultText}>{props.offer.places} place(s) restante(s)</Text>
           </View>
         </View>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   defaultText : {
     fontSize :  14,
     padding : 5,
-    color : "#fff"
+    color : "#fff",
   },
   mainContainer : {
     backgroundColor : "#fff",

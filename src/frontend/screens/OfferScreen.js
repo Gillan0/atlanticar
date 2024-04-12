@@ -73,11 +73,14 @@ export default function OfferScreen() {
 
   const filterShownOffers = (inputs) => {};
   
-  function request() {
+  function request(user,pwd,command,type,parameters=[]) {
     // Données à envoyer
     const dataToSend = {
-      username: 'user1',
-      password: 'pwd1234'
+      username: user,
+      password: pwd,
+      command : command,
+      type : type,
+      parameters : parameters
     };
   
     // Options de la requête
@@ -99,8 +102,8 @@ export default function OfferScreen() {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        console.log('Réponse du serveur :', data.msg);
-        setShownOffers(data.offers);
+        console.log('Réponse du serveur :', data);
+        setShownOffers(data);
       })
       .catch(error => {
         console.error('Erreur :', error);
@@ -113,13 +116,11 @@ export default function OfferScreen() {
     return true
   }
 
-  //request("Georges","passe wordeux","Bonjouges")
-
   return (
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
-        <Button onPress={request} title="Connecter"/>
+        <Button onPress={() => request('default_user','default_pwd','get','default_offers')} title="Connecter"/>
         <FilterItem changeShownOffers={filterShownOffers}/>
         {shownOffers.map((item) =>   <OfferItem key ={item.id}
                                       style = {styles.offerItemDetails} 
