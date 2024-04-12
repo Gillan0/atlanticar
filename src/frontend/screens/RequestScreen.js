@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert,
 import React, {useState, useCallback} from 'react';
 import RevealView from './../components/RevealView.js';
 import RequestItem from './../components/RequestItem.js';
-
+import url from "../components/url.js";
 /*
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -10,8 +10,10 @@ Dark blue : #0c2340
 Green : #99cc33
 */ 
 
-const CreateRequestItem = props => {
-  const [inputs, setInputs] = useState(['', '', '', '', '', '', '']);
+
+
+const FilterItem= props => {
+  const [inputs, setInputs] = useState(['', '', '', '']);
 
   const changeInputs = (text, index) => {
     const newInputs = [...inputs];
@@ -22,111 +24,34 @@ const CreateRequestItem = props => {
   const prompts = ["Départ : ",
                    "Arrivée : ", 
                    "Horaire : ", 
-                   "Tarif (en €) : ", 
-                   "Places occupées : ", 
-                   "Nombre de places maximales : ",
-                   "Commentaire :" ];
+                   "Tarif (en €) : "];
 
-  function addRequest() {
-    let isRequestValid = true;
-    let errorMessage = "";
-    for (i=0; i<6; i++) {
-      if (inputs[i].trim() == "") {
-        isRequestValid = false;
-        errorMessage = errorMessage + "Le champ '" + prompts[i][0].toLowerCase() + prompts[i].substring(1,prompts[i].length - 3) +  "' est vide\n"
-      }
-
-    }
-    if (isRequestValid) {
-      dataRequests.push({id : dataRequests.length, 
-                  start : inputs[0], 
-                  end : inputs[1], 
-                  date : inputs[2], 
-                  toPay : inputs[3],
-                  occupiedPlaces : inputs[4],
-                  totalPlaces : inputs[5],
-                  comment : inputs[6]
-    })
-      Alert.alert(title = "Requête créée !", message = "Un conducteur n'a plus qu'à vous répondre") 
-      setInputs(['', '', '', '', '', '', ''])
-    } else {
-      Alert.alert(title = "Erreur !", message = errorMessage)    
-    }
-    return isRequestValid;
+  function pushButton() {
+    props.changeShownOffers(inputs);
+    return false;
   }
 
   return (
-
-  <RevealView title = "Créer Requête" style = {styles.createItemTitle} display = {false} buttonStyle = {{text : "Créer une Requête", function:addRequest, color:"#ddb500"}}>    
-    <View style = {{backgroundColor : "#fff", borderRadius : 2, padding : 10}}>
-      <View style = {{paddingBottom : 10}}>
+  <RevealView title = "Filtre" 
+              style = {styles.filterItemTitle} display = {false} 
+              buttonStyle = {{text : "Filtrer", function:pushButton, color:"#ddb500"}}
+              >    
+      <View style = {{backgroundColor : "#fff", borderRadius : 2, padding : 10}}>
+        <View style = {{paddingBottom : 10}}>
         {prompts.map((value,index) => (
           <View key = {index} style = {{flex : 1, flexDirection : "row"}}>
             <Text style = {{fontSize : 15, color : '#000000', alignSelf : "center"}} >{value}</Text>
             <TextInput style = {styles.input} onChangeText={(text) => changeInputs(text, index)}/>
           </View>
          ))}
+        </View>
       </View>
-    </View>
   </RevealView>   
   
   
   )
 };
 
-const FilterScreen = props => {
-  const [display, setDisplay] = useState("none");
-
-  function toggle(display) {
-    if (display == "none") { 
-      setDisplay("flex");
-    } else {
-      setDisplay("none");
-    }
-  };
-  
-  return (
-  <View style = {{justifyContent : "center"}}>
-      <Pressable onPress = {() => toggle(display)}>
-        <View style = {{backgroundColor : "#a9a9a9", padding : 10,  borderRadius : 2}}>
-          <Text style = {{fontSize : 15, color : '#ffffff', alignSelf : "center", fontWeight : "bold"}} >Filtres</Text>
-        </View>
-      </Pressable>            
-      <View style = {{display : display, backgroundColor : "#fff", borderRadius : 2, padding : 10}}>
-        <View style = {{paddingBottom : 10}}>
-          <View style = {{flex : 1}}>
-            <Text style = {{fontSize : 15, color : '#000000', alignSelf : "center"}} > Départ :  </Text>
-            <TextInput/>
-          </View>
-          <View style = {{flex : 1}}>
-            <Text style = {{fontSize : 15, color : '#000000', alignSelf : "center"}} > Arrivée :  </Text>
-            <TextInput/>
-          </View>
-          <View style = {{flex : 1}}>
-            <Text style = {{fontSize : 15, color : '#000000', alignSelf : "center"}}> Horaire : </Text>
-            <TextInput/>
-          </View>
-          <View style = {{flex : 1}}>
-            <Text style = {{fontSize : 15, color : '#000000', alignSelf : "center"}} > Tarif :  €</Text>
-            <TextInput/>
-          </View>
-          <View style = {{flex : 1}}>
-            <Text style = {{fontSize : 15, color : '#000000', alignSelf : "center"}} > Nombre de places libres :  </Text>
-            <TextInput/>
-          </View>
-        </View>
-        <Button title = "Appliquer les filtres" onPress= {()=>console.log("je filtre")} color="#aadd44"/>
-      </View>
-  </View>
-  )
-};
-
-var dataRequests = [ 
-    {id : 0, start : "IMT", end : "Carefour", date : "25/06 à 9h", toPay : 0, occupiedPlaces : 2, totalPlaces : 5, comment : "Canabis pas cher au i8 !!!"},
-    {id : 1, start : "Carefour", end : "IMT", date : "25/06 à 20h", toPay : 0, occupiedPlaces : 0, totalPlaces : 5, comment : "Vive QUCS !"},
-    {id : 2, start : "Aéroport", end : "Carefour", date : "25/06 à 15h", toPay : 0, occupiedPlaces : 1, totalPlaces : 5, comment : "J'aime me battre :)"},
-    {id : 3, start : "Gare", end : "IMT", date : "26/06 à 1h", toPay : 0, occupiedPlaces : 3, totalPlaces : 5, comment : "Je vais envoyer un message très tard dans le groupe IMT A car je ne prévois rien dans ma vie."}
-];
 
 function test(id) {
   dataRequests[id].occupiedPlaces = dataRequests[id].occupiedPlaces + 1; 
@@ -134,22 +59,96 @@ function test(id) {
   return true
 }
 export default function RequestScreen() {
+
+  const [shownRequests,setShownRequests] = useState([]);
+
+  const addRequest = (inputs) => {
+    const newRequest = {
+      id: dataRequests.length,
+      start: inputs[0],
+      end: inputs[1],
+      date: inputs[2],
+      toPay: inputs[3],
+      occupiedPlaces: inputs[4],
+      totalPlaces: inputs[5],
+      comment: inputs[6]
+    };
+  
+    const newRequests = [...shownRequests, newRequest]; 
+    dataRequests = newRequests;
+    setShownRequests(newRequests); 
+  };
+
+  const filterShownRequests = (inputs) => {};
+  
+  function request(user,pwd,command,type,parameters=[]) {
+    // Données à envoyer
+    const dataToSend = {
+      username: user,
+      password: pwd,
+      command : command,
+      type : type,
+      parameters : parameters
+    };
+  
+    // Options de la requête
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataToSend) // Convertir les données en format JSON
+    };
+  
+    // Envoi de la requête avec fetch
+    fetch(url, requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erreur lors de la requête.');
+          Alert.alert("PAS CONNECTÉ")
+        }
+        return response.json(); // Renvoie les données JSON de la réponse
+      })
+      .then(data => {
+        console.log('Réponse du serveur :', data);
+        setShownRequests(data);
+      })
+      .catch(error => {
+        console.error('Erreur :', error);
+      });  
+  }
+
+
   return (
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
-          <CreateRequestItem/>
-          {dataRequests.map((item) =>   <RequestItem key={item.id}
-                                      style = {styles.offerItemDetails} 
+        <Button onPress={() => request('default_user','default_pwd','get','default_requests')} title="Connecter"/>
+        <FilterItem changeShownRequests={filterShownRequests}/>
+        {shownRequests.map((item) =>   <RequestItem key ={item.id}
+                                      style = {styles.RequestItemDetails} 
                                       request = {item}
                                       />)}
-      </ScrollView>
+        <View style = {{backgroundColor : "white", flex : 1, padding : 50}}/>
+        </ScrollView>
+          <View style={{position:"absolute", 
+                    backgroundColor:"#ddb500", 
+                    paddingTop : 8, paddingBottom : 10, paddingRight : 20, paddingLeft : 20, 
+                    alignSelf:"flex-end",
+                    borderRadius: 40,
+                    bottom:10, right : 10}}>
+          <Pressable onPress = {() => Alert.alert("Fonctionnalité à implémenter", "Lors de la V3")}>
+ 
+              <Text style={{color:"#fff", fontSize: 30}}>+</Text>    
+          
+          </Pressable>
+        </View>
     </View>
     );
 };
 
 const styles = StyleSheet.create({
-  RequestItemContainer : {
+  offerItemContainer : {
     colorInactiveTitle : "#00b8de",
     colorActiveTitle : "#99cc33",
     titleSize : 15,
@@ -160,8 +159,8 @@ const styles = StyleSheet.create({
     childrenPadding : 10,
     childrenBorderRadius : 10,
     childrenBackgroundColor : "#55fcff"
-    },
-  RequestItemDetails : {
+  },
+  offerItemDetails : {
     buttonColor : "#ddb500",
     textFontSize :  15,
     textColor : "#000000"
@@ -184,6 +183,18 @@ const styles = StyleSheet.create({
     titleBorderRadius : 10,
     titlePadding : 10,
     margin : 5,
+    childrenPadding : 10,
+    childrenBorderRadius : 10,
+    childrenBackgroundColor : "#fff"
+  },
+  filterItemTitle : {
+    colorInactiveTitle : "#a9a9a9",
+    colorActiveTitle : "#a9a9a9",
+    titleSize : 15,
+    titleColor : "#ffffff",
+    titleBorderRadius : 0,
+    titlePadding : 10,
+    margin : 0,
     childrenPadding : 10,
     childrenBorderRadius : 10,
     childrenBackgroundColor : "#fff"

@@ -57,15 +57,15 @@ const RequestItem = props => {
       <Pressable onPress = {toggle}>
         <View style = {{...styles.titleContainer, backgroundColor : displayColor}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Par {props.request.user}</Text>
-            <Text style = {styles.defaultText}>{props.request.cost} €</Text>
+            <Text style = {styles.defaultText}>Par {props.request.author}</Text>
+            <Text style = {styles.defaultText}>{props.request.price} €</Text>
           </View>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.destinations}>De {props.request.start}</Text>
-            <Text style = {styles.destinations}>A {props.request.end}</Text>
+            <Text style = {styles.destinations}>De {props.request.departure}</Text>
+            <Text style = {styles.destinations}>A {props.request.arrival}</Text>
           </View>
           <View style = {{ flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Le {props.request.date} à {props.request.time}</Text>
+            <Text style = {styles.defaultText}>Le {props.request.date}</Text>
           </View>
         </View>
         </Pressable>
