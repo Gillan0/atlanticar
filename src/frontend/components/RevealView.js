@@ -10,17 +10,14 @@ const RevealView = props => {
 
   function toggle() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
     setDisplay(!display);
   };
-
   function pressButton() {
     let buttonPress = props.buttonStyle.function();
     if (buttonPress == true) {
       toggle();
     }
   }
-
   const displayColor = display ? props.style.colorActiveTitle : props.style.colorInactiveTitle;
 
   return (
