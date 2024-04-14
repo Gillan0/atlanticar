@@ -5,10 +5,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function isValidDateTimeFormat(dateTimeString) {
-    const regex = /^(202[5-9]|20[3-9]\d)-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1])) (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-    return regex.test(dateTimeString);
-  }
+
 function changeDateFormat(dateString) {
     array = dateString.split('/');
     let formattedDate = ''
@@ -19,6 +16,27 @@ function changeDateFormat(dateString) {
         }
     } 
     return formattedDate;
+}
+function isValidTimeFormat(str) {
+    const regex = /^$|(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (regex.test(str)) {
+      const [hours, minutes] = str.split(':').map(Number);
+      if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+        return true;
+      }
+    }
+    return false;
+}
+function isValidDateFormat(str) {
+    // Expression régulière pour vérifier le format dd/mm/aaaa
+    const regex = /^$|(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/;
+    
+    // Test de la chaîne de caractères avec l'expression régulière
+    return regex.test(str);
+}
+function isValidPrice(str) {
+    const num = parseFloat(str);
+    return !isNaN(num);
 }
 
 const SearchItem = props => {
@@ -35,6 +53,19 @@ const SearchItem = props => {
         setDisplay(!display);
     };
     const pushButton = () => {
+        if (!isValidDateFormat(inputs[2])) {
+            Alert.alert("Erreur !", "Jour invalide")
+            return;
+        }
+        if (!isValidTimeFormat(inputs[3])) {
+            Alert.alert("Erreur !", "Heure invalide")
+            return;
+        }
+        if (!isValidPrice(inputs[4])) {
+            Alert.alert("Erreur !", "Prix invalide")
+            return;
+        }
+
         toggle();
         let parameters = []
         if (inputs[4] == '') {            
@@ -42,8 +73,6 @@ const SearchItem = props => {
         } else {
             parameters = [inputs[0], inputs[1], changeDateFormat(inputs[2]) + ' ' + inputs[3], inputs[4]]
         }
-        console.log(parameters);
-        console.log(isValidDateTimeFormat(parameters[2]));
         props.request(props.user, props.pwd, "get", props.type, parameters);
         setInputs(['','','','',''])
     };
@@ -92,7 +121,7 @@ const SearchItem = props => {
                         <Text style={styles.text}>€</Text>
                     </View>
                     <Pressable onPress={pushButton} style={styles.button}>
-                        <Text style={styles.buttonText}>Valider</Text>
+                        <Text style={styles.buttonText}> Valider </Text>
                     </Pressable>
                 </View>
             </View>
@@ -154,6 +183,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         backgroundColor: "#99cc33",
+        elevation : 5
     },
 })
 
