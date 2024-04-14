@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Platform, UIManager, Pressable, View, Text, Button, LayoutAnimation, StyleSheet, Alert } from 'react-native';
+import { Platform, UIManager, Pressable, View, Text, Button, LayoutAnimation, StyleSheet, Alert, Image } from 'react-native';
 import url from "./url.js"
 
 
@@ -7,19 +7,11 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const RequestItem = props => {  
-  const [display, setDisplay] = useState(false);
-
-  function toggle() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
-    setDisplay(!display);
-  };
-
   function toCandidate() {
     const dataToSend = {
       username: 'user1',
       password: 'pwd1234',
-      msg : "Je candidate à une requête",
+      msg : "Je candidate à une offre",
       request : props.request,
     };
     
@@ -50,34 +42,47 @@ const RequestItem = props => {
   }
   
 
-  const displayColor = display ? "#11c9ef" : "#00b8de";
   return (
     <View style = {styles.mainContainer}>
-      <Pressable onPress = {toggle}>
-        <View style = {{...styles.titleContainer, backgroundColor : displayColor}}>
+        <View style = {{...styles.titleContainer}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text style = {styles.defaultText}>Par {props.request.author}</Text>
             <Text style = {styles.defaultText}>{props.request.price} €</Text>
           </View>
-          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.destinations}>De {props.request.departure}</Text>
-            <Text style = {styles.destinations}>A {props.request.arrival}</Text>
-          </View>
-          <View style = {{ flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Le {props.request.date.substring(8,10)}/{props.request.date.substring(5,7)}/{props.request.date.substring(0,4)} à {props.request.date.substring(11,13)}h{props.request.date.substring(14,16)}</Text>
+
+          <View style = {{flexDirection : "row", flex : 1}}>
+            <View style = {{flexDirection : "column"}}>
+              <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
+              <View style = {{alignSelf : "center", height: '85%',width :0,  borderWidth: 3, borderColor: 'white', borderStyle: 'dashed'}}/>
+              <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
+            </View>
+            <View style = {{flexDirection : "column"}}>
+                <Text style = {styles.destinations}>De {props.request.departure}</Text>
+              <View>
+                <View style = {{alignItems : "flex-end", flexDirection : "row"}}>
+                  <Text style = {styles.defaultText}>Le {props.request.date.substring(8,10)}/{props.request.date.substring(5,7)}/{props.request.date.substring(2,4)} à {props.request.date.substring(11,13)}h{props.request.date.substring(14,16)}</Text>
+                </View>
+                <View style = {styles.revealContainer}>  
+                  <View style = {styles.commentContainer}>
+                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
+                    <Text style = {styles.defaultText}>{props.request.comment}</Text>
+                    <View style={styles.buttonContainer}>
+                      <Pressable onPress={toCandidate} style={styles.button}>
+                        <Image source={require("../assets/flag.png")} style={{height: 22, width: 22}}/>
+                        <Text style={styles.buttonText}> Candidater </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <View style = {{flexDirection : "row"}}>
+                <Text style = {styles.destinations}>A {props.request.arrival}</Text>
+              </View>
+            </View>
+
+
           </View>
         </View>
-        </Pressable>
-        {display && (
-        <View style = {styles.revealContainer}>  
-          <View style = {styles.commentContainer}>
-            <Text >Commentaire :</Text>
-            <Text >{props.request.comment}</Text>
-          </View>
-          <Button title={"Candidater"} color = {"#ddb500"} onPress={toCandidate}/>
-        </View>
-        )
-        }
     </View>
   )
 };
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
   defaultText : {
     fontSize :  14,
     padding : 5,
-    color : "#fff"
+    color : "#fff",
   },
   mainContainer : {
     backgroundColor : "#fff",
@@ -102,17 +107,31 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   titleContainer : {
-    backgroundColor : "#99cc33",
+    backgroundColor : "#00b8de",
     borderRadius : 10,
     padding : 10,
     fontSize : 20
   },
-  commentContainer : {
-    padding : 10,
-  },
   revealContainer : {
     padding : 10,
-    alignContent : "center"
+  },
+  button : {
+    flexDirection : "row",
+    alignSelf : "center"
+  },
+  buttonText : {
+    color : "#ffffff",
+    fontSize : 18,
+    fontWeight : 'bold'
+  },
+  buttonContainer : { 
+    margin : 10,
+    borderRadius: 10,
+    padding: 7,
+    backgroundColor: "#99cc33",
+    shadowColor: "#000",
+    elevation: 5,
+    alignSelf : "flex-end",
   }
 })
 
