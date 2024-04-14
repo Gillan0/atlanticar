@@ -64,8 +64,8 @@ const OfferItem = props => {
             <Text style = {styles.destinations}>A {props.offer.arrival}</Text>
           </View>
           <View style = {{ flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Le {props.offer.date} </Text>
-            <Text style = {styles.defaultText}>{props.offer.places} place(s) restante(s)</Text>
+            <Text style = {styles.defaultText}>Le {props.offer.date.substring(8,10)}/{props.offer.date.substring(5,7)}/{props.offer.date.substring(0,4)} à {props.offer.date.substring(11,13)}h{props.offer.date.substring(14,16)}</Text>
+            <Text style = {styles.defaultText}>{props.offer.nb_seat} place(s) restante(s)</Text>
           </View>
         </View>
         </Pressable>

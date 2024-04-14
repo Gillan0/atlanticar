@@ -51,7 +51,6 @@ const RequestItem = props => {
   
 
   const displayColor = display ? "#11c9ef" : "#00b8de";
-
   return (
     <View style = {styles.mainContainer}>
       <Pressable onPress = {toggle}>
@@ -65,7 +64,7 @@ const RequestItem = props => {
             <Text style = {styles.destinations}>A {props.request.arrival}</Text>
           </View>
           <View style = {{ flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Le {props.request.date}</Text>
+            <Text style = {styles.defaultText}>Le {props.request.date.substring(8,10)}/{props.request.date.substring(5,7)}/{props.request.date.substring(0,4)} à {props.request.date.substring(11,13)}h{props.request.date.substring(14,16)}</Text>
           </View>
         </View>
         </Pressable>
