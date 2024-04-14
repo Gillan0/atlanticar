@@ -17,10 +17,8 @@ function test(id) {
   return true
 }
 export default function RequestScreen() {
-
   const [shownRequests,setShownRequests] = useState([]);
-  
-  function request(user,pwd,command,type,parameters=[]) {
+  function request(user,pwd,command,type,parameters=['','','','INF']) {
     // Données à envoyer
     const dataToSend = {
       username: user,
@@ -61,6 +59,7 @@ export default function RequestScreen() {
       console.log('RequestScreen');
       try {
         request('default_user','default_pwd','get','default_requests')
+        console.log(shownRequests[0]);
       } catch (error) {
         console.error(error)
       }
@@ -69,13 +68,11 @@ export default function RequestScreen() {
       };
     }, [])
   );
-  
-
   return (
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>
       <ScrollView>
-        <SearchItem/>
+        <SearchItem request={request} user ='default_user' pwd='default_pwd' type="filter_requests"/>
           {shownRequests.map((item) =>   <RequestItem key ={item.id}
                                       style = {styles.RequestItemDetails} 
                                       request = {item}

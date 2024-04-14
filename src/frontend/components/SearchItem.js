@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
-import { Platform, UIManager, Image, Pressable, TextInput, StyleSheet,  View, Text, LayoutAnimation } from 'react-native';
+import { Platform, UIManager, Image, Pressable, TextInput, StyleSheet,  View, Text, LayoutAnimation, Alert} from 'react-native';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+function isValidDateTimeFormat(dateTimeString) {
+    const regex = /^(202[5-9]|20[3-9]\d)-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1])) (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+    return regex.test(dateTimeString);
+  }
+function changeDateFormat(dateString) {
+    array = dateString.split('/');
+    let formattedDate = ''
+    for (let i = array.length; i> 0; i--) {
+        formattedDate = formattedDate + array[i-1]
+        if (i>1) {
+            formattedDate = formattedDate + '-'
+        }
+    } 
+    return formattedDate;
 }
 
 const SearchItem = props => {
@@ -11,7 +27,7 @@ const SearchItem = props => {
 
     const changeInputs = (text, index) => {
         const newInputs = [...inputs];
-        newInputs[index] = text;
+        newInputs[index] = text.trim().toUpperCase(); 
         setInputs(newInputs);
     };
     const toggle = () => {
@@ -20,7 +36,16 @@ const SearchItem = props => {
     };
     const pushButton = () => {
         toggle();
-        console.log(inputs)
+        let parameters = []
+        if (inputs[4] == '') {            
+            parameters = [inputs[0], inputs[1], changeDateFormat(inputs[2]) + ' ' + inputs[3], '9999']
+        } else {
+            parameters = [inputs[0], inputs[1], changeDateFormat(inputs[2]) + ' ' + inputs[3], inputs[4]]
+        }
+        console.log(parameters);
+        console.log(isValidDateTimeFormat(parameters[2]));
+        props.request(props.user, props.pwd, "get", props.type, parameters);
+        setInputs(['','','','',''])
     };
     return (
         <View style={styles.mainContainer}>
@@ -75,7 +100,6 @@ const SearchItem = props => {
         </View>
     )
 };
-
 
 const styles = StyleSheet.create({
     destinations : {

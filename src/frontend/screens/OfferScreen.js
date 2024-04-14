@@ -11,11 +11,11 @@ Dark blue : #0c2340
 Green : #99cc33
 */ 
 
-export default function OfferScreen() {
+export default function OfferScreen() { 
 
   const [shownOffers,setShownOffers] = useState([]);
 
-  function request(user,pwd,command,type,parameters=[]) {
+  function request(user,pwd,command,type,parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
       username: user,
@@ -79,7 +79,7 @@ export default function OfferScreen() {
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>  
         <ScrollView>
-          <SearchItem/>
+          <SearchItem request={request} user ='default_user' pwd='default_pwd' type="filter_offers"/>
             {shownOffers.map((item) =>   <OfferItem key ={item.id}
                                       style = {styles.offerItemDetails} 
                                       offer = {item}
