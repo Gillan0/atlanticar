@@ -41,7 +41,9 @@ function getSQLcommand(data) {
                 return 'SELECT o.id, o.departure, o.arrival, o.date, o.price, o.nb_seat, o.comment, a.user AS author FROM offer AS o JOIN account AS a ON a.id = o.author WHERE o.nb_seat > 0 ORDER BY o.date'
             }            
             return "SELECT o.id, o.departure, o.arrival, o.date, o.price, o.nb_seat, o.comment, a.user AS author FROM offer AS o JOIN account AS a ON a.id = o.author WHERE o.nb_seat > 0 AND o.departure LIKE ? AND o.arrival LIKE ? AND o.date LIKE ? AND o.price <= ? ORDER BY o.date";
-
+        
+        case ("signIn", null):
+            return "SELECT CASE WHEN EXISTS (SELECT * FROM account WHERE user = ? AND password = ?) THEN 'TRUE' ELSE 'FALSE' END AS answer"
 
         default : 
             return '';
@@ -62,19 +64,37 @@ const server = http.createServer( (req,res) => {
             return;
         }
         console.log(data.command, data.type, data.parameters);
-        // Exécuter une requête SQL pour récupérer un élément de la base de données
-        connection.query(sql_command, [`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, `%${data.parameters[2]}%`, data.parameters[3]], (err, results) => {
-        if (err) {
-            console.error('Erreur lors de l\'exécution de la requête SQL :', err);
-            res.statusCode = 500;
-            res.end('Erreur de serveur');
-            return;
+        if (data.command == "signIn") {
+            // Exécuter une requête SQL pour récupérer un élément de la base de données
+            connection.query(sql_command, [data.parameters[0], data.parameters[1]], (err, results) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête SQL :', err);
+                    res.statusCode = 500;
+                    res.end('Erreur de serveur');
+                    return;
+                }
+                console.log(results, )
+                // Renvoyer le résultat de la requête au client HTTP
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(results));
+            });
         }
-        console.log(results)
-        // Renvoyer le résultat de la requête au client HTTP
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(results));
-        });
+        else {
+            // Exécuter une requête SQL pour récupérer un élément de la base de données
+            connection.query(sql_command, [`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, `%${data.parameters[2]}%`, data.parameters[3]], (err, results) => {
+                if (err) {
+                    console.error('Erreur lors de l\'exécution de la requête SQL :', err);
+                    res.statusCode = 500;
+                    res.end('Erreur de serveur');
+                    return;
+                }
+                console.log(results)
+                // Renvoyer le résultat de la requête au client HTTP
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(results));
+                });
+        }
+        
     })
 })
 

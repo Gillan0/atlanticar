@@ -11,15 +11,15 @@ Dark blue : #0c2340
 Green : #99cc33
 */ 
 
-export default function OfferScreen() { 
+export default function OfferScreen({route}) { 
 
   const [shownOffers,setShownOffers] = useState([]);
 
-  function request(user,pwd,command,type,parameters=['','','','9999']) {
+  function request(command,type,parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
-      username: user,
-      password: pwd,
+      username: route.params.username,
+      password: route.params.password,
       command : command,
       type : type,
       parameters : parameters
@@ -63,7 +63,7 @@ export default function OfferScreen() {
       console.log('OfferScreen');
       
       try {
-        request('default_user','default_pwd','get','default_offers')
+        request('get','default_offers')
       } catch (error) {
         console.error(error)
       }
@@ -79,7 +79,7 @@ export default function OfferScreen() {
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>  
         <ScrollView>
-          <SearchItem request={request} user ='default_user' pwd='default_pwd' type="filter_offers"/>
+          <SearchItem request={request} user = {route.params.username} pwd={route.params.password} type="filter_offers"/>
             {shownOffers.map((item) =>   <OfferItem key ={item.id}
                                       style = {styles.offerItemDetails} 
                                       offer = {item}
