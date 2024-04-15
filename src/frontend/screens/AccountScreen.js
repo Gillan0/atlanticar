@@ -1,19 +1,6 @@
 import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert, TextInput, FlatList} from "react-native";
 import React, {useState} from 'react';
-import RevealView from "../components/RevealView";
-
-const OfferCreatedInfo = props => {
-  return (
-    <View style = {{backgroundColor:"#efefef", flex : 1, margin : 15, padding : 10, borderRadius : 10}}>
-      <View style = {{padding : 10}}>
-        <Text style = {{fontSize : 20, fontWeight : "bold"}}>Détail des Offres Créées</Text>
-      </View>
-      <View style = {{padding : 10, margin : 5, borderRadius : 10, backgroundColor : "#f5f5f5"}}>
-
-      </View>    
-    </View>
-  )
-}
+import { useFocusEffect } from '@react-navigation/native';
 
 const OfferInfo = props => {
   return (
@@ -67,12 +54,24 @@ const AccountInfo = props => {
   )
 }
 
-export default function ConnectionScreen() {
+
+const ApplicationsInfo = props => {
+  return (
+    <View>
+
+    </View>
+  )
+}
+
+
+export default function ConnectionScreen({route}) {
+
+
     return (
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
-          <AccountInfo info = {{name : "Gillano", nbOffer : 2, nbRequest : 0}}/>
+          <AccountInfo info = {{name : route.params.username, nbOffer : 2, nbRequest : 0}}/>
           <OfferInfo info = {{name : "Gillano", nbOffer : 2, nbRequest : 0}}/>          
           <RequestInfo info = {{name : "Gillano", nbOffer : 2, nbRequest : 0}}/>
         </ScrollView>

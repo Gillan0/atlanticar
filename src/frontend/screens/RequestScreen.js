@@ -16,13 +16,13 @@ function test(id) {
   Alert.alert(title = "Candidature enregistrée !", message = "LOREM IPSUM SA MERE");
   return true
 }
-export default function RequestScreen() {
+export default function RequestScreen({route}) {
   const [shownRequests,setShownRequests] = useState([]);
   function request(user,pwd,command,type,parameters=['','','','INF']) {
     // Données à envoyer
     const dataToSend = {
-      username: user,
-      password: pwd,
+      username: route.params.username,
+      password: route.params.password,
       command : command,
       type : type,
       parameters : parameters

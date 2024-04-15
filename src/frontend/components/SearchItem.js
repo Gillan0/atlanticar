@@ -18,7 +18,10 @@ function changeDateFormat(dateString) {
     return formattedDate;
 }
 function isValidTimeFormat(str) {
-    const regex = /^$|(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (str == '') {
+        return true;
+    }
+    const regex = /|(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
     if (regex.test(str)) {
       const [hours, minutes] = str.split(':').map(Number);
       if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
@@ -35,6 +38,9 @@ function isValidDateFormat(str) {
     return regex.test(str);
 }
 function isValidPrice(str) {
+    if (str == '') {
+        return true;
+    }
     const num = parseFloat(str);
     return !isNaN(num);
 }
@@ -65,7 +71,6 @@ const SearchItem = props => {
             Alert.alert("Erreur !", "Prix invalide")
             return;
         }
-
         toggle();
         let parameters = []
         if (inputs[4] == '') {            

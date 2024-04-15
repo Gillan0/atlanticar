@@ -11,7 +11,6 @@ const RequestItem = props => {
     const dataToSend = {
       username: 'user1',
       password: 'pwd1234',
-      msg : "Je candidate à une offre",
       request : props.request,
     };
     
@@ -59,7 +58,7 @@ const RequestItem = props => {
             <View style = {{flexDirection : "column"}}>
                 <Text style = {styles.destinations}>De {props.request.departure}</Text>
               <View>
-                <View style = {{alignItems : "flex-end", flexDirection : "row"}}>
+                <View>
                   <Text style = {styles.defaultText}>Le {props.request.date.substring(8,10)}/{props.request.date.substring(5,7)}/{props.request.date.substring(2,4)} à {props.request.date.substring(11,13)}h{props.request.date.substring(14,16)}</Text>
                 </View>
                 <View style = {styles.revealContainer}>  
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#99cc33",
     shadowColor: "#000",
     elevation: 5,
-    alignSelf : "flex-end",
+    alignSelf : "center",
   }
 })
 

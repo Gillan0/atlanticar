@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#99cc33",
     shadowColor: "#000",
     elevation: 5,
-    alignSelf : "flex-end",
+    alignSelf : "center",
   }
 })
 
