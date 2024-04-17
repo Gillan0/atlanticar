@@ -8,6 +8,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 }
 const RequestItem = props => {  
   function toCandidate() {
+    Alert.alert("Fonctionnalité à venir", "Lors de la V2")
+    return;
     const dataToSend = {
       username: 'user1',
       password: 'pwd1234',
@@ -55,7 +57,7 @@ const RequestItem = props => {
               <View style = {{alignSelf : "center", height: '85%',width :0,  borderWidth: 3, borderColor: 'white', borderStyle: 'dashed'}}/>
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
             </View>
-            <View style = {{flexDirection : "column"}}>
+            <View style = {{flexDirection : "column", flex : 1}}>
                 <Text style = {styles.destinations}>De {props.request.departure}</Text>
               <View>
                 <View>
