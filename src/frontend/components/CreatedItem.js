@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 import { Platform, UIManager, Pressable, View, Text, Button, LayoutAnimation, StyleSheet, Alert, Image } from 'react-native';
 import url from "./url.js"
 
+
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-const OfferItem = props => {  
+export default CreatedItem = props => {
   function toCandidate() {
-    Alert.alert("Fonctionnalité à venir", "Lors de la V2")
-    return;
     const dataToSend = {
       username: 'user1',
       password: 'pwd1234',
-      msg : "Je candidate à une offre",
-      offer : props.offer,
+      announcement : props.announcement,
     };
     
     // Options de la requête
@@ -40,44 +38,49 @@ const OfferItem = props => {
         console.error('Erreur :', error);
       });
     
-  }
-  
+  }  
+
   return (
     <View style = {styles.mainContainer}>
         <View style = {{...styles.titleContainer}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Par {props.offer.author}</Text>
-            <Text style = {styles.defaultText}>{props.offer.price} €</Text>
+            <Text style = {{...styles.defaultText}}> TYPE </Text>
+            <Text style = {styles.defaultText}> {props.content.type} </Text>
           </View>
 
           <View style = {{flexDirection : "row", flex : 1}}>
             <View style = {{flexDirection : "column"}}>
-              <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
-              <View style = {{alignSelf : "center", height: '85%',width :0,  borderWidth: 3, borderColor: 'white', borderStyle: 'dashed'}}/>
-              <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
+              <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'black', borderRadius : 10, width : 20, height : 20}}/>
+              <View style = {{alignSelf : "center", height: '80%',width :0,  borderWidth: 3, borderColor: 'black', borderStyle: 'dashed'}}/>
+              <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'black', borderRadius : 10, width : 20, height : 20}}/>
             </View>
             <View style = {{flexDirection : "column", flex : 1}}>
-                <Text style = {styles.destinations}>De {props.offer.departure}</Text>
+                <Text style = {styles.destinations}>De {props.content.departure}</Text>
               <View>
-                <View style = {{alignItems : "flex-end", justifyContent : "space-between", flexDirection : "row"}}>
-                  <Text style = {styles.defaultText}>Le {props.offer.date.substring(8,10)}/{props.offer.date.substring(5,7)}/{props.offer.date.substring(2,4)} à {props.offer.date.substring(11,13)}h{props.offer.date.substring(14,16)}</Text>
-                  <Text style = {styles.defaultText}>{props.offer.nb_seat} place(s) restante(s)</Text>
+                <View>
+                  <Text style = {styles.defaultText}>Le {props.content.date}</Text>
                 </View>
                 <View style = {styles.revealContainer}>  
-                  <View style = {styles.commentContainer}>
-                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
-                    <Text style = {styles.defaultText}>{props.offer.comment}</Text>
-                    <View style={styles.buttonContainer}>
-                      <Pressable onPress={toCandidate} style={styles.button}>
-                        <Image source={require("../assets/flag.png")} style={{height: 22, width: 22}}/>
-                        <Text style={styles.buttonText}> Candidater </Text>
-                      </Pressable>
-                    </View>
+                  <View>
+                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Candidatures : </Text>
+                    {props.candidats.map((value,key) => 
+                            <View key = {key} style = {{flexDirection : "row", justifyContent : "space-between"}}>                
+                                <Text style = {styles.defaultText}>{value}</Text>
+                                <View style = {{flexDirection : "row"}}>    
+                                    <Pressable onPress = {()=> Alert.alert("Confirmer")}>
+                                        <Image source = {require("../assets/checkmark.png")} style = {{width : 30, height : 30}}/>
+                                    </Pressable>
+                                    <Pressable onPress = {()=> Alert.alert("Refuser")}>
+                                      <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30}}/>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        )}
                   </View>
                 </View>
               </View>
               <View style = {{flexDirection : "row"}}>
-                <Text style = {styles.destinations}>A {props.offer.arrival}</Text>
+                <Text style = {styles.destinations}>A {props.content.arrival}</Text>
               </View>
             </View>
 
@@ -91,16 +94,15 @@ const styles = StyleSheet.create({
   destinations : {
     fontSize :  20,
     padding : 5,
-    color : "#fff",
-    fontWeight : "bold"
+    color : "#000",
+    fontWeight : "bold",
   },
   defaultText : {
     fontSize :  14,
     padding : 5,
-    color : "#fff",
+    color : "#000",
   },
   mainContainer : {
-    backgroundColor : "#fff",
     color : "#111111",
     borderRadius : 10,
     margin : 10,
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   titleContainer : {
-    backgroundColor : "#00b8de",
+    backgroundColor : "#efefef",
     borderRadius : 10,
     padding : 10,
     fontSize : 20
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     alignSelf : "center"
   },
   buttonText : {
-    color : "#ffffff",
+    color : "#000",
     fontSize : 18,
     fontWeight : 'bold'
   },
@@ -135,5 +137,3 @@ const styles = StyleSheet.create({
     alignSelf : "center",
   }
 })
-
-export default OfferItem;

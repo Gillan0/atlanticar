@@ -88,7 +88,9 @@ export default function OfferScreen({route}) {
           </ScrollView>
           <View style={{position:"absolute", 
                     alignSelf:"flex-end",
-                    bottom:10, right : 10}}>
+                    bottom:10,
+                    right : 10,
+                    elevation : 5}}>
           <Pressable onPress = {() => Alert.alert("Fonctionnalité à implémenter", "Lors de la V3")}>
  
               <Image source = {require("../assets/plus-button.png")} style={{maxWidth : 60, maxHeight : 60}}/>    

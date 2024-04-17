@@ -2,7 +2,7 @@ import * as React from 'react';
 import LoginScreen from './screens/LoginScreen.js';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import MainScreen from './screens/MainScreen.js';
+import MainHub from './screens/MainHub.js';
 /* 
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -28,7 +28,7 @@ export default function App() {
                         color : "#fff"
                       }}}/>
         <Stack.Screen name = "Main" 
-                      component={MainScreen}
+                      component={MainHub}
                       options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>

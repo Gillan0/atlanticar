@@ -53,6 +53,7 @@ export default function LoginScreen() {
         <View style = {{flex : 1, backgroundColor : "white"}}>
           <StatusBar backgroundColor="#99cc33"/>  
             <View style = {styles.formContainer}>
+                <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
                     <Text style={styles.text}>Nom d'utilisateur</Text>
                     <TextInput  style={styles.input}
@@ -61,6 +62,7 @@ export default function LoginScreen() {
                 <View>
                     <Text style={styles.text}>Mot de passe</Text>
                     <TextInput  style={styles.input}
+                                secureTextEntry={true}
                                 onChangeText={(text) => changePrompts(text, 1)}/>
                 </View>
                 <View style = {styles.button}>
