@@ -1,54 +1,19 @@
 import React, { useState } from 'react';
 import { Platform, UIManager, Pressable, View, Text, Button, LayoutAnimation, StyleSheet, Alert, Image } from 'react-native';
 import url from "./url.js"
+import { useNavigationBuilder } from '@react-navigation/native';
 
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-export default CreatedItem = props => { 
-  function accept(bool, candidate) {
-    const dataToSend = {
-      id: props.id,
-      password: props.password,
-      command : props.content.type=="OFFRE" ? (bool ? "accept_application_offer"  : "refuse_application_offer") : (bool ? "accept_application_request"  : "refuse_application_request"),
-      parameters : [candidate.id, props.content.id, candidate.id, props.content.id, props.id, props.content.id],
-    };
-
-    // Options de la requête
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataToSend) // Convertir les données en format JSON
-    };
-    
-    // Envoi de la requête avec fetch
-    fetch(url, requestOptions)
-      .then(response => {
-        if (!response.ok) {
-          Alert.alert("Erreur de connexion", "Vérifier que l'état de la connexion")
-          throw new Error('Erreur lors de la requête.');
-        }
-        return response.json(); // Renvoie les données JSON de la réponse
-      })
-      .then(data => {
-        return;
-      })
-      .catch(error => {
-        console.error('Erreur :', error);
-      });
-    
-  }
-
-
+export default ApplicationItem = props => {
   return (
     <View style = {styles.mainContainer}>
         <View style = {{...styles.titleContainer}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}> TYPE </Text>
-            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}> {props.content.type} </Text>
+            <Text style = {styles.defaultText}>Par {props.content.author}</Text>
+            <Text style = {styles.defaultText}>{props.content.price} €</Text>
           </View>
           <View style = {{flexDirection : "row", flex : 1}}>
             <View style = {{flexDirection : "column"}}>
@@ -64,20 +29,12 @@ export default CreatedItem = props => {
                 </View>
                 <View style = {styles.revealContainer}>  
                   <View>
-                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Candidatures : </Text>
-                      {props.candidats.map((value,key) => 
-                            <View key = {key} style = {{flexDirection : "row", justifyContent : "space-between"}}>                
-                                <Text style = {styles.defaultText}>{value.user}</Text>
-                                <View style = {{flexDirection : "row"}}>    
-                                    <Pressable onPress = {()=> accept(true, value)}>
-                                        <Image source = {require("../assets/checkmark.png")} style = {{width : 30, height : 30, marginRight: 15}}/>
-                                    </Pressable>
-                                    <Pressable onPress = {()=> accept(false, value)}>
-                                      <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
-                                    </Pressable>
-                                </View>
-                            </View>
-                        )}
+                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>État de votre candidature : </Text>
+                      <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
+                        {props.content.state == "True" ? <Text style = {styles.defaultText}>Accepté !</Text> : 
+                        <Text style = {styles.defaultText}>En attente ...</Text>
+                        }
+                      </View>      
                   </View>
                 </View>
               </View>

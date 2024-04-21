@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AccountScreen from "./AccountScreen.js";
-import ApplicationScreen from "./ApplicationScreen.js";
-import AnnouncementScreen from "./AnnouncementScreen.js";
+import AccountScreen from "../screens/AccountScreen.js";
+import ApplicationScreen from "../screens/ApplicationScreen.js";
+import AnnouncementScreen from '../screens/AnnouncementScreen.js';
 
 /* 
 Gray : #cbcbcb
@@ -32,9 +32,9 @@ export default function PersonnalHub({route}) {
         }}
         />
         <Stack.Screen 
-            name = "Announcements" 
+            name = "AnnouncementsOffers" 
             component={AnnouncementScreen}
-            initialParams={route.params}
+            initialParams={{...route.params, type : "offer"}}
             options = {{
             title : "Annonces créées",
             headerStyle : {
@@ -48,11 +48,43 @@ export default function PersonnalHub({route}) {
           }}  
         />
         <Stack.Screen 
-          name = "Applications" 
+            name = "AnnouncementsRequests" 
+            component={AnnouncementScreen}
+            initialParams={{...route.params, type : "request"}}
+            options = {{
+            title : "Requêtes créées",
+            headerStyle : {
+              backgroundColor : "#0c2340"
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle : {
+              fontWeight : "bold",
+              color : "#fff"
+            }
+          }}  
+        />
+        <Stack.Screen 
+          name = "ApplicationsOffers" 
           component={ApplicationScreen}
-          initialParams={route.params}
+          initialParams={{...route.params, type : "offer"}}
           options = {{
-          title : "Vos candidatures",
+          title : "Candidatures - Offres",
+          headerStyle : {
+          backgroundColor : "#0c2340"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle : {
+            fontWeight : "bold",
+            color : "#fff"
+          }
+          }}  
+        />
+        <Stack.Screen 
+          name = "ApplicationsRequests" 
+          component={ApplicationScreen}
+          initialParams={{...route.params, type : "request"}}
+          options = {{
+          title : "Candidatures - Requêtes",
           headerStyle : {
           backgroundColor : "#0c2340"
           },

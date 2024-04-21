@@ -1,9 +1,9 @@
 import url from "./url";
 
-export default function request(user,pwd,msg) {
+export default function request(id,pwd,msg) {
     // Données à envoyer
   const dataToSend = {
-    username: user,
+    id: id,
     password: pwd,
     message : msg
   };

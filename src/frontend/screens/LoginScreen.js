@@ -13,10 +13,9 @@ export default function LoginScreen() {
     }
     function signIn() {
         const dataToSend = {
-            username: prompts[0],
+            id: prompts[0],
             password: prompts[1],
             command : "signIn",
-            type : null,
             parameters : [prompts[0], prompts[1]]
           };
           
@@ -40,7 +39,7 @@ export default function LoginScreen() {
             })
             .then(data => {
                 if (data[0].answer == "TRUE") {
-                    navigation.replace("Main", {username : prompts[0], password : prompts[1]})
+                    navigation.replace("Main", {id : data[0].id, username : prompts[0], password : prompts[1]})
                 } else {
                     console.log("Refusé")
                 }

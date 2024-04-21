@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
-import OfferScreen from "./OfferScreen";
-import RequestScreen from "./RequestScreen";
+import OfferScreen from "../screens/OfferScreen";
+import RequestScreen from "../screens/RequestScreen";
 import PersonnalHub from "./PersonnalHub";
 
 /* 

@@ -36,12 +36,28 @@ export default function AccountScreen({route}) {
             <Text style = {styles.welcomeText}> Bienvenue, {route.params.username} ! </Text>
           </View>
           <AccountInfo/> 
-            <Pressable onPress = {() => navigation.navigate("Announcements")} style = {styles.buttonContainer}>  
-                <Text style = {styles.buttonText}>Voir vos Annonces</Text>
+          <View style = {{backgroundColor:"#efefef", margin : 15, padding : 5, borderRadius : 10}}>
+            <View style = {{alignItems : "center", padding : 5}}>
+              <Text style = {{fontSize : 15, fontWeight : 'bold'}}> Annonces Créées </Text>
+            </View>
+            <Pressable onPress = {() => navigation.navigate("AnnouncementsOffers")} style = {styles.buttonContainer}>  
+                <Text style = {styles.buttonText}>Offres</Text>
             </Pressable>
-            <Pressable onPress = {() => navigation.navigate("Applications")} style = {styles.buttonContainer}>  
-                <Text style = {styles.buttonText}>Voir vos Candidatures</Text>
+            <Pressable onPress = {() => navigation.navigate("AnnouncementsRequests")} style = {styles.buttonContainer}>  
+                <Text style = {styles.buttonText}>Requêtes</Text>
             </Pressable>
+          </View>
+          <View style = {{backgroundColor:"#efefef", margin : 15, padding : 5, borderRadius : 10}}>
+            <View style = {{alignItems : "center", padding : 5}}>
+              <Text style = {{fontSize : 15, fontWeight : 'bold'}}> Vos Candidatures </Text>
+            </View>
+            <Pressable onPress = {() => navigation.navigate("ApplicationsOffers")} style = {styles.buttonContainer}>  
+                <Text style = {styles.buttonText}>Aux Offres</Text>
+            </Pressable>
+            <Pressable onPress = {() => navigation.navigate("ApplicationsRequests")} style = {styles.buttonContainer}>  
+                <Text style = {styles.buttonText}>Aux Requêtes</Text>
+            </Pressable>
+          </View>
       </View>
     )
 
@@ -64,12 +80,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: 'black', // Couleur du texte
+    color: 'black',
   },
   buttonContainer : {
-    backgroundColor:"#efefef",
+    backgroundColor:"#fff",
     alignItems : "center", 
-    margin : 15, 
+    margin : 5, 
     padding : 10, 
     borderRadius : 10
   }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import LoginScreen from './screens/LoginScreen.js';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import MainHub from './screens/MainHub.js';
+import MainHub from './hubs/MainHub.js';
 /* 
 Gray : #cbcbcb
 Light blue : #00b8de

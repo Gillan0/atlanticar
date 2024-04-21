@@ -15,13 +15,12 @@ export default function OfferScreen({route}) {
 
   const [shownOffers,setShownOffers] = useState([]);
 
-  function request(command,type,parameters=['','','','9999']) {
+  function request(command,parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
-      username: route.params.username,
+      id: route.params.id,
       password: route.params.password,
       command : command,
-      type : type,
       parameters : parameters
     };
   
@@ -51,19 +50,12 @@ export default function OfferScreen({route}) {
         console.error('Erreur :', error);
       });  
     }
-
-  function test(id) {
-    dataOffers[id].occupiedPlaces = dataOffers[id].occupiedPlaces + 1;
-    Alert.alert(title = "Candidature enregistrée !", message = "Le conducteur n'a plus qu'à la valider");
-    return true
-  }
-
   useFocusEffect(
     React.useCallback(() => {
       console.log('OfferScreen');
       
       try {
-        request('get','default_offers')
+        request('get_default_offers')
       } catch (error) {
         console.error(error)
       }
@@ -73,14 +65,13 @@ export default function OfferScreen({route}) {
       };
     }, [])
   );
-  
-
   return (
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>  
         <ScrollView>
-          <SearchItem request={request} user = {route.params.username} pwd={route.params.password} type="filter_offers"/>
+          <SearchItem request={request} type="offer"/>
             {shownOffers.map((item) =>   <OfferItem key ={item.id}
+                                      account = {route.params}
                                       style = {styles.offerItemDetails} 
                                       offer = {item}
                                       />)}
