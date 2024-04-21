@@ -1,15 +1,16 @@
-DROP TABLE offer_client;
-DROP TABLE apply_offer;
-DROP TABLE apply_request;
-DROP TABLE offer;
-DROP TABLE request;
-DROP TABLE account;
+USE atlanticar;
+DROP TABLE IF EXISTS offer_client;
+DROP TABLE IF EXISTS apply_offer;
+DROP TABLE IF EXISTS apply_request;
+DROP TABLE IF EXISTS offer;
+DROP TABLE IF EXISTS request;
+DROP TABLE IF EXISTS account;
 
 CREATE TABLE account
 (   
     id     			INT auto_increment,
     user 			varchar(30),
-    pasword			varchar(30) NOT NULL,
+    password			varchar(30) NOT NULL,
     phone_number   	TEXT NOT NULL,
     primary key (id)
 );
@@ -67,10 +68,10 @@ create table apply_request
 create table offer_client
 (
 	client			INT,
-    offer_id 		serial,
+    id_offer 		serial,
     Foreign Key (client) REFERENCES account(id),
-    Foreign Key (offer_id) REFERENCES offer(id),
-    Primary Key (client,offer_id)
+    Foreign Key (id_offer) REFERENCES offer(id),
+    Primary Key (client,id_offer)
 );
 
 insert into account values (default,'JC','1234','06 12 34 56 78');
@@ -98,22 +99,19 @@ SELECT c1.user as candidate,r.departure,r.arrival,r.date,c2.user as author From 
 JOIN account as c1 ON c1.id = cr.candidate JOIN account as c2 ON c2.id = cr.author JOIN request as r on r.id = cr.id_request;
 
 
-
 #ajoutons des annonces auquel on est inscrit
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,5,'J ai un gros coffre',4);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-21 12:30:00',8,2,'peu de place',4);
 
 #JC postule aux annonces :
 insert into apply_offer values (1,1,4,'2024-05-05 16:23:54');
-
 insert into apply_offer values (1,2,4,'2024-05-06 16:23:54');
 
 # Jean-Michel IV aime bien JC et accepte sa candidature :
 
 insert into offer_client values (1,2);
-DELETE FROM apply_offer as a WHERE a.candidate = 1 AND a.id_offer = 1 AND a.author = 4;
-UPDATE offer SET nb_seat = 3 WHERE id = 1;
-
+DELETE FROM apply_offer as a WHERE a.candidate = 1 AND a.id_offer = 2 AND a.author = 4;
+UPDATE offer SET nb_seat = nb_seat - 1 WHERE id = 1;
 #Affichons les annonces auquels JC participe :
 SELECT a.user as author,o.departure,o.arrival,o.date,o.nb_seat FROM offer as o JOIN offer_client as oc ON o.id = oc.offer_id JOIN account as a ON a.id = oc.client WHERE oc.client = 1;
 SELECT * FROM apply_offer;
