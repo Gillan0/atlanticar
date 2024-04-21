@@ -10,25 +10,23 @@ function unpack(data) {
     let tmp = data[i]
     
     if (result.id == undefined) {
-      result[tmp.id] = {content : {type : tmp.type, departure : tmp.departure, arrival : tmp.arrival, date : tmp.date},
-                  candidats :[tmp.candidat]}
+      result[tmp.id] = {content : {id : tmp.id, type : tmp.type, departure : tmp.departure, arrival : tmp.arrival, date : tmp.date},
+                  candidats :[{id : tmp.id_candidat, user : tmp.candidat}]}
     } else {
-      result.id.candidats.push(tmp.candidat)
+      result.id.candidats.push({id : tmp.id_candidat, user : tmp.candidat})
     }
   }
   return result;
 }
 
-
 export default function AnnouncementScreen({route}) {
   const [shownAnnouncements,setShownAnnouncements] = useState({});
-  function request(command,type,parameters=[]) {
+  function request(command,parameters=[]) {
     // Données à envoyer
     const dataToSend = {
-      username: route.params.username,
+      id: route.params.id,
       password: route.params.password,
       command : command,
-      type : type,
       parameters : parameters
     };
   
@@ -51,19 +49,23 @@ export default function AnnouncementScreen({route}) {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        console.log('Empty data', data==[]);
+        console.log(data);
         setShownAnnouncements(unpack(data));
       })
       .catch(error => {
         console.error('Erreur :', error);
       });  
     }
-
   useFocusEffect(
     React.useCallback(() => {
       console.log('AnnouncementScreen');
       try {
-        request("get","announcements")
+        if (route.params.type == "offer") {
+          request("get_announcements_offers")
+        } else if (route.params.type == "request") {
+          request("get_announcements_requests")
+        }
+        console.log(shownAnnouncements);
       } catch (error) {
         console.error(error)
       }
@@ -73,14 +75,19 @@ export default function AnnouncementScreen({route}) {
       };
     }, [])
   );
-    return (
+  return (
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
           {Object.keys(shownAnnouncements).map( (id) => (
-            <CreatedItem key = {id} content = {shownAnnouncements[id].content} candidats = {shownAnnouncements[id].candidats} />
+            <CreatedItem key = {id} 
+                          content = {shownAnnouncements[id].content} 
+                          candidats = {shownAnnouncements[id].candidats} 
+                          id = {route.params.id}
+                          password = {route.params.password}
+                          />
           ))}
         </ScrollView>
       </View>
-    )
+  )
 }

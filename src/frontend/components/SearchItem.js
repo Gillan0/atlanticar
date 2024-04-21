@@ -78,7 +78,12 @@ const SearchItem = props => {
         } else {
             parameters = [inputs[0], inputs[1], changeDateFormat(inputs[2]) + ' ' + inputs[3], inputs[4]]
         }
-        props.request(props.user, props.pwd, "get", props.type, parameters);
+        if (props.type == "request") {
+            props.request("get_filter_requests", parameters);
+        } else if (props.type == "offer") {
+            console.log("filter_offer")
+            props.request("get_filter_offers", parameters);
+        }
         setInputs(['','','','',''])
     };
     return (

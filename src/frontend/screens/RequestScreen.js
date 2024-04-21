@@ -18,13 +18,12 @@ function test(id) {
 }
 export default function RequestScreen({route}) {
   const [shownRequests,setShownRequests] = useState([]);
-  function request(user,pwd,command,type,parameters=['','','','INF']) {
+  function request(command,parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
-      username: route.params.username,
+      id: route.params.id,
       password: route.params.password,
       command : command,
-      type : type,
       parameters : parameters
     };
   
@@ -58,7 +57,7 @@ export default function RequestScreen({route}) {
     React.useCallback(() => {
       console.log('RequestScreen');
       try {
-        request('default_user','default_pwd','get','default_requests')
+        request('get_default_requests')
         console.log(shownRequests[0]);
       } catch (error) {
         console.error(error)
@@ -72,8 +71,9 @@ export default function RequestScreen({route}) {
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>
       <ScrollView>
-        <SearchItem request={request} user ='default_user' pwd='default_pwd' type="filter_requests"/>
+        <SearchItem request={request} type="request"/>
           {shownRequests.map((item) =>   <RequestItem key ={item.id}
+                                      account = {route.params}
                                       style = {styles.RequestItemDetails} 
                                       request = {item}
                                       />)}

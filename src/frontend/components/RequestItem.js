@@ -8,12 +8,11 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 }
 const RequestItem = props => {  
   function toCandidate() {
-    Alert.alert("Fonctionnalité à venir", "Lors de la V2")
-    return;
     const dataToSend = {
-      username: 'user1',
-      password: 'pwd1234',
-      request : props.request,
+      id: props.account.id,
+      password: props.account.password,
+      command : "apply_to_request",
+      parameters : [props.account.id, props.request.id, props.request.author],
     };
     
     // Options de la requête
@@ -29,25 +28,28 @@ const RequestItem = props => {
     fetch(url, requestOptions)
       .then(response => {
         if (!response.ok) {
-          throw new Error('Erreur lors de la requête.');
           Alert.alert("Erreur de connexion", "Vérifier que l'état de la connexion")
-        } else {
-          Alert.alert("Candidature envoyée", "Le conducteur n'a plus qu'à y répondre")
+          throw new Error('Erreur lors de la requête.');
         }
         return response.json(); // Renvoie les données JSON de la réponse
+      })
+      .then(data => {
+        if (data.affectedRows == 0) {
+          Alert.alert("Désolé !","Vous avez déjà candidaté à cette requête.")
+        } else {
+          Alert.alert("Candidature envoyée !", "Le passager n'a plus qu'à confirmer.")
+        }
       })
       .catch(error => {
         console.error('Erreur :', error);
       });
     
   }
-  
-
   return (
     <View style = {styles.mainContainer}>
         <View style = {{...styles.titleContainer}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {styles.defaultText}>Par {props.request.author}</Text>
+            <Text style = {styles.defaultText}>Par {props.request.user}</Text>
             <Text style = {styles.defaultText}>{props.request.price} €</Text>
           </View>
 
