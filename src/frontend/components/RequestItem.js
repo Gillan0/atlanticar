@@ -34,7 +34,7 @@ const RequestItem = props => {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        if (data.affectedRows == 0) {
+        if (data[0].affectedRows == 0) {
           Alert.alert("Désolé !","Vous avez déjà candidaté à cette requête.")
         } else {
           Alert.alert("Candidature envoyée !", "Le passager n'a plus qu'à confirmer.")

@@ -44,13 +44,12 @@ export default function AnnouncementScreen({route}) {
       .then(response => {
         if (!response.ok) {
           throw new Error('Erreur lors de la requête.');
-          Alert.alert("PAS CONNECTÉ")
         }
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
         console.log(data);
-        setShownAnnouncements(unpack(data));
+        setShownAnnouncements(unpack(data[0]));
       })
       .catch(error => {
         console.error('Erreur :', error);

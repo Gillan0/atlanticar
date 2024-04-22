@@ -10,7 +10,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 export default ApplicationItem = props => {
   return (
     <View style = {styles.mainContainer}>
-        <View style = {{...styles.titleContainer}}>
+        <View style = {styles.titleContainer}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text style = {styles.defaultText}>Par {props.content.author}</Text>
             <Text style = {styles.defaultText}>{props.content.price} €</Text>
@@ -22,6 +22,10 @@ export default ApplicationItem = props => {
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'black', borderRadius : 10, width : 20, height : 20}}/>
             </View>
             <View style = {{flexDirection : "column", flex : 1}}>
+                    {
+                      props.content.state == "True" ? <Image source = {require("../assets/white_checkmark.png")} style={{height: 200, width : 200, right: 0, top : 25, position : "absolute"}}/>
+                      : <Image source = {require("../assets/white_clock.png")} style={{height: 200, width : 200, right: 0, bottom : 0, position : "absolute"}}/>
+                    }
                 <Text style = {styles.destinations}>De {props.content.departure}</Text>
               <View>
                 <View>
@@ -29,9 +33,13 @@ export default ApplicationItem = props => {
                 </View>
                 <View style = {styles.revealContainer}>  
                   <View>
+                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
+                    <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
+                      <Text style = {styles.defaultText}>{props.content.comment}</Text>
+                    </View>
                     <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>État de votre candidature : </Text>
                       <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
-                        {props.content.state == "True" ? <Text style = {styles.defaultText}>Accepté !</Text> : 
+                        {props.content.state == "True" ? <Text style = {styles.defaultText}>Accepté !</Text>: 
                         <Text style = {styles.defaultText}>En attente ...</Text>
                         }
                       </View>      
@@ -44,6 +52,7 @@ export default ApplicationItem = props => {
             </View>
           </View>
         </View>
+
     </View>
   )
 };
@@ -60,7 +69,6 @@ const styles = StyleSheet.create({
     color : "#000",
   },
   mainContainer : {
-    color : "#111111",
     borderRadius : 10,
     margin : 10,
     shadowColor: "#000",
@@ -71,6 +79,12 @@ const styles = StyleSheet.create({
     borderRadius : 10,
     padding : 10,
     fontSize : 20
+  },
+  acceptedContainer : {
+    backgroundColor : "#afcb37",
+    borderRadius : 10,
+    padding : 10,
+    fontSize : 20,
   },
   revealContainer : {
     padding : 10,

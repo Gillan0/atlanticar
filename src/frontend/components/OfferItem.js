@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Platform, UIManager, Pressable, View, Text, Button, LayoutAnimation, StyleSheet, Alert, Image } from 'react-native';
 import url from "./url.js"
 
@@ -33,7 +33,7 @@ const OfferItem = props => {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        if (data.affectedRows == 0) {
+        if (data[0].affectedRows == 0) {
           Alert.alert("Désolé !","Vous avez déjà candidaté à cette offre.")
         } else {
           Alert.alert("Candidature envoyée !", "Le conducteur n'a plus qu'à confirmer.")
@@ -44,8 +44,9 @@ const OfferItem = props => {
       });
     
   }
+
   return (
-    <View style = {styles.mainContainer}>
+    <View style = {{...styles.mainContainer}}>
         <View style = {{...styles.titleContainer}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text style = {styles.defaultText}>Par {props.offer.user}</Text>

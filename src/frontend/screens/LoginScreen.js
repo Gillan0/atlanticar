@@ -38,8 +38,9 @@ export default function LoginScreen() {
                 return response.json(); // Renvoie les données JSON de la réponse
             })
             .then(data => {
-                if (data[0].answer == "TRUE") {
-                    navigation.replace("Main", {id : data[0].id, username : prompts[0], password : prompts[1]})
+                console.log(data)
+                if (data[0][0].answer == "TRUE") {
+                    navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1]})
                 } else {
                     console.log("Refusé")
                 }
