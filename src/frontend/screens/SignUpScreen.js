@@ -13,6 +13,23 @@ export default function SignUpScreen(){
         setPrompts(newPrompts);
     }
     function SignUp() {
+
+        //Verification longueur maximale des champs 
+        if (prompts[0].length > 10) {
+            Alert.alert('Erreur !', 'Le nom d\'utilisateur ne peut pas dépasser 10 caractères.');
+            return;
+        }
+
+        if (prompts[2].length !== 10 && prompts[1].length !== 0) {
+            Alert.alert('Erreur !', 'Le numéro de téléphone ne peut pas dépasser 10 caractères.');
+            return;
+        }
+
+        if (!prompts[0] || !prompts[1] || !prompts[2]) {
+            Alert.alert('Erreur !', 'Veuillez remplir tous les champs.');
+            return;
+        }
+
         const dataToSend = {
             id: prompts[0],
             password: prompts[1],
@@ -44,7 +61,7 @@ export default function SignUpScreen(){
             if (data[0][0].answer == "TRUE") {
                 navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone : prompts[2]})
             } else {
-                console.log("Refusé")
+                Alert.alert('Erreur !', 'Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
             }
         })
         .catch(error => {
