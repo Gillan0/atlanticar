@@ -12,7 +12,7 @@ export default CreatedItem = props => {
       id: props.id,
       password: props.password,
       command : props.content.type=="OFFRE" ? (bool ? "accept_application_offer"  : "refuse_application_offer") : (bool ? "accept_application_request"  : "refuse_application_request"),
-      parameters : [candidate.id, props.content.id, candidate.id, props.content.id, props.id, props.content.id],
+      parameters : props.content.type=="OFFRE" ? [[candidate.id, props.content.id], [candidate.id, props.content.id, props.id], [props.content.id]] : [[candidate.id, props.content.id, props.id], [candidate.id,props.content.id]],
     };
 
     // Options de la requête

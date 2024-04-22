@@ -34,7 +34,7 @@ export default function ApplicationScreen({route}) {
       })
       .then(data => {
         console.log(data);
-        setShownApplications(data);
+        setShownApplications(data[0]);
       })
       .catch(error => {
         console.error('Erreur :', error);

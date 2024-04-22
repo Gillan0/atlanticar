@@ -44,7 +44,7 @@ export default function OfferScreen({route}) {
       })
       .then(data => {
         console.log('Empty data', data==[]);
-        setShownOffers(data);
+        setShownOffers(data[0]);
       })
       .catch(error => {
         console.error('Erreur :', error);
