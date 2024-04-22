@@ -3,6 +3,7 @@ import LoginScreen from './screens/LoginScreen.js';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import MainHub from './hubs/MainHub.js';
+import SignUpScreen from './screens/SignUpScreen.js';
 /* 
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -15,11 +16,22 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator> 
         <Stack.Screen name = "Login" 
                       component={LoginScreen} 
                       options ={{
                       title : "Se connecter",
+                      headerStyle : {
+                        backgroundColor : "#0c2340"
+                      },
+                      headerTitleStyle : {
+                        fontWeight : "bold",
+                        color : "#fff"
+                      }}}/>
+        <Stack.Screen name = "SignUp"
+                      component={SignUpScreen}
+                      options = {{
+                      title : "Créer mon compte",
                       headerStyle : {
                         backgroundColor : "#0c2340"
                       },
