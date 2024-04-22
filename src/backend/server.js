@@ -176,6 +176,19 @@ function interpret(data) {
                     AND password = ?;
                 `],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]]]]
+        
+        case ("signUp"):
+            return [[`
+                INSERT INTO account (user, password, phone_number) 
+                SELECT ?, ?, ? FROM DUAL
+                WHERE NOT EXISTS (
+                    SELECT * FROM account 
+                    WHERE user = ? OR phone_number = ?
+                );
+            `],
+            [
+                [data.parameters[0], data.parameters[1], data.parameters[2], data.parameters[0], data.parameters[2]]
+            ]];
 
         case ("get_announcements_requests") : 
             return [[`
