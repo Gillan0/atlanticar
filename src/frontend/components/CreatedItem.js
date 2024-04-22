@@ -41,8 +41,6 @@ export default CreatedItem = props => {
       });
     
   }
-
-
   return (
     <View style = {styles.mainContainer}>
         <View style = {{...styles.titleContainer}}>

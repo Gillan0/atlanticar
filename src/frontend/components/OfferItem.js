@@ -60,6 +60,7 @@ const OfferItem = props => {
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
             </View>
             <View style = {{flexDirection : "column", flex : 1}}>
+                <Image source = {require("../assets/blue_offer.png")} style={{height: 200, width : 200, right: 0, bottom : 0,position : "absolute"}}/>
                 <Text style = {styles.destinations}>De {props.offer.departure}</Text>
               <View>
                 <View style = {{alignItems : "flex-end", justifyContent : "space-between", flexDirection : "row"}}>
