@@ -1,42 +1,11 @@
 import React, { useState } from 'react';
 import { Platform, UIManager, Image, Pressable, TextInput, StyleSheet,  View, Text, LayoutAnimation, Alert} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
-function changeDateFormat(dateString) {
-    array = dateString.split('/');
-    let formattedDate = ''
-    for (let i = array.length; i> 0; i--) {
-        formattedDate = formattedDate + array[i-1]
-        if (i>1) {
-            formattedDate = formattedDate + '-'
-        }
-    } 
-    return formattedDate;
-}
-function isValidTimeFormat(str) {
-    if (str == '') {
-        return true;
-    }
-    const regex = /|(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-    if (regex.test(str)) {
-      const [hours, minutes] = str.split(':').map(Number);
-      if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
-        return true;
-      }
-    }
-    return false;
-}
-function isValidDateFormat(str) {
-    // Expression régulière pour vérifier le format dd/mm/aaaa
-    const regex = /^$|(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/;
-    
-    // Test de la chaîne de caractères avec l'expression régulière
-    return regex.test(str);
-}
 function isValidPrice(str) {
     if (str == '') {
         return true;
@@ -46,7 +15,27 @@ function isValidPrice(str) {
 }
 
 const SearchItem = props => {
-    const [inputs, setInputs] = useState(['', '', '','', '']);
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+    };
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+    };
+    const showDatepicker = () => {
+        showMode('date');
+    };
+    const showTimepicker = () => {
+        showMode('time');
+    };
+
+    const [inputs, setInputs] = useState(['', '', '']);
     const [display, setDisplay] = useState(false);
 
     const changeInputs = (text, index) => {
@@ -59,14 +48,6 @@ const SearchItem = props => {
         setDisplay(!display);
     };
     const pushButton = () => {
-        if (!isValidDateFormat(inputs[2])) {
-            Alert.alert("Erreur !", "Jour invalide")
-            return;
-        }
-        if (!isValidTimeFormat(inputs[3])) {
-            Alert.alert("Erreur !", "Heure invalide")
-            return;
-        }
         if (!isValidPrice(inputs[4])) {
             Alert.alert("Erreur !", "Prix invalide")
             return;
@@ -74,9 +55,9 @@ const SearchItem = props => {
         toggle();
         let parameters = []
         if (inputs[4] == '') {            
-            parameters = [inputs[0], inputs[1], changeDateFormat(inputs[2]) + ' ' + inputs[3], '9999']
+            parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), '9999']
         } else {
-            parameters = [inputs[0], inputs[1], changeDateFormat(inputs[2]) + ' ' + inputs[3], inputs[4]]
+            parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), inputs[4]]
         }
         if (props.type == "request") {
             props.request("get_filter_requests", parameters);
@@ -84,7 +65,7 @@ const SearchItem = props => {
             console.log("filter_offer")
             props.request("get_filter_offers", parameters);
         }
-        setInputs(['','','','',''])
+        setInputs(['','',''])
     };
     return (
         <View style={styles.mainContainer}>
@@ -109,24 +90,29 @@ const SearchItem = props => {
                 </View>
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.text}>Le</Text>
-                    <TextInput
-                        style={{ ...styles.input, maxWidth: 110 }}
-                        placeholder="DD/MM/AAAA"
-                        onChangeText={(text) => changeInputs(text, 2)}
-                    />
-                    <Text style={styles.text}>à</Text>
-                    <TextInput
-                        style={{ ...styles.input, maxWidth: 65 }}
-                        placeholder="HH:MM"
-                        onChangeText={(text) => changeInputs(text, 3)}
-                    />
+                    <Pressable onPress = {showDatepicker}>
+                        <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleDateString("fr-FR")}</Text>
+                    </Pressable>
+                    <Text style = {styles.text}>à</Text>
+                    <Pressable onPress = {showTimepicker}>
+                        <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR")}</Text>
+                    </Pressable>
+                    {show && (
+                        <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        onChange={onChange}
+                        />
+                    )}
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                     <View style={{ flexDirection: "row", flex: 1 }}>
                         <Text style={styles.text}>Pour</Text>
                         <TextInput
                             style={{ ...styles.input, maxWidth: 50 }}
-                            onChangeText={(text) => changeInputs(text, 4)}
+                            onChangeText={(text) => changeInputs(text, 2)}
                         />
                         <Text style={styles.text}>€</Text>
                     </View>
