@@ -58,8 +58,8 @@ export default function SignUpScreen(){
         })
         .then(data => {
             console.log(data)
-            if (data[0][0].answer == "TRUE") {
-                navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone : prompts[2]})
+            if (data[0].affectedRows == 1) {
+                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone : prompts[2]})
             } else {
                 Alert.alert('Erreur !', 'Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
             }
