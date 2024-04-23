@@ -40,10 +40,10 @@ function interpret(data) {
                 AND ? NOT IN 
                 (
                 SELECT candidate AS user FROM apply_offer 
-                WHERE id_offer != o.id 
+                WHERE id_offer = o.id 
                 UNION 
                 SELECT client AS user FROM offer_client 
-                WHERE id_offer != o.id
+                WHERE id_offer = o.id
                 ) 
             ORDER BY o.date;
             `],
@@ -118,23 +118,31 @@ function interpret(data) {
         case ("get_filter_offers") : 
             if (data.parameters == ['','','','9999']) {
                 return [[`
-                    SELECT 
-                        o.id, 
-                        o.departure, 
-                        o.arrival, 
-                        o.date, 
-                        o.price, 
-                        o.nb_seat, 
-                        o.comment, 
-                        a.user AS user, 
-                        o.author 
-                    FROM offer AS o 
-                    JOIN account AS a ON a.id = o.author 
-                    WHERE 
-                        o.nb_seat > 0 
-                        AND author != ? 
-                    ORDER BY o.date`],
-                    [[data.id]]]
+                SELECT 
+                    o.id, 
+                    o.departure, 
+                    o.arrival, o.date, 
+                    o.price, 
+                    o.nb_seat, 
+                    o.comment, 
+                    a.user as user, 
+                    o.author AS author 
+                FROM offer AS o 
+                JOIN  account AS a ON a.id = o.author 
+                WHERE 
+                    o.nb_seat > 0 
+                    AND author != ? 
+                    AND ? NOT IN 
+                    (
+                    SELECT candidate AS user FROM apply_offer 
+                    WHERE id_offer = o.id 
+                    UNION 
+                    SELECT client AS user FROM offer_client 
+                    WHERE id_offer = o.id
+                    ) 
+                ORDER BY o.date;
+                `],
+                    [[data.id, data.id]]]
             }            
             return [[`
                 SELECT 
@@ -156,9 +164,16 @@ function interpret(data) {
                     AND ABS(DATEDIFF(o.date, ?)) <= 7 
                     AND o.price <= ? 
                     AND author != ? 
+                    AND ? NOT IN 
+                    (
+                    SELECT candidate AS user FROM apply_offer 
+                    WHERE id_offer = o.id 
+                    UNION 
+                    SELECT client AS user FROM offer_client 
+                    WHERE id_offer = o.id
                 ORDER BY o.date;
                 `],
-                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id]]]
+                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, data.id]]]
         
         case ("signIn"):
             return [[`
@@ -259,6 +274,9 @@ function interpret(data) {
                 "UPDATE request SET conductor = ? WHERE id = ?;"]
                , data.parameters]
 
+        case ("upload_offer"):
+            return [["INSERT IGNORE INTO offer VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?);"]
+                , [data.parameters]]  
 
         default : 
             return [[""], [[]]];

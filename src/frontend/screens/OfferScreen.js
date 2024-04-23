@@ -4,6 +4,8 @@ import React, {useState, useRef, useCallback} from 'react';
 import OfferItem from "../components/OfferItem.js";
 import SearchItem from "../components/SearchItem.js";
 import url from "../components/url.js";
+import { useNavigation } from '@react-navigation/native';
+
 /*
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -12,6 +14,7 @@ Green : #99cc33
 */ 
 
 export default function OfferScreen({route}) { 
+  const navigation = useNavigation();
 
   const [shownOffers,setShownOffers] = useState([]);
 
@@ -82,7 +85,7 @@ export default function OfferScreen({route}) {
                     bottom:10,
                     right : 10,
                     elevation : 5}}>
-          <Pressable onPress = {() => Alert.alert("Fonctionnalité à implémenter", "Lors de la V3")}>
+          <Pressable onPress = {() => navigation.navigate("CreateOffer")}>
  
               <Image source = {require("../assets/plus-button.png")} style={{maxWidth : 60, maxHeight : 60}}/>    
           
