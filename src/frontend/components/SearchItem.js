@@ -34,6 +34,10 @@ const SearchItem = props => {
     const showTimepicker = () => {
         showMode('time');
     };
+    const reset = () => {
+        setInputs(['','',''])
+        setDate(new Date())
+    }
 
     const [inputs, setInputs] = useState(['', '', '']);
     const [display, setDisplay] = useState(false);
@@ -48,16 +52,16 @@ const SearchItem = props => {
         setDisplay(!display);
     };
     const pushButton = () => {
-        if (!isValidPrice(inputs[4])) {
+        if (!isValidPrice(inputs[2])) {
             Alert.alert("Erreur !", "Prix invalide")
             return;
         }
         toggle();
         let parameters = []
-        if (inputs[4] == '') {            
+        if (inputs[2] == '') {            
             parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), '9999']
         } else {
-            parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), inputs[4]]
+            parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), inputs[2]]
         }
         if (props.type == "request") {
             props.request("get_filter_requests", parameters);
@@ -77,6 +81,7 @@ const SearchItem = props => {
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.text}>Départ : </Text>
                     <TextInput
+                        value = {inputs[0]}
                         style={styles.input}
                         onChangeText={(text) => changeInputs(text, 0)}
                     />
@@ -84,16 +89,17 @@ const SearchItem = props => {
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.text}>Destination :</Text>
                     <TextInput
+                        value = {inputs[1]}
                         style={styles.input}
                         onChangeText={(text) => changeInputs(text, 1)}
                     />
                 </View>
                 <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Le</Text>
+                    <Text style={styles.text}>Le </Text>
                     <Pressable onPress = {showDatepicker}>
                         <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleDateString("fr-FR")}</Text>
                     </Pressable>
-                    <Text style = {styles.text}>à</Text>
+                    <Text style = {styles.text}> à </Text>
                     <Pressable onPress = {showTimepicker}>
                         <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR")}</Text>
                     </Pressable>
@@ -111,6 +117,7 @@ const SearchItem = props => {
                     <View style={{ flexDirection: "row", flex: 1 }}>
                         <Text style={styles.text}>Pour</Text>
                         <TextInput
+                            value = {inputs[2]}
                             style={{ ...styles.input, maxWidth: 50 }}
                             onChangeText={(text) => changeInputs(text, 2)}
                         />
@@ -118,6 +125,9 @@ const SearchItem = props => {
                     </View>
                     <Pressable onPress={pushButton} style={styles.button}>
                         <Text style={styles.buttonText}> Valider </Text>
+                    </Pressable>
+                    <Pressable onPress={reset} style={{...styles.button, backgroundColor : "#cc4400"}}>
+                        <Text style={styles.buttonText}> Annuler </Text>
                     </Pressable>
                 </View>
             </View>

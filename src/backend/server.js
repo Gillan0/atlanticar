@@ -107,7 +107,7 @@ function interpret(data) {
                 WHERE 
                     r.departure LIKE ? 
                     AND r.arrival LIKE ? 
-                    AND ABS(DATEDIFF(r.date, ?)) <= 7 
+                    AND ABS(DATEDIFF(r.date, ?)) <= 7
                     AND r.price <= ? 
                     AND author != ? 
                     AND r.conductor IS NULL 
@@ -153,7 +153,7 @@ function interpret(data) {
                     o.nb_seat > 0 
                     AND o.departure LIKE ? 
                     AND o.arrival LIKE ? 
-                    AND ABS(DATEDIFF(r.date, ?)) <= 7 
+                    AND ABS(DATEDIFF(o.date, ?)) <= 7 
                     AND o.price <= ? 
                     AND author != ? 
                 ORDER BY o.date;
