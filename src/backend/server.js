@@ -107,13 +107,13 @@ function interpret(data) {
                 WHERE 
                     r.departure LIKE ? 
                     AND r.arrival LIKE ? 
-                    AND r.date LIKE ? 
+                    AND ABS(DATEDIFF(r.date, ?)) <= 7 
                     AND r.price <= ? 
                     AND author != ? 
                     AND r.conductor IS NULL 
                 ORDER BY r.date
                 `],
-                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, `%${data.parameters[2]}%`, data.parameters[3], data.id]]]
+                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id]]]
 
         case ("get_filter_offers") : 
             if (data.parameters == ['','','','9999']) {
@@ -153,12 +153,12 @@ function interpret(data) {
                     o.nb_seat > 0 
                     AND o.departure LIKE ? 
                     AND o.arrival LIKE ? 
-                    AND o.date LIKE ? 
+                    AND ABS(DATEDIFF(r.date, ?)) <= 7 
                     AND o.price <= ? 
                     AND author != ? 
                 ORDER BY o.date;
                 `],
-                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, `%${data.parameters[2]}%`, data.parameters[3], data.id]]]
+                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id]]]
         
         case ("signIn"):
             return [[`
