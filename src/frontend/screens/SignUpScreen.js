@@ -30,6 +30,15 @@ export default function SignUpScreen(){
             return;
         }
 
+        function neContientQueDesChiffres(saisie) {
+            return /^\d+$/.test(saisie);
+        }
+
+        if (!neContientQueDesChiffres(prompts[2])) {
+            Alert.alert('Erreur !', 'Le numéro de téléphone doit contenir uniquement des chiffres.');
+            return;
+        }
+
         const dataToSend = {
             id: prompts[0],
             password: prompts[1],
@@ -59,9 +68,10 @@ export default function SignUpScreen(){
         .then(data => {
             console.log(data)
             if (data[0].affectedRows == 1) {
+                Alert.alert('Votre compte est bien crée ! Bienvenue sur Atlanticar !');
                 navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone : prompts[2]})
             } else {
-                Alert.alert('Erreur !', 'Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
+                Alert.alert('Erreur ! Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
             }
         })
         .catch(error => {
@@ -85,7 +95,7 @@ export default function SignUpScreen(){
                                 onChangeText={(text) => changePrompts(text, 1)}/>
                 </View>
                 <View>
-                    <Text style={styles.text}>phone</Text>
+                    <Text style={styles.text}>Numéro de téléphone</Text>
                     <TextInput  style={styles.input}
                                 onChangeText={(text) => changePrompts(text, 2)}/>
                 </View>
