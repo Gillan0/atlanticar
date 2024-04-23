@@ -101,7 +101,7 @@ const SearchItem = props => {
                     </Pressable>
                     <Text style = {styles.text}> à </Text>
                     <Pressable onPress = {showTimepicker}>
-                        <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR")}</Text>
+                        <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR").substring(0,5)}</Text>
                     </Pressable>
                     {show && (
                         <DateTimePicker
