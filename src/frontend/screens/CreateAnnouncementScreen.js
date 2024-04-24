@@ -18,7 +18,7 @@ function isValidPrice(str) {
   return !isNaN(num);
 }
 
-export default function OfferScreen({route}) { 
+export default function CreateAnnouncementScreen({route}) { 
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -64,7 +64,7 @@ export default function OfferScreen({route}) {
         Alert.alert("Désolé", "Le tarif doit être un nombre.")
         return;
       }
-      if (inputs[3] == "") {
+      if (inputs[3] == "" && route.params.type == "offer") {
         Alert.alert("Désolé !", "Merci d'indiquer le nombre de places libres dans votre véhicule.")
         return;
       }
@@ -72,7 +72,11 @@ export default function OfferScreen({route}) {
         Alert.alert("Désolé !", "Le nombre de places libres doit être plus grand que 0.")
         return;
       }
-      request([inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.id])
+      if (route.params.type == "offer") {
+        request([inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.id])
+      } else if (route.params.type == "request")  {
+        request([inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[4], route.params.id])
+      }
     }
 
     function request(parameters) {
@@ -80,7 +84,7 @@ export default function OfferScreen({route}) {
         const dataToSend = {
         id: route.params.id,
         password: route.params.password,
-        command : "upload_offer",
+        command : "upload_"+route.params.type,
         parameters : parameters
         };
     
@@ -137,7 +141,10 @@ export default function OfferScreen({route}) {
                             <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
                         </View>
                         <View style = {{flexDirection : "column", flex : 1}}>
-                            <Image source = {require("../assets/gold_offer.png")} style={{height: 200, width : 200, right: 0, bottom : 0,position : "absolute"}}/>
+                            { (route.params.type == "offer") ? 
+                              <Image source = {require("../assets/gold_offer.png")} style={{height: 200, width : 200, right: 0, bottom : 0,position : "absolute"}}/>
+                              : <Image source = {require("../assets/gold_request.png")} style={{height: 200, width : 200, right: 0, bottom : 0,position : "absolute"}}/>
+                            }
                             <View style = {{flexDirection : "row"}}>                    
                                 <Text style = {styles.destinations}>De </Text>
                                 <TextInput style = {styles.input} onChangeText={(text) => changeInputs(text, 0)}/>
@@ -163,10 +170,12 @@ export default function OfferScreen({route}) {
                                         />
                                     )}
                                   </View>
-                                  <View style ={{flexDirection:"row"}}>
-                                    <TextInput style = {{...styles.input, margin : 0, minWidth : 25}} onChangeText={(text) => changeInputs(text, 3)}/>
-                                    <Text style = {styles.defaultText}> place(s) restante(s)</Text>
-                                  </View>
+                                  {(route.params.type == "offer") &&
+                                    <View style ={{flexDirection:"row"}}>
+                                      <TextInput style = {{...styles.input, margin : 0, minWidth : 25}} onChangeText={(text) => changeInputs(text, 3)}/>
+                                      <Text style = {styles.defaultText}> place(s) restante(s)</Text>
+                                    </View>
+                                  }
                                 </View>
                                 <View style = {styles.revealContainer}>  
                                     <View style = {styles.commentContainer}>

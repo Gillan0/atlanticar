@@ -1,8 +1,7 @@
 const http = require('http');
 const port = 3000;
-// Ps1d4f9x28Clq5TbN6X810z
 const mysql = require('mysql');
-// Configuration de la connexion à la base de données MySQL
+
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306, // Port de la base de données MySQL
@@ -276,6 +275,10 @@ function interpret(data) {
 
         case ("upload_offer"):
             return [["INSERT IGNORE INTO offer VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?);"]
+                , [data.parameters]]  
+        
+        case ("upload_request"):
+            return [["INSERT IGNORE INTO request VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, NULL);"]
                 , [data.parameters]]  
 
         default : 

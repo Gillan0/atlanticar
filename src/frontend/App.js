@@ -33,6 +33,7 @@ export default function App() {
                       options = {{
                       title : "Créer mon compte",
                       headerStyle : {
+                        headerTintColor: "#fff",
                         backgroundColor : "#0c2340"
                       },
                       headerTitleStyle : {
