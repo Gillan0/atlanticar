@@ -9,7 +9,7 @@ export default function SignUpScreen(){
     const [prompts, setPrompts] = useState(['','', '']);
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
-        newPrompts[index] = text.trim().toUpperCase(); 
+        newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
     function SignUp() {
