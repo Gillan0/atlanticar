@@ -4,21 +4,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import CreatedItem from "../components/CreatedItem.js";
 import url from "../components/url.js";
 
-function unpack(data) {
-  let result = {};
-  for (i=0;i<data.length;i++) {
-    let tmp = data[i]
-    
-    if (result.id == undefined) {
-      result[tmp.id] = {content : {id : tmp.id, type : tmp.type, departure : tmp.departure, arrival : tmp.arrival, date : tmp.date},
-                  candidats :[{id : tmp.id_candidat, user : tmp.candidat}]}
-    } else {
-      result.id.candidats.push({id : tmp.id_candidat, user : tmp.candidat})
-    }
-  }
-  return result;
-}
-
 export default function AnnouncementScreen({route}) {
   const [shownAnnouncements,setShownAnnouncements] = useState({});
   function request(command,parameters=[]) {
@@ -48,8 +33,8 @@ export default function AnnouncementScreen({route}) {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        console.log(data);
-        setShownAnnouncements(unpack(data[0]));
+        console.log(data[0]);
+        setShownAnnouncements(data[0]);
       })
       .catch(error => {
         console.error('Erreur :', error);
@@ -78,10 +63,19 @@ export default function AnnouncementScreen({route}) {
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
-          {Object.keys(shownAnnouncements).map( (id) => (
-            <CreatedItem key = {id} 
-                          content = {shownAnnouncements[id].content} 
-                          candidats = {shownAnnouncements[id].candidats} 
+          {Object.values(shownAnnouncements).map( (value, index) => (
+            <CreatedItem key = {index} 
+                          content = {{type : route.params.type, 
+                                      id : value.id,
+                                      departure : value.departure,
+                                      arrival : value.arrival,
+                                      date : value.date,
+                                      price : value.price,
+                                      nb_seat : value.nb_seat,
+                                      comment : value.comment,
+                                      conductor:   value.conductor}} 
+                          candidates = {value.candidates == null ? [] : value.candidates.split(',')} 
+                          passengers = {value.passengers == null ? [] : value.passengers.split(',')} 
                           id = {route.params.id}
                           password = {route.params.password}
                           />
