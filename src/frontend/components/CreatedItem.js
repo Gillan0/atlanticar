@@ -7,12 +7,13 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 export default CreatedItem = props => { 
-  function accept(bool, candidate) {
+  console.log(props.content.conductor)
+  function accept(bool, id_candidate) {
     const dataToSend = {
       id: props.id,
       password: props.password,
-      command : props.content.type=="OFFRE" ? (bool ? "accept_application_offer"  : "refuse_application_offer") : (bool ? "accept_application_request"  : "refuse_application_request"),
-      parameters : props.content.type=="OFFRE" ? [[candidate.id, props.content.id], [candidate.id, props.content.id, props.id], [props.content.id]] : [[candidate.id, props.content.id, props.id], [candidate.id,props.content.id]],
+      command : props.content.type=="offer" ? (bool ? "accept_application_offer"  : "refuse_application_offer") : (bool ? "accept_application_request"  : "refuse_application_request"),
+      parameters : props.content.type=="offer" ? [[id_candidate, props.content.id], [id_candidate, props.content.id, props.id], [props.content.id]] : [[id_candidate, props.content.id, props.id], [id_candidate,props.content.id]],
     };
 
     // Options de la requête
@@ -44,10 +45,6 @@ export default CreatedItem = props => {
   return (
     <View style = {styles.mainContainer}>
         <View style = {{...styles.titleContainer}}>
-          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}> TYPE </Text>
-            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}> {props.content.type} </Text>
-          </View>
           <View style = {{flexDirection : "row", flex : 1}}>
             <View style = {{flexDirection : "column"}}>
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'black', borderRadius : 10, width : 20, height : 20}}/>
@@ -62,20 +59,45 @@ export default CreatedItem = props => {
                 </View>
                 <View style = {styles.revealContainer}>  
                   <View>
-                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Candidatures : </Text>
-                      {props.candidats.map((value,key) => 
+                    {props.candidates.length > 0 && <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Candidatures : </Text> }
+                      {Object.values(props.candidates).map((value, key) => 
                             <View key = {key} style = {{flexDirection : "row", justifyContent : "space-between"}}>                
-                                <Text style = {styles.defaultText}>{value.user}</Text>
+                                <Text style = {styles.defaultText}>{value.split(":")[1]}</Text>
                                 <View style = {{flexDirection : "row"}}>    
-                                    <Pressable onPress = {()=> accept(true, value)}>
+                                    <Pressable onPress = {()=> accept(true, parseInt(value.split(":")[0]))}>
                                         <Image source = {require("../assets/checkmark.png")} style = {{width : 30, height : 30, marginRight: 15}}/>
                                     </Pressable>
-                                    <Pressable onPress = {()=> accept(false, value)}>
+                                    <Pressable onPress = {()=> accept(false, parseInt(value.split(":")[0]))}>
                                       <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
                                     </Pressable>
                                 </View>
                             </View>
                         )}
+                    {props.passengers.length > 0 && <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Passagers déjà validés : </Text>}
+                      {Object.values(props.passengers).map((value, key) => 
+                            <View key = {key} style = {{flexDirection : "row", justifyContent : "space-between"}}>                
+                                <Text style = {styles.defaultText}>{value.split(":")[1]}</Text>
+                                <View style = {{flexDirection : "row"}}>    
+                                    <Pressable>
+                                      <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        )} 
+                      {props.content.conductor !== null && (
+                          <>
+                            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Conducteur : </Text>
+                            <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
+                                <Text style = {styles.defaultText}>{props.conductor}</Text>
+                                <View style = {{flexDirection : "row"}}>    
+                                    <Pressable>
+                                      <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
+                                    </Pressable>
+                                </View>
+                            </View>
+                          </>
+                          )
+                      }
                   </View>
                 </View>
               </View>

@@ -207,40 +207,54 @@ function interpret(data) {
         case ("get_announcements_requests") : 
             return [[`
                 SELECT 
-                    'REQUETE' AS type,
-                    a.id AS id_candidat, 
-                    a.user AS candidat, 
                     r.id, 
                     r.departure, 
                     r.arrival, 
                     r.date, 
-                    ar.date AS date_de_candidature 
-                FROM apply_request AS ar 
-                JOIN request AS r ON r.id = ar.id_request 
-                JOIN account AS a ON a.id = ar.candidate 
-                WHERE 
-                    ar.author = ? 
-                GROUP BY ar.date, a.id, a.user, r.id, r.departure, r.arrival, r.date;
+                    r.price,
+                    r.comment,
+                    r.conductor,
+                    (
+                        SELECT 
+                            GROUP_CONCAT(CONCAT(ar.candidate, ':', a.user) SEPARATOR ', ')
+                        FROM apply_request AS ar
+                        JOIN account AS a ON ar.candidate = a.id
+                        WHERE
+                            ar.id_request = r.id
+                    ) AS candidates
+                FROM request AS r
+                WHERE r.author = ?;
                 `],
                 [[data.id]]] 
 
         case ("get_announcements_offers") : 
             return [[`
                 SELECT 
-                    'OFFRE' AS type,
-                    a.id AS id_candidat, 
-                    a.user AS candidat, 
-                    o.id, 
-                    o.departure, 
-                    o.arrival, 
-                    o.date, 
-                    ao.date AS date_de_candidature 
-                FROM apply_offer AS ao 
-                JOIN offer AS o ON o.id = ao.id_offer 
-                JOIN account AS a ON a.id = ao.candidate 
-                WHERE 
-                    ao.author = ? 
-                GROUP BY ao.date, a.id, a.user, o.id, o.departure, o.arrival, o.date;
+                o.id, 
+                o.departure, 
+                o.arrival, 
+                o.date, 
+                o.price,
+                o.nb_seat,
+                o.comment,
+                (
+                    SELECT 
+                        GROUP_CONCAT(CONCAT(ao.candidate, ':', a.user) SEPARATOR ', ')
+                    FROM apply_offer AS ao
+                    JOIN account AS a ON ao.candidate = a.id
+                    WHERE
+                        ao.id_offer = o.id
+                ) AS candidates,
+                (
+                    SELECT 
+                        GROUP_CONCAT(CONCAT(oc.client, ':', a.user) SEPARATOR ', ')
+                    FROM offer_client AS oc
+                    JOIN account AS a ON oc.client = a.id
+                    WHERE
+                        oc.id_offer = o.id
+                ) AS passengers
+                FROM offer AS o
+                WHERE o.author = ?
                 `],
                 [[data.id]]] 
         
