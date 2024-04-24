@@ -72,6 +72,14 @@ export default function CreateAnnouncementScreen({route}) {
         Alert.alert("Désolé !", "Le nombre de places libres doit être plus grand que 0.")
         return;
       }
+      if (inputs[0].length >= 200 || inputs[1].length >= 200) {
+        Alert.alert("Désolé !", "Merci d'indiquer un lieu de moins de 200 caractères")
+        return;
+      }
+      if (inputs[4].length >= 200) {
+        Alert.alert("Désolé !", "Merci d'indiquer un commentaire de moins de 200 caractères")
+        return;
+      }
       if (route.params.type == "offer") {
         request([inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.id])
       } else if (route.params.type == "request")  {
