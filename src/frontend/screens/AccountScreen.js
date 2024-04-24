@@ -29,6 +29,11 @@ const AccountInfo = props => {
 export default function AccountScreen({route}) {
     const navigation = useNavigation();
 
+    const handleLogOut = () => {
+      navigation.replace('Login');
+      Alert.alert('Vous êtes déconnecté')
+    }
+
     return (
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
@@ -70,6 +75,12 @@ export default function AccountScreen({route}) {
               </View>
             </Pressable>
           </View>
+          <Pressable onPress = {handleLogOut} style = {styles.buttonContainer}>  
+              <View style = {{flexDirection : "row"}}>
+                <Image source = {require("../assets/logo_deconnexion.png")} style = {{height : 22, width : 22, marginRight : 10}} />
+                <Text style = {styles.buttonText}>Déconnexion</Text>
+              </View>
+            </Pressable>
       </View>
     )
 
