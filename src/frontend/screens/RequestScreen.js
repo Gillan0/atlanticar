@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import RequestItem from './../components/RequestItem.js';
 import SearchItem from "../components/SearchItem.js";
 import url from "../components/url.js";
+import { useNavigation } from '@react-navigation/native';
 /*
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -17,6 +18,7 @@ function test(id) {
   return true
 }
 export default function RequestScreen({route}) {
+  const navigation = useNavigation()
   const [shownRequests,setShownRequests] = useState([]);
   function request(command,parameters=['','','','9999']) {
     // Données à envoyer
@@ -82,7 +84,7 @@ export default function RequestScreen({route}) {
                     alignSelf:"flex-end",
                     bottom : 10, 
                     right : 10}}>
-          <Pressable onPress = {() => Alert.alert("Fonctionnalité à implémenter", "Lors de la V3")}>
+          <Pressable onPress = {() => navigation.navigate("CreateRequest")}>
  
               <Image source = {require("../assets/plus-button.png")} style={{maxWidth : 60, maxHeight : 60}}/>    
           

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
-import OffersHub from "./OffersHub";
-import RequestScreen from "../screens/RequestScreen";
+import AnnouncementHub from "./AnnouncementHub";
 import PersonnalHub from "./PersonnalHub";
+import AnnouncementScreen from '../screens/AnnouncementScreen';
 
 /* 
 Gray : #cbcbcb
@@ -18,8 +18,8 @@ export default function MainHub({route}) {
       <Tab.Navigator>
         <Tab.Screen 
         name = "Offers" 
-        component={OffersHub}
-        initialParams={route.params}
+        component={AnnouncementHub}
+        initialParams={{...route.params, type : "offer"}}
         options = {{
             headerShown: false, 
             title : "Offres",
@@ -45,9 +45,10 @@ export default function MainHub({route}) {
         />
         <Tab.Screen 
             name = "Requests" 
-            component={RequestScreen}
-            initialParams={route.params}
+            component={AnnouncementHub}
+            initialParams={{...route.params, type : "request"}}
             options = {{
+            headerShown: false, 
             title : "Requêtes",
             headerStyle : {
               backgroundColor : "#0c2340"

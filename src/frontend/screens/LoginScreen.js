@@ -12,6 +12,16 @@ export default function LoginScreen() {
         setPrompts(newPrompts);
     }
     function signIn() {
+        if (prompts[0] == "") {
+            Alert.alert("Désolé !", "Merci de renseigner un nom d'utilisateur")
+            return;
+        }
+        if (prompts[1] == "") {
+            Alert.alert("Désolé !", "Merci de renseigner un mot de passe")
+            return;
+        }
+
+
         const dataToSend = {
             id: prompts[0],
             password: prompts[1],
