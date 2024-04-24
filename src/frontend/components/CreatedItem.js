@@ -6,7 +6,7 @@ import url from "./url.js"
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-export default CreatedItem = props => { 
+export default CreatedItem = props => {
   console.log(props.content.conductor)
   function accept(bool, id_candidate) {
     const dataToSend = {
@@ -24,7 +24,7 @@ export default CreatedItem = props => {
       },
       body: JSON.stringify(dataToSend) // Convertir les données en format JSON
     };
-    
+   
     // Envoi de la requête avec fetch
     fetch(url, requestOptions)
       .then(response => {
@@ -40,7 +40,7 @@ export default CreatedItem = props => {
       .catch(error => {
         console.error('Erreur :', error);
       });
-    
+   
   }
   return (
     <View style = {styles.mainContainer}>
@@ -60,7 +60,7 @@ export default CreatedItem = props => {
                 <View style = {styles.revealContainer}>  
                   <View>
                     {props.candidates.length > 0 && <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Candidatures : </Text> }
-                      {Object.values(props.candidates).map((value, key) => 
+                      {Object.values(props.candidates).map((value, key) =>
                             <View key = {key} style = {{flexDirection : "row", justifyContent : "space-between"}}>                
                                 <Text style = {styles.defaultText}>{value.split(":")[1]}</Text>
                                 <View style = {{flexDirection : "row"}}>    
@@ -74,7 +74,7 @@ export default CreatedItem = props => {
                             </View>
                         )}
                     {props.passengers.length > 0 && <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Passagers déjà validés : </Text>}
-                      {Object.values(props.passengers).map((value, key) => 
+                      {Object.values(props.passengers).map((value, key) =>
                             <View key = {key} style = {{flexDirection : "row", justifyContent : "space-between"}}>                
                                 <Text style = {styles.defaultText}>{value.split(":")[1]}</Text>
                                 <View style = {{flexDirection : "row"}}>    
@@ -83,12 +83,12 @@ export default CreatedItem = props => {
                                     </Pressable>
                                 </View>
                             </View>
-                        )} 
+                        )}
                       {props.content.conductor !== null && (
                           <>
                             <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Conducteur : </Text>
                             <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
-                                <Text style = {styles.defaultText}>{props.conductor}</Text>
+                                <Text style = {styles.defaultText}>{props.content.conductor.split(':')[1]}</Text>
                                 <View style = {{flexDirection : "row"}}>    
                                     <Pressable>
                                       <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize : 18,
     fontWeight : 'bold'
   },
-  buttonContainer : { 
+  buttonContainer : {
     margin : 10,
     borderRadius: 10,
     padding: 7,
