@@ -14,9 +14,9 @@ export default function SignUpScreen(){
     }
     function SignUp() {
 
-        //Verification longueur maximale des champs 
-        if (prompts[0].length > 10) {
-            Alert.alert('Erreur !', 'Le nom d\'utilisateur ne peut pas dépasser 10 caractères.');
+        //Verification des contraintes textuelles 
+        if (prompts[0].length > 15 || prompts[1].length > 15) {
+            Alert.alert('Erreur !', 'Le nom d\'utilisateur et/ou le mot de passe ne peut pas dépasser 15 caractères.');
             return;
         }
 
