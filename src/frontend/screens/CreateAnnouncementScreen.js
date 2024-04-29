@@ -1,5 +1,5 @@
 import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert, TextInput, Image} from "react-native";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import React, {useState, useRef, useCallback} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import url from "../components/url.js";
@@ -19,6 +19,8 @@ function isValidPrice(str) {
 }
 
 export default function CreateAnnouncementScreen({route}) { 
+    const navigation = useNavigation();
+  
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -116,7 +118,18 @@ export default function CreateAnnouncementScreen({route}) {
         .then(data => {
             console.log('Recieved data');
             if (data[0].affectedRows == 1) {
-              Alert.alert("Offre enregistrée !")
+              if (route.params.type == "offer") {
+                Alert.alert("Offer enregistrée !", "Les autres usagers peuvent y candidater")
+              } else if (route.params.type == "request") {
+                Alert.alert("Requête enregistrée !", "Les autres usagers peuvent y candidater")
+              }
+              setDate(new Date())
+              setInputs(['','','','',''])
+              if (route.params.type == "offer") {
+                navigation.replace("OffersList", route.params)
+              } else if (route.params.type == "request") {
+                navigation.replace("RequestsList", route.params)
+              }
             } else {
               Alert.alert("Désolé !", "Votre Offre n'a pas été enregistrée.")
             }
@@ -137,7 +150,7 @@ export default function CreateAnnouncementScreen({route}) {
                     <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
                         <Text style = {styles.defaultText}>Par {route.params.username}</Text>
                         <View style ={{flexDirection:"row", flex : 0.3}}>
-                            <TextInput style = {{...styles.input, margin : 0}} onChangeText={(text) => changeInputs(text, 2)}/>
+                            <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0}} onChangeText={(text) => changeInputs(text, 2)}/>
                             <Text style = {styles.defaultText}> €</Text>
                         </View>
                     </View>
@@ -155,7 +168,7 @@ export default function CreateAnnouncementScreen({route}) {
                             }
                             <View style = {{flexDirection : "row"}}>                    
                                 <Text style = {styles.destinations}>De </Text>
-                                <TextInput style = {styles.input} onChangeText={(text) => changeInputs(text, 0)}/>
+                                <TextInput value = {inputs[0]} style = {styles.input} onChangeText={(text) => changeInputs(text, 0)}/>
                             </View>
                             <View>
                                 <View style = {{flexDirection : "row"}}>
@@ -180,7 +193,7 @@ export default function CreateAnnouncementScreen({route}) {
                                   </View>
                                   {(route.params.type == "offer") &&
                                     <View style ={{flexDirection:"row"}}>
-                                      <TextInput style = {{...styles.input, margin : 0, minWidth : 25}} onChangeText={(text) => changeInputs(text, 3)}/>
+                                      <TextInput value = {inputs[3]} style = {{...styles.input, margin : 0, minWidth : 25}} onChangeText={(text) => changeInputs(text, 3)}/>
                                       <Text style = {styles.defaultText}> place(s) restante(s)</Text>
                                     </View>
                                   }
@@ -188,13 +201,13 @@ export default function CreateAnnouncementScreen({route}) {
                                 <View style = {styles.revealContainer}>  
                                     <View style = {styles.commentContainer}>
                                         <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
-                                        <TextInput style = {{...styles.input, height : 100}} onChangeText={(text) => changeInputs(text, 4)} multiline = {true}/>
+                                        <TextInput value = {inputs[4]} style = {{...styles.input, height : 100}} onChangeText={(text) => changeInputs(text, 4)} multiline = {true}/>
                                     </View>
                                 </View>
                             </View>
                             <View style = {{flexDirection : "row"}}>                    
                                 <Text style = {styles.destinations}>A </Text>
-                                <TextInput style = {styles.input} onChangeText={(text) => changeInputs(text, 1)}/>
+                                <TextInput value = {inputs[1]} style = {styles.input} onChangeText={(text) => changeInputs(text, 1)}/>
                             </View>
                         </View>
                     </View>
@@ -205,7 +218,11 @@ export default function CreateAnnouncementScreen({route}) {
               <Pressable style = {styles.buttonContainer} onPress = {pushButton}>
                 <Text style = {styles.buttonText}>Valider</Text>
               </Pressable>
-              <Pressable style = {{...styles.buttonContainer, backgroundColor : "#cc4400"}}>
+              <Pressable style = {{...styles.buttonContainer, backgroundColor : "#cc4400"}} onPress = {() =>
+              {
+                setDate(new Date());
+                setInputs(['','','','','']);
+              }}>
                 <Text style = {styles.buttonText}>Annuler</Text>
               </Pressable>
             </View>
