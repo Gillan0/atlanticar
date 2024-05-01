@@ -5,6 +5,8 @@ import RequestItem from './../components/RequestItem.js';
 import SearchItem from "../components/SearchItem.js";
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
+import endScrollReached from "../components/endScrollReached.js";
+
 /*
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -19,16 +21,19 @@ function test(id) {
 }
 export default function RequestScreen({route}) {
   const navigation = useNavigation()
+  const [page, setPage] = useState(0);
+  const [lastCommand, setLastCommand] = useState("");
   const [shownRequests,setShownRequests] = useState([]);
-  function request(command,parameters=['','','','9999']) {
+  function request(command,page, parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
       id: route.params.id,
       password: route.params.password,
       command : command,
-      parameters : parameters
+      parameters : [...parameters, page]
     };
-  
+    setLastCommand(command)
+
     // Options de la requête
     const requestOptions = {
       method: 'POST',
@@ -47,8 +52,11 @@ export default function RequestScreen({route}) {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        console.log('Empty data', data==[]);
-        setShownRequests(data[0]);
+        if (data[0].length > 0){
+          console.log(data[0])
+          setPage(page+1);
+          setShownRequests([...shownRequests, ...data[0]]);
+        }
       })
       .catch(error => {
         console.error('Erreur :', error);
@@ -58,20 +66,29 @@ export default function RequestScreen({route}) {
     React.useCallback(() => {
       console.log('RequestScreen');
       try {
-        request('get_default_requests')
-        console.log(shownRequests[0]);
+        setPage(0)
+        setShownRequests([])
+        request('get_default_requests', 0)
       } catch (error) {
         console.error(error)
       }
       return () => {
         // Optionnel : nettoyer lorsqu'on quitte l'écran
+        setPage(0)
+        setShownRequests([])
       };
     }, [])
   );
   return (
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>
-      <ScrollView>
+      <ScrollView onScrollBeginDrag={({nativeEvent}) => {
+          console.log("scroll")
+            if (endScrollReached(nativeEvent)) {
+              request("get_default_requests", page + 1)
+            }
+          }}
+          scrollEventThrottle={400}>
         <SearchItem request={request} type="request"/>
           {shownRequests.map((item) =>   <RequestItem key ={item.id}
                                       account = {route.params}
