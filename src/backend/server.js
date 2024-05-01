@@ -44,9 +44,10 @@ function interpret(data) {
                 SELECT client AS user FROM offer_client
                 WHERE id_offer = o.id
                 )
-            ORDER BY o.date;
+            ORDER BY o.date
+            LIMIT 20 OFFSET ?;
             `],
-            [[data.id, data.id]]]
+            [[data.id, data.id, 20*data.parameters[4]]]]
        
         case ("get_default_requests") :
             return [[`
@@ -65,8 +66,9 @@ function interpret(data) {
                     author != ?
                     AND r.conductor IS NULL
                 ORDER BY r.date
+                LIMIT 20 OFFSET ?;
                 `],
-                [[data.id]]]
+                [[data.id, 20*data.parameters[4]]]]
        
         case ("get_filter_requests") :
             if (data.parameters == ['','','','9999']) {
@@ -86,8 +88,9 @@ function interpret(data) {
                     author != ?
                     AND r.conductor IS NULL
                 ORDER BY r.date
+                LIMIT 20 OFFSET ?;
                 `],
-                    [[data.id]]]
+                    [[data.id, 20*data.parameters[4]]]]
             }            
             return [[`
                 SELECT
@@ -111,8 +114,9 @@ function interpret(data) {
                     AND author != ?
                     AND r.conductor IS NULL
                 ORDER BY r.date
+                LIMIT 20 OFFSET ?;
                 `],
-                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id]]]
+                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, 20*data.parameters[4]]]]
 
         case ("get_filter_offers") :
             if (data.parameters == ['','','','9999']) {
@@ -140,8 +144,9 @@ function interpret(data) {
                     WHERE id_offer = o.id
                     )
                 ORDER BY o.date;
+                LIMIT 20 OFFSET ?;
                 `],
-                    [[data.id, data.id]]]
+                    [[data.id, data.id, 20*data.parameters[4]]]]
             }            
             return [[`
                 SELECT
@@ -171,8 +176,9 @@ function interpret(data) {
                     SELECT client AS user FROM offer_client
                     WHERE id_offer = o.id
                 ORDER BY o.date;
+                LIMIT 20 OFFSET ?;
                 `],
-                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, data.id]]]
+                [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, data.id, 20*data.parameters[4]]]]
        
         case ("signIn"):
             return [[`
@@ -206,25 +212,25 @@ function interpret(data) {
 
         case ("get_announcements_requests") :
             return [[`
-                SELECT
-                    r.id,
-                    r.departure,
-                    r.arrival,
-                    r.date,
-                    r.price,
-                    r.comment,
-                    CONCAT(r.conductor, ':', acc.user) AS conductor,
-                    (
-                        SELECT
-                            GROUP_CONCAT(CONCAT(ar.candidate, ':', a.user) SEPARATOR ', ')
-                        FROM apply_request AS ar
-                        JOIN account AS a ON ar.candidate = a.id
-                        WHERE
-                            ar.id_request = r.id
-                    ) AS candidates
-                FROM request AS r
-                JOIN account AS acc ON r.conductor = acc.id
-                WHERE r.author = ?;
+            SELECT
+                r.id,
+                r.departure,
+                r.arrival,
+                r.date,
+                r.price,
+                r.comment,
+                CONCAT(r.conductor, ':', acc.user) AS conductor,
+                (
+                    SELECT
+                        GROUP_CONCAT(CONCAT(ar.candidate, ':', a.user) SEPARATOR ', ')
+                    FROM apply_request AS ar
+                    JOIN account AS a ON ar.candidate = a.id
+                    WHERE
+                        ar.id_request = r.id
+                ) AS candidates
+            FROM request AS r
+            LEFT JOIN account AS acc ON r.conductor = acc.id 
+            WHERE r.author = ?;
                 `],
                 [[data.id]]]
 
@@ -341,7 +347,6 @@ const server = http.createServer((req,res) => {
             .catch(err => {
                 console.error('Error executing SQL queries:', err);
             });
-       
     })
 }
 )
