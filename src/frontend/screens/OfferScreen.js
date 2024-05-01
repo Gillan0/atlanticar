@@ -5,6 +5,7 @@ import OfferItem from "../components/OfferItem.js";
 import SearchItem from "../components/SearchItem.js";
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
+import endScrollReached from "../components/endScrollReached.js";
 
 /*
 Gray : #cbcbcb
@@ -15,18 +16,19 @@ Green : #99cc33
 
 export default function OfferScreen({route}) { 
   const navigation = useNavigation();
-
+  const [page, setPage] = useState(0);
+  const [lastCommand, setLastCommand] = useState("");
   const [shownOffers,setShownOffers] = useState([]);
 
-  function request(command,parameters=['','','','9999']) {
+  function request(command, page, parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
       id: route.params.id,
       password: route.params.password,
       command : command,
-      parameters : parameters
+      parameters : [...parameters, page]
     };
-  
+    setLastCommand(command)
     // Options de la requête
     const requestOptions = {
       method: 'POST',
@@ -46,8 +48,10 @@ export default function OfferScreen({route}) {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        console.log('Empty data', data==[]);
-        setShownOffers(data[0]);
+        if (data[0].length > 0) {
+          setPage(page)
+          setShownOffers([...shownOffers, ...data[0]]);
+        }
       })
       .catch(error => {
         console.error('Erreur :', error);
@@ -56,22 +60,33 @@ export default function OfferScreen({route}) {
   useFocusEffect(
     React.useCallback(() => {
       console.log('OfferScreen');
-      
       try {
-        request('get_default_offers')
+        setPage(0)
+        setShownOffers([])
+        request('get_default_offers', 0)
       } catch (error) {
         console.error(error)
       }
 
       return () => {
         // Optionnel : nettoyer lorsqu'on quitte l'écran
+        
+        setPage(0)
+        setShownOffers([])
       };
     }, [])
   );
   return (
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>  
-        <ScrollView>
+        <ScrollView 
+        onScrollBeginDrag={({nativeEvent}) => {
+          console.log("scroll")
+            if (endScrollReached(nativeEvent)) {
+              request("get_default_offers", page + 1)
+            }
+          }}
+          scrollEventThrottle={400}>
           <SearchItem request={request} type="offer"/>
             {shownOffers.map((item) =>   <OfferItem key ={item.id}
                                       account = {route.params}
