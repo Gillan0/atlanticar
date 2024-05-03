@@ -1,4 +1,4 @@
-import {View, Image, StyleSheet, Text, Pressable, StatusBar, Alert} from "react-native";
+import {View, Image, StyleSheet, Text, Pressable, StatusBar, Alert, ScrollView} from "react-native";
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,19 +7,15 @@ const AccountInfo = props => {
     <View style = {{backgroundColor:"#efefef", margin : 15, padding : 5, borderRadius : 10}}>
         <View style = {{alignItems : "center", padding : 5}}>
           <Text style = {{fontSize : 15, fontWeight : 'bold'}}> Informations personnelles </Text>
-        </View>
+        </View> 
         <View style = {{padding : 8}}>
-          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text>Nom d'utilisateur : </Text>
-            <Text>**</Text>
-          </View>
-          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-            <Text>Adresse mail : </Text>
-            <Text>***********************</Text>
-          </View>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text>Mot de passe : </Text>
             <Text>****</Text>
+          </View>
+          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
+            <Text>Numéro de téléphone : </Text>
+            <Text>** ** ** ** ** **</Text>
           </View>
         </View>
     </View>
@@ -37,8 +33,10 @@ export default function AccountScreen({route}) {
     return (
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
+        <ScrollView>
           <View style = {styles.welcomeContainer}>
-            <Text style = {styles.welcomeText}> Bienvenue, {route.params.username} ! </Text>
+            <Text style = {styles.welcomeText}> Bienvenue, </Text>
+            <Text style = {styles.welcomeText}> {route.params.username} ! </Text>
           </View>
           <AccountInfo/> 
           <View style = {{backgroundColor:"#efefef", margin : 15, padding : 5, borderRadius : 10}}>
@@ -81,6 +79,7 @@ export default function AccountScreen({route}) {
                 <Text style = {styles.buttonText}>Déconnexion</Text>
               </View>
             </Pressable>
+        </ScrollView>
       </View>
     )
 
