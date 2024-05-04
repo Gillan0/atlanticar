@@ -1,8 +1,14 @@
 import {View, Image, StyleSheet, Text, Pressable, StatusBar, Alert, ScrollView} from "react-native";
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
-const AccountInfo = props => {
+
+const AccountInfo = () => {
+  const route = useRoute();
+  const [showPassword, setShowPassword] = useState(false);
+  const password = route.params ? route.params.password : '****';
+
   return (
     <View style = {{backgroundColor:"#efefef", margin : 15, padding : 5, borderRadius : 10}}>
         <View style = {{alignItems : "center", padding : 5}}>
@@ -11,11 +17,20 @@ const AccountInfo = props => {
         <View style = {{padding : 8}}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text>Mot de passe : </Text>
+            {showPassword ? (
+            <Text>{route.params.password}</Text>
+          ) : (
             <Text>****</Text>
+          )}
+            <Pressable onPress={() => setShowPassword(!showPassword)}>
+                <View style = {{flexDirection : "row"}}>
+                    <Image source = {require("../assets/eye.png")} style = {{height : 12, width : 22, marginRight : 20}} />
+                </View>
+            </Pressable>
           </View>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text>Numéro de téléphone : </Text>
-            <Text>** ** ** ** ** **</Text>
+            <Text>** ** ** ** **</Text>
           </View>
         </View>
     </View>

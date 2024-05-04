@@ -196,7 +196,12 @@ function interpret(data) {
                     AND password = ?;
                 `],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]]]]
-       
+        
+        case  ("accountinfo"):
+            return [[`
+                SELECT password, phone_number FROM account WHERE user = ?'`], 
+                [[data.parameters[0], data.parameters[1]]]]
+
         case ("signUp"):
             return [[`
                 INSERT INTO account (user, password, phone_number)
