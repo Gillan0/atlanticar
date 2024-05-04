@@ -15,22 +15,45 @@ const AccountInfo = () => {
           <Text style = {{fontSize : 15, fontWeight : 'bold'}}> Informations personnelles </Text>
         </View> 
         <View style = {{padding : 8}}>
-          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
+          <View style = {{justifyContent : "flex-start", paddingVertical: 15}}>
             <Text>Mot de passe : </Text>
-            {showPassword ? (
-            <Text>{route.params.password}</Text>
-          ) : (
-            <Text>****</Text>
-          )}
-            <Pressable onPress={() => setShowPassword(!showPassword)}>
-                <View style = {{flexDirection : "row"}}>
-                    <Image source = {require("../assets/eye.png")} style = {{height : 12, width : 22, marginRight : 20}} />
+            <View style = {{flex : 1, flexDirection : "row"}}>
+               <View style = {{flex : 0.65, justifyContent : "center"}}>
+                  {showPassword ? (
+                  <Text>{route.params.password}</Text>
+                  ) : (
+                    <Text>{"• ".repeat(route.params.password.length)}</Text>
+                  )}
                 </View>
-            </Pressable>
+              <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => setShowPassword(!showPassword)}>
+                      <Image source = { showPassword ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 22, width : 22}}/>
+                </Pressable>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
+                      <Image source = {require("../assets/parameters.png")} style = {{height : 22, width : 22}}/>
+                </Pressable>
+              </View>
+            </View>
           </View>
-          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
+          <View style = {{justifyContent : "flex-start", paddingBottom: 15}}>
             <Text>Numéro de téléphone : </Text>
-            <Text>** ** ** ** **</Text>
+            <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
+              <View style = {{flex : 0.65, justifyContent : "center"}}>
+                {false ? (
+                  <Text>placeholder</Text>
+                ) : (
+                  <Text>{"• •  ".repeat(5)}</Text>
+                )}
+              </View>
+              <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FP V2")}>
+                      <Image source = { false ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 22, width : 22}}/>
+                </Pressable>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
+                      <Image source = {require("../assets/parameters.png")} style = {{height : 22, width : 22}}/>
+                </Pressable>
+              </View>
+            </View>
           </View>
         </View>
     </View>
