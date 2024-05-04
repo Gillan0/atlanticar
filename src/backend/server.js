@@ -294,6 +294,29 @@ function interpret(data) {
                 "UPDATE request SET conductor = ? WHERE id = ?;"]
                , data.parameters]
 
+        case ("refuse_application_offer"):
+            return [
+                ["DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;",
+                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;"]
+               , data.parameters]
+
+        case ("refuse_application_request"):
+            return  [
+                ["DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;"]
+               , data.parameters]
+
+       case ("cancel_passenger"):
+            return  [
+                ["DELETE FROM offer_client WHERE id_offer = ? AND client = ?;",
+                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;"
+                ]
+                , data.parameters]
+        
+        case ("cancel_conductor"):
+            return  [
+                ["UPDATE request SET conductor = NULL WHERE id = ?;"]
+                , data.parameters]
+
         case ("upload_offer"):
             return [["INSERT IGNORE INTO offer VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?);"]
                 , [data.parameters]]  

@@ -6,6 +6,7 @@ export default function CreatedItem(props) {
   const [candidates, setCandidates] = useState(props.candidates);
   const [passengers, setPassengers] = useState(props.passengers);
   const [conductor, setConductor] = useState(props.content.conductor);
+  const [nbSeat, setNbSeat] = useState(props.content.nb_seat);
 
   function accept(bool, value_candidate, key_candidate) {
     const [id, name] = value_candidate.split(':');
@@ -15,8 +16,23 @@ export default function CreatedItem(props) {
       id: props.id,
       password: props.password,
       command: props.content.type === 'offer' ? (bool ? 'accept_application_offer' : 'refuse_application_offer') : (bool ? 'accept_application_request' : 'refuse_application_request'),
-      parameters: props.content.type === 'offer' ? [[id_candidate, props.content.id], [id_candidate, props.content.id, props.id], [props.content.id]] : [[id_candidate, props.content.id, props.id], [id_candidate, props.content.id]],
     };
+
+    if (bool) {
+      dataToSend.parameters = props.content.type === 'offer' ? [[id_candidate, props.content.id], [id_candidate, props.content.id, props.id], [props.content.id]] : [[id_candidate, props.content.id, props.id], [id_candidate, props.content.id]]
+    } else {
+      dataToSend.parameters = props.content.type === 'offer' ? [[id_candidate, props.content.id, props.id], [props.content.id]] : [[id_candidate, props.content.id, props.id]]
+    }
+
+    if (conductor && props.content.type == 'request') {
+      Alert.alert("Vous avez déjà un conducteur !", "Si vous souhaitez en changer, supprimez le d'abord !");
+      return;
+    }
+
+    if (nbSeat < 0 && props.content.type == 'offer') {
+      Alert.alert("Il n'y a plus de places", "Si vous en voulez plus, allez dans les paramètres !");
+      return;
+    }
 
     // Envoi de la requête avec fetch
     fetch(url, {
@@ -37,11 +53,57 @@ export default function CreatedItem(props) {
           let newCandidates = [...candidates];
           newCandidates.splice(key_candidate,1)
           setCandidates(newCandidates);
+          if (bool) {
+            if (props.content.type == "offer") {
+              setPassengers([...passengers, value_candidate])
+              setNbSeat(nbSeat - 1);
+            } else if (props.content.type == "request") {
+              setConductor(value_candidate)
+            }
+          }
+        } else {
+          Alert.alert("Error", "No affected Rows")
+        }
+      })
+      .catch((error) => 
+        console.error('Erreur :', error)
+      );
+  }
+
+  function cancel(value_candidate, key_candidate) {
+    const [id, name] = value_candidate.split(':');
+    const id_candidate = parseInt(id, 10);
+
+    const dataToSend = {
+      id: props.id,
+      password: props.password,
+      command: props.content.type === 'offer' ? "cancel_passenger" : "cancel_conductor",
+      parameters: props.content.type === 'offer' ? [[props.content.id, id_candidate], [props.content.id]] : [[props.content.id]],
+    };
+    // Envoi de la requête avec fetch
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataToSend),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          Alert.alert('Erreur de connexion', 'Vérifiez l\'état de la connexion');
+          throw new Error('Erreur lors de la requête.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data[0].affectedRows) {
           if (props.content.type == "offer") {
-            setPassengers([...passengers, value_candidate])
-            
+            let newPassengers = [...passengers];
+            newPassengers.splice(key_candidate, 1)
+            setPassengers(newPassengers)
+            setNbSeat(nbSeat + 1);
+            Alert.alert("Passager supprimé !", "Ce dernier en a été informé")
           } else if (props.content.type == "request") {
-            setConductor(value_candidate)
+            setConductor(null)            
+            Alert.alert("Conducteur supprimé !", "Ce dernier en a été informé")
           }
         } else {
           Alert.alert("Error", "No affected Rows")
@@ -76,7 +138,17 @@ export default function CreatedItem(props) {
            
             <Text style={styles.destinations}>De {props.content.departure}</Text>
             <View>
-              <Text style={styles.defaultText}>Le {props.content.date.substring(8, 10)}/{props.content.date.substring(5, 7)}/{props.content.date.substring(2, 4)} à {props.content.date.substring(11, 13)}h{props.content.date.substring(14, 16)}</Text>
+              <View style={{flexDirection : 'row', justifyContent : 'space-between'}}>
+                <Text style={styles.defaultText}>Le {props.content.date.substring(8, 10)}/{props.content.date.substring(5, 7)}/{props.content.date.substring(2, 4)} à {props.content.date.substring(11, 13)}h{props.content.date.substring(14, 16)}</Text>
+                {(props.content.type == "offer") ?
+                    <Text style={styles.defaultText}>{nbSeat} places restantes</Text>
+                    : <></>
+                }
+              </View>
+              <View style={{flexDirection : 'row', justifyContent : 'space-between'}}>
+                <Text style={styles.defaultText}>Prix : </Text>
+                <Text style={styles.defaultText}>{props.content.price} € </Text>
+              </View>
               <View style={styles.revealContainer}>
                 {candidates && candidates.length > 0 ? (
                   <>
@@ -113,7 +185,7 @@ export default function CreatedItem(props) {
                           <View key={key} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={styles.defaultText}>{name}</Text>
                             <View style={{ flexDirection: 'row' }}>
-                              <Pressable>
+                              <Pressable onPress={() => cancel(value, key)}>
                                 <Image source={require('../assets/cross.png')} style={{ width: 30, height: 30, marginLeft: 15 }} />
                               </Pressable>
                             </View>
@@ -131,7 +203,7 @@ export default function CreatedItem(props) {
                             <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
                                 <Text style = {styles.defaultText}>{conductor.split(':')[1]}</Text>
                                 <View style = {{flexDirection : "row"}}>    
-                                    <Pressable>
+                                    <Pressable onPress = {() => cancel(conductor, 0)}>
                                       <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
                                     </Pressable>
                                 </View>
