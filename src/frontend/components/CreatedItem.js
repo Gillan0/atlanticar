@@ -19,9 +19,9 @@ export default function CreatedItem(props) {
     };
 
     if (bool) {
-      dataToSend.parameters = props.content.type === 'offer' ? [[id_candidate, props.content.id], [id_candidate, props.content.id, props.id], [props.content.id]] : [[id_candidate, props.content.id, props.id], [id_candidate, props.content.id]]
+      dataToSend.parameters = props.content.type === 'offer' ? [[id_candidate, props.content.id], [id_candidate, props.content.id, props.id], [props.content.id], [id_candidate, props.username]] : [[id_candidate, props.content.id, props.id], [id_candidate, props.content.id], [id_candidate, props.username]]
     } else {
-      dataToSend.parameters = props.content.type === 'offer' ? [[id_candidate, props.content.id, props.id], [props.content.id]] : [[id_candidate, props.content.id, props.id]]
+      dataToSend.parameters = props.content.type === 'offer' ? [[id_candidate, props.content.id, props.id], [props.content.id], [id_candidate, props.username]] : [[id_candidate, props.content.id, props.id], [id_candidate, props.username]]
     }
 
     if (conductor && props.content.type == 'request') {
@@ -78,7 +78,7 @@ export default function CreatedItem(props) {
       id: props.id,
       password: props.password,
       command: props.content.type === 'offer' ? "cancel_passenger" : "cancel_conductor",
-      parameters: props.content.type === 'offer' ? [[props.content.id, id_candidate], [props.content.id]] : [[props.content.id]],
+      parameters: props.content.type === 'offer' ? [[props.content.id, id_candidate], [props.content.id], [id_candidate, props.username]] : [[props.content.id], [id_candidate, props.username]],
     };
     // Envoi de la requête avec fetch
     fetch(url, {
@@ -131,7 +131,7 @@ export default function CreatedItem(props) {
         <View style={{ flexDirection: 'row', flex: 1 }}>
           <View style={{ flexDirection: 'column' }}>
             <View style={{ alignSelf: 'center', borderWidth: 4, borderColor: 'black', borderRadius: 10, width: 20, height: 20 }} />
-            <View style={{ alignSelf: 'center', height: '80%', borderWidth: 3, borderColor: 'black', borderStyle: 'dashed' }} />
+            <View style={{ alignSelf: 'center', height: '85%', borderWidth: 3, borderColor: 'black', borderStyle: 'dashed' }} />
             <View style={{ alignSelf: 'center', borderWidth: 4, borderColor: 'black', borderRadius: 10, width: 20, height: 20 }} />
           </View>
           <View style={{ flexDirection: 'column', flex: 1 }}>
@@ -146,10 +146,13 @@ export default function CreatedItem(props) {
                 }
               </View>
               <View style={{flexDirection : 'row', justifyContent : 'space-between'}}>
-                <Text style={styles.defaultText}>Prix : </Text>
+                <Text style={styles.defaultText}>Prix affiché : </Text>
                 <Text style={styles.defaultText}>{props.content.price} € </Text>
               </View>
               <View style={styles.revealContainer}>
+                  <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires affichées :</Text>
+                  <Text style = {styles.defaultText}>{props.content.comment}</Text>
+
                 {candidates && candidates.length > 0 ? (
                   <>
                     <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Candidatures :</Text>
@@ -172,7 +175,7 @@ export default function CreatedItem(props) {
                       }
                     })}
                   </>
-                ) : (<Text style={{ ...styles.defaultText }}>Aucune candidature pour le moment.</Text> )
+                ) : (<Text style={{ ...styles.defaultText, fontWeight:'bold'}}>Aucune candidature pour le moment.</Text> )
                 }
 
                 {passengers && passengers.length > 0 ? (
@@ -180,7 +183,7 @@ export default function CreatedItem(props) {
                     <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Passagers déjà validés :</Text>
                     {Object.values(passengers).map((value, key) => {
                       if (value) {
-                        const [id, name] = value.split(':'); // Assurez-vous que `value` n'est pas `undefined`
+                        const [id, name] = value.split(':');
                         return (
                           <View key={key} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={styles.defaultText}>{name}</Text>
@@ -195,7 +198,7 @@ export default function CreatedItem(props) {
                     })}
                   </>
                 ) : props.content.type == "offer" && (
-                  <Text style={{ ...styles.defaultText }}>Aucun passager validé pour le moment.</Text> 
+                  <Text style={{ ...styles.defaultText, fontWeight:'bold' }}>Aucun passager validé pour le moment.</Text> 
                 )}
                 {conductor  && (
                           <>

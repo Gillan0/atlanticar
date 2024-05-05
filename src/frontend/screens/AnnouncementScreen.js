@@ -77,6 +77,7 @@ export default function AnnouncementScreen({route}) {
                           candidates = {value.candidates == null ? [] : value.candidates.split(',')} 
                           passengers = {value.passengers == null ? [] : value.passengers.split(',')} 
                           id = {route.params.id}
+                          username = {route.params.username}
                           password = {route.params.password}
                           />
           ))}

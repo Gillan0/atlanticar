@@ -12,7 +12,7 @@ const RequestItem = props => {
       id: props.account.id,
       password: props.account.password,
       command : "apply_to_request",
-      parameters : [props.account.id, props.request.id, props.request.author],
+      parameters : [[props.account.id, props.request.id, props.request.author], [props.request.author, props.account.username]],
     };
     
     // Options de la requête

@@ -11,7 +11,7 @@ const OfferItem = props => {
       id: props.account.id,
       password: props.account.password,
       command : "apply_to_offer",
-      parameters : [props.account.id, props.offer.id, props.offer.author],
+      parameters : [[props.account.id, props.offer.id, props.offer.author], [props.offer.author, props.account.username]],
     };
     
     // Options de la requête

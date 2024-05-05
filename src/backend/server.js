@@ -279,47 +279,55 @@ function interpret(data) {
                 [[data.id,data.id]]]
                
         case ("apply_to_offer"):
-            return [["INSERT IGNORE INTO apply_offer (candidate, id_offer, author, date) VALUES (?, ?, ?, NOW());"]
-            , [data.parameters]]
+            return [["INSERT IGNORE INTO apply_offer (candidate, id_offer, author, date) VALUES (?, ?, ?, NOW());",
+            `INSERT INTO notifications VALUES (DEFAULT, ?,"? a candidaté à une de vos offres", false);`]
+            , data.parameters]
 
         case ("apply_to_request"):
-            return [["INSERT IGNORE INTO  apply_request (candidate, id_request, author, date) VALUES (?, ?, ?, NOW());"]
-            , [data.parameters]]  
+            return [["INSERT IGNORE INTO  apply_request (candidate, id_request, author, date) VALUES (?, ?, ?, NOW());",
+            `INSERT INTO notifications VALUES (DEFAULT, ?,"? a candidaté à une de vos requêtes", false);`]
+            , data.parameters]  
 
         case ("accept_application_offer"):
             return [
                 ["INSERT INTO offer_client (client, id_offer) VALUES (?, ?);",
                 "DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;",
-                "UPDATE offer SET nb_seat = nb_seat - 1 WHERE id = ?;"]
+                "UPDATE offer SET nb_seat = nb_seat - 1 WHERE id = ?;",
+                `INSERT INTO notifications VALUES (DEFAULT, ?,"? a accepté votre candidature à son offre", false);`]
                , data.parameters]
 
         case ("accept_application_request"):
             return  [
                 ["DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;",
-                "UPDATE request SET conductor = ? WHERE id = ?;"]
+                "UPDATE request SET conductor = ? WHERE id = ?;",
+                `INSERT INTO notifications VALUES (DEFAULT, ?,"? a accepté votre candidature à sa requête", false);`]
                , data.parameters]
 
         case ("refuse_application_offer"):
             return [
                 ["DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;",
-                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;"]
+                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;",
+                `INSERT INTO notifications VALUES (DEFAULT, ?,"? a refusé votre candidature à son offre", false);`]
                , data.parameters]
 
         case ("refuse_application_request"):
             return  [
-                ["DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;"]
+                ["DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;",
+                `INSERT INTO notifications VALUES (DEFAULT, ?,"? a refusé votre candidature à sa requête", false);`]
                , data.parameters]
 
        case ("cancel_passenger"):
             return  [
                 ["DELETE FROM offer_client WHERE id_offer = ? AND client = ?;",
-                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;"
+                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;",
+                `INSERT INTO notifications VALUES (DEFAULT, ?, "? a annulé votre trajet en tant que passager", false);`
                 ]
                 , data.parameters]
         
         case ("cancel_conductor"):
             return  [
-                ["UPDATE request SET conductor = NULL WHERE id = ?;"]
+                ["UPDATE request SET conductor = NULL WHERE id = ?;",
+                `INSERT INTO notifications VALUES (DEFAULT, ?,"? a annulé votre trajet en tant que conducteur", false);`]
                 , data.parameters]
 
         case ("upload_offer"):
@@ -329,6 +337,18 @@ function interpret(data) {
         case ("upload_request"):
             return [["INSERT IGNORE INTO request VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, NULL);"]
                 , [data.parameters]]  
+
+        case ("get_notifications"):
+            return[[`
+                SELECT 
+                    n.id,
+                    n.message,
+                    n.seen
+                FROM 
+                    notifications AS n
+                WHERE id_account = ?;
+            `]
+                , [[data.id]]]
 
         default :
             return [[""], [[]]];
