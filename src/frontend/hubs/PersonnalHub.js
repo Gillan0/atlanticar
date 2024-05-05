@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountScreen from "../screens/AccountScreen.js";
 import ApplicationScreen from "../screens/ApplicationScreen.js";
 import AnnouncementScreen from '../screens/AnnouncementScreen.js';
+import NotificationScreen from '../screens/NotificationScreen.js';
 
 /* 
 Gray : #cbcbcb
@@ -85,6 +86,22 @@ export default function PersonnalHub({route}) {
           initialParams={{...route.params, type : "request"}}
           options = {{
           title : "Candidatures - Requêtes",
+          headerStyle : {
+          backgroundColor : "#0c2340"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle : {
+            fontWeight : "bold",
+            color : "#fff"
+          }
+          }}  
+        />
+        <Stack.Screen 
+          name = "Notifications" 
+          component={NotificationScreen}
+          initialParams={route.params}
+          options = {{
+          title : "Notifications",
           headerStyle : {
           backgroundColor : "#0c2340"
           },

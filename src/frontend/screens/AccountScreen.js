@@ -5,6 +5,7 @@ import { useRoute } from '@react-navigation/native';
 
 
 const AccountInfo = () => {
+  const navigation = useNavigation();
   const route = useRoute();
   const [showPassword, setShowPassword] = useState(false);
   const password = route.params ? route.params.password : '****';
@@ -55,6 +56,12 @@ const AccountInfo = () => {
               </View>
             </View>
           </View>
+          <Pressable onPress = {() => navigation.navigate("Notifications")} style = {styles.buttonContainer}>  
+              <View style = {{flexDirection : "row"}}>
+                <Image source = {require("../assets/bell.png")} style = {{height : 22, width : 22, marginRight : 10}} />
+                <Text style = {styles.buttonText}>Notifications</Text>
+              </View>
+            </Pressable>
         </View>
     </View>
   )
@@ -111,7 +118,7 @@ export default function AccountScreen({route}) {
               </View>
             </Pressable>
           </View>
-          <Pressable onPress = {handleLogOut} style = {styles.buttonContainer}>  
+            <Pressable onPress = {handleLogOut} style = {styles.buttonContainer}>  
               <View style = {{flexDirection : "row"}}>
                 <Image source = {require("../assets/logo_deconnexion.png")} style = {{height : 22, width : 22, marginRight : 10}} />
                 <Text style = {styles.buttonText}>Déconnexion</Text>
