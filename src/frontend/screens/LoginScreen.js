@@ -50,7 +50,7 @@ export default function LoginScreen() {
             .then(data => {
                 console.log(data)
                 if (data[0][0].answer == "TRUE") {
-                    navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1]})
+                    navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone_number : data[1][0].phone_number})
                 } else {
                     console.log("Refusé")
                 }

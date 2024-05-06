@@ -8,7 +8,10 @@ const AccountInfo = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [showPassword, setShowPassword] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
   const password = route.params ? route.params.password : '****';
+  const phone_number = route.params ? route.params.phone_number : '****';
+
 
   return (
     <View style = {{backgroundColor:"#efefef", margin : 15, padding : 5, borderRadius : 10}}>
@@ -40,15 +43,15 @@ const AccountInfo = () => {
             <Text>Numéro de téléphone : </Text>
             <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
               <View style = {{flex : 0.65, justifyContent : "center"}}>
-                {false ? (
-                  <Text>placeholder</Text>
+                {showPhone ? (
+                  <Text>{route.params.phone_number}</Text>
                 ) : (
                   <Text>{"• •  ".repeat(5)}</Text>
                 )}
               </View>
               <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
-                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FP V2")}>
-                      <Image source = { false ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => setShowPhone(! showPhone)}>
+                      <Image source = { showPhone ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
                       <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
