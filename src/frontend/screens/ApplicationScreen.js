@@ -65,7 +65,7 @@ export default function ApplicationScreen({route}) {
         <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
         {shownApplications.map( (value, index) => (
-            <ApplicationItem key = {index} content = {value}/>
+            <ApplicationItem key = {index} content = {{...value, type : route.params.type}} account = {route.params}/>
           ))}
         </ScrollView>
       </View>
