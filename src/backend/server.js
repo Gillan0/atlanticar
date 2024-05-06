@@ -194,8 +194,8 @@ function interpret(data) {
                 WHERE
                     user = ?
                     AND password = ?;
-                `],
-                [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]]]]
+                `,`SELECT phone_number FROM account WHERE user = ? AND password = ?;`],
+                [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
         case  ("accountinfo"):
             return [[`
