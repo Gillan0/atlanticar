@@ -44,7 +44,7 @@ const OfferItem = props => {
       });
     
   }
-
+  
   return (
     <View style = {{...styles.mainContainer}}>
         <View style = {{...styles.titleContainer}}>

@@ -11,7 +11,7 @@ CREATE TABLE account
 (   
     id     			INT auto_increment,
     user 			varchar(30),
-    password			varchar(30) NOT NULL,
+    password		varchar(30) NOT NULL,
     phone_number   	TEXT NOT NULL,
     primary key (id)
 );
@@ -75,12 +75,13 @@ create table offer_client
     Primary Key (client, id_offer)
 );
 
-create table notifications
+create table notification
 (
 	id serial,
 	id_account int,
     message TEXT, 
     seen bool,
+    date DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (id_account) references account(id)
 );
@@ -102,10 +103,10 @@ insert into request values (DEFAULT, 'Brest', 'Carrefour', '2024-11-01 10:30:00'
 insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-11-01 12:00:00',50,'ne se prononce pas',3,null);
  
 insert into apply_request values (2,1,1,'2024-05-05 16:23:54');
-insert into notifications values (default, 1, "Jean-Eude a candidaté à une de vos requêtes", false);
+insert into notification values (default, 1, "Jean-Eude a candidaté à une de vos requêtes", false, NOW());
 
 insert into apply_request values (3,2,1,'2024-05-05 18:43:14');
-insert into notifications values (default, 1, "Eugène a candidaté à une de vos requêtes", false);
+insert into notification values (default, 1, "Eugène a candidaté à une de vos requêtes", false, NOW());
 
 #les annonces de JC
 SELECT * FROM request as r JOIN account as c ON c.id = r.author WHERE c.user = 'JC'; 
@@ -121,7 +122,7 @@ insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-2
 
 #JC postule aux annonces :
 insert into apply_offer values (1,1,4,'2024-05-05 16:23:54');
-insert into notifications values (default, 4, "JC a candidaté à une de vos offres", false);
+insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
 
 insert into apply_offer values (1,2,4,'2024-05-06 16:23:54');
-insert into notifications values (default, 4, "JC a candidaté à une de vos offres", false);
+insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
