@@ -20,13 +20,13 @@ export default function OfferScreen({route}) {
   const [lastCommand, setLastCommand] = useState("");
   const [shownOffers,setShownOffers] = useState([]);
 
-  function request(command, page, parameters=['','','','9999']) {
+  function request(command, newPage, parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
       id: route.params.id,
       password: route.params.password,
       command : command,
-      parameters : [...parameters, page]
+      parameters : [...parameters, shownOffers.length % 20 == 0 ? newPage : page]
     };
     setLastCommand(command)
     // Options de la requête
@@ -43,14 +43,17 @@ export default function OfferScreen({route}) {
       .then(response => {
         if (!response.ok) {
           throw new Error('Erreur lors de la requête.');
-          Alert.alert("PAS CONNECTÉ")
         }
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
         if (data[0].length > 0) {
-          setPage(page)
-          setShownOffers([...shownOffers, ...data[0]]);
+          if (shownOffers.length % 20 == 0) {
+            setPage(newPage)
+            setShownOffers([...shownOffers, ...data[0]]);
+          } else {
+            setShownOffers([...shownOffers.slice(0,- shownOffers.length % 20), ...data[0]]);
+          }
         }
       })
       .catch(error => {
