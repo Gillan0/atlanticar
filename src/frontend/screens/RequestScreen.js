@@ -24,13 +24,13 @@ export default function RequestScreen({route}) {
   const [page, setPage] = useState(0);
   const [lastCommand, setLastCommand] = useState("");
   const [shownRequests,setShownRequests] = useState([]);
-  function request(command,page, parameters=['','','','9999']) {
+  function request(command,newPage, parameters=['','','','9999']) {
     // Données à envoyer
     const dataToSend = {
       id: route.params.id,
       password: route.params.password,
       command : command,
-      parameters : [...parameters, page]
+      parameters : [...parameters, shownRequests.length % 20 == 0 ? newPage : page]
     };
     setLastCommand(command)
 
@@ -52,10 +52,13 @@ export default function RequestScreen({route}) {
         return response.json(); // Renvoie les données JSON de la réponse
       })
       .then(data => {
-        if (data[0].length > 0){
-          console.log(data[0])
-          setPage(page+1);
-          setShownRequests([...shownRequests, ...data[0]]);
+        if (data[0].length > 0) {
+          if (shownRequests.length % 20 == 0) {
+            setPage(newPage)
+            setShownRequests([...shownRequests, ...data[0]]);
+          } else {
+            setShownRequests([...shownRequests.slice(0,- shownRequests.length % 20), ...data[0]]);
+          }
         }
       })
       .catch(error => {
