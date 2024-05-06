@@ -5,10 +5,10 @@ import url from "../components/url";
 
 // Composant pour une notification individuelle
 const NotificationItem = (props) => {
-  const { message } = props.notification; // Utilisation de déstructurage pour accéder aux propriétés
   return (
     <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd' }}>
-      <Text style={{ fontSize: 18, color: 'black' }}>{message}</Text>
+      <Text style={{ fontSize: 12, color: 'black' }}>Le {props.notification.date.substring(8,10)}/{props.notification.date.substring(5,7)}/{props.notification.date.substring(2,4)} à {props.notification.date.substring(11,13)}h{props.notification.date.substring(14,16)}</Text>
+      <Text style={{ fontSize: 18, color: 'black' }}>{props.notification.message}</Text>
     </View>
   );
 };

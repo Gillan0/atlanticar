@@ -28,10 +28,10 @@ const AccountInfo = () => {
                 </View>
               <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => setShowPassword(!showPassword)}>
-                      <Image source = { showPassword ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 22, width : 22}}/>
+                      <Image source = { showPassword ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
-                      <Image source = {require("../assets/parameters.png")} style = {{height : 22, width : 22}}/>
+                      <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>
             </View>
@@ -48,10 +48,10 @@ const AccountInfo = () => {
               </View>
               <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FP V2")}>
-                      <Image source = { false ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 22, width : 22}}/>
+                      <Image source = { false ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
-                      <Image source = {require("../assets/parameters.png")} style = {{height : 22, width : 22}}/>
+                      <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>
             </View>
