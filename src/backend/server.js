@@ -20,7 +20,7 @@ connection.connect((err) => {
 
 function interpret(data) {
     switch (data.command) {
-        case ("get_default_offers") :
+        case ('get_default_offers') :
             return [[`
             SELECT
                 o.id,
@@ -49,7 +49,7 @@ function interpret(data) {
             `],
             [[data.id, data.id, 20*data.parameters[4]]]]
        
-        case ("get_default_requests") :
+        case ('get_default_requests') :
             return [[`
                 SELECT
                     r.id,
@@ -70,7 +70,7 @@ function interpret(data) {
                 `],
                 [[data.id, 20*data.parameters[4]]]]
        
-        case ("get_filter_requests") :
+        case ('get_filter_requests') :
             if (data.parameters == ['','','','9999']) {
                 return [[`
                 SELECT
@@ -118,7 +118,7 @@ function interpret(data) {
                 `],
                 [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, 20*data.parameters[4]]]]
 
-        case ("get_filter_offers") :
+        case ('get_filter_offers') :
             if (data.parameters == ['','','','9999']) {
                 return [[`
                 SELECT
@@ -180,7 +180,7 @@ function interpret(data) {
                 `],
                 [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, data.id, 20*data.parameters[4]]]]
        
-        case ("signIn"):
+        case ('signIn'):
             return [[`
                 SELECT
                     (CASE
@@ -197,12 +197,12 @@ function interpret(data) {
                 `,`SELECT phone_number FROM account WHERE user = ? AND password = ?;`],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
-        case  ("accountinfo"):
+        case  ('accountinfo'):
             return [[`
                 SELECT password, phone_number FROM account WHERE user = ?'`], 
                 [[data.parameters[0], data.parameters[1]]]]
 
-        case ("signUp"):
+        case ('signUp'):
             return [[`
                 INSERT INTO account (user, password, phone_number)
                 SELECT ?, ?, ? FROM DUAL
@@ -215,7 +215,7 @@ function interpret(data) {
                 [data.parameters[0], data.parameters[1], data.parameters[2], data.parameters[0], data.parameters[2]]
             ]];
 
-        case ("get_announcements_requests") :
+        case ('get_announcements_requests') :
             return [[`
             SELECT
                 r.id,
@@ -239,7 +239,7 @@ function interpret(data) {
                 `],
                 [[data.id]]]
 
-        case ("get_announcements_offers") :
+        case ('get_announcements_offers') :
             return [[`
                 SELECT
                 o.id,
@@ -270,75 +270,139 @@ function interpret(data) {
                 `],
                 [[data.id]]]
        
-        case ("get_applications_offers") :
-            return [["SELECT o.id, o.departure, o.arrival, o.date, o.price, o.nb_seat, o.comment, a.user AS author, 'False' AS state FROM offer AS o JOIN apply_offer AS ao ON ao.id_offer = o.id JOIN account AS a ON a.id = o.author WHERE ao.candidate = ? UNION SELECT o.id, o.departure, o.arrival, o.date, o.price, o.nb_seat, o.comment, a.user AS author, 'True' AS state FROM offer AS o JOIN offer_client AS oc ON oc.id_offer = o.id JOIN account AS a ON a.id = o.author WHERE oc.client = ?;"],
+        case ('get_applications_offers') :
+            return [[`
+                SELECT 
+                    o.id,
+                    o.departure, 
+                    o.arrival, 
+                    o.date, 
+                    o.price, 
+                    o.nb_seat, 
+                    o.comment, 
+                    a.user AS author, 
+                    'False' AS state ,
+                    null AS phone
+                FROM offer AS o 
+                JOIN apply_offer AS ao ON ao.id_offer = o.id 
+                JOIN account AS a ON a.id = o.author 
+                WHERE 
+                    ao.candidate = ? 
+                UNION 
+                SELECT 
+                    o.id, 
+                    o.departure, 
+                    o.arrival, 
+                    o.date, 
+                    o.price, 
+                    o.nb_seat, 
+                    o.comment, 
+                    a.user AS author, 
+                    'True' AS state ,
+                    a.phone_number AS phone
+                FROM offer AS o 
+                JOIN offer_client AS oc ON oc.id_offer = o.id 
+                JOIN account AS a ON a.id = o.author 
+                WHERE 
+                    oc.client = ?;`],
                 [[data.id,data.id]]]
        
-        case ("get_applications_requests") :
-            return [["SELECT r.id, r.departure, r.arrival, r.date, r.price, r.comment, a.user AS author, 'False' AS state FROM request AS r JOIN apply_request AS ar ON ar.id_request = r.id JOIN account AS a ON a.id = r.author WHERE ar.candidate = ? UNION SELECT r.id, r.departure, r.arrival, r.date, r.price, r.comment, a.user AS author, 'True' AS state FROM request AS r JOIN account AS a ON a.id = r.author WHERE r.conductor = ?;"],
+        case ('get_applications_requests') :
+            return [[`
+                SELECT 
+                    r.id, 
+                    r.departure, 
+                    r.arrival, 
+                    r.date, 
+                    r.price, 
+                    r.comment, 
+                    a.user AS author, 
+                    'False' AS state ,
+                    null AS phone
+                FROM request AS r 
+                JOIN apply_request AS ar ON ar.id_request = r.id 
+                JOIN account AS a ON a.id = r.author 
+                WHERE 
+                    ar.candidate = ? 
+                UNION 
+                SELECT 
+                    r.id, 
+                    r.departure, 
+                    r.arrival, 
+                    r.date, 
+                    r.price, 
+                    r.comment, 
+                    a.user AS author, 
+                    'True' AS state ,
+                    a.phone_number AS phone
+                FROM request AS r 
+                JOIN account AS a ON a.id = r.author 
+                WHERE 
+                    r.conductor = ?;`
+                ],
                 [[data.id,data.id]]]
                
-        case ("apply_to_offer"):
-            return [["INSERT IGNORE INTO apply_offer (candidate, id_offer, author, date) VALUES (?, ?, ?, NOW());",
-            `INSERT INTO notification VALUES (DEFAULT, ?,"? a candidaté à une de vos offres", false, NOW());`]
+        case ('apply_to_offer'):
+            return [['INSERT IGNORE INTO apply_offer (candidate, id_offer, author, date) VALUES (?, ?, ?, NOW());',
+            `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a candidaté à une de vos offres'), false, NOW());`]
             , data.parameters]
 
-        case ("apply_to_request"):
-            return [["INSERT IGNORE INTO  apply_request (candidate, id_request, author, date) VALUES (?, ?, ?, NOW());",
-            `INSERT INTO notification VALUES (DEFAULT, ?,"? a candidaté à une de vos requêtes", false, NOW());`]
+        case ('apply_to_request'):
+            return [['INSERT IGNORE INTO  apply_request (candidate, id_request, author, date) VALUES (?, ?, ?, NOW());',
+            `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a candidaté à une de vos requêtes'), false, NOW());`]
             , data.parameters]  
 
-        case ("accept_application_offer"):
+        case ('accept_application_offer'):
             return [
-                ["INSERT INTO offer_client (client, id_offer) VALUES (?, ?);",
-                "DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;",
-                "UPDATE offer SET nb_seat = nb_seat - 1 WHERE id = ?;",
-                `INSERT INTO notification VALUES (DEFAULT, ?,"? a accepté votre candidature à son offre", false, NOW());`]
+                ['INSERT INTO offer_client (client, id_offer) VALUES (?, ?);',
+                'DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;',
+                'UPDATE offer SET nb_seat = nb_seat - 1 WHERE id = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a accepté votre candidature à son offre'), false, NOW());`]
                , data.parameters]
 
-        case ("accept_application_request"):
+        case ('accept_application_request'):
             return  [
-                ["DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;",
-                "UPDATE request SET conductor = ? WHERE id = ?;",
-                `INSERT INTO notification VALUES (DEFAULT, ?,"? a accepté votre candidature à sa requête", false, NOW());`]
+                ['DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;',
+                'UPDATE request SET conductor = ? WHERE id = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a accepté votre candidature à sa requête'), false, NOW());`]
                , data.parameters]
 
-        case ("refuse_application_offer"):
+        case ('refuse_application_offer'):
             return [
-                ["DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;",
-                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;",
-                `INSERT INTO notification VALUES (DEFAULT, ?,"? a refusé votre candidature à son offre", false, NOW());`]
+                ['DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = ?;',
+                'UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a refusé votre candidature à son offre'), false, NOW());`]
                , data.parameters]
 
-        case ("refuse_application_request"):
+        case ('refuse_application_request'):
             return  [
-                ["DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;",
-                `INSERT INTO notification VALUES (DEFAULT, ?,"? a refusé votre candidature à sa requête", false, NOW());`]
+                ['DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a refusé votre candidature à sa requête'), false, NOW());`]
                , data.parameters]
 
-       case ("cancel_passenger"):
+       case ('cancel_passenger'):
             return  [
-                ["DELETE FROM offer_client WHERE id_offer = ? AND client = ?;",
-                "UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;",
-                `INSERT INTO notification VALUES (DEFAULT, ?, "? a annulé votre trajet en tant que passager", false, NOW());`
+                ['DELETE FROM offer_client WHERE id_offer = ? AND client = ?;',
+                'UPDATE offer SET nb_seat = nb_seat + 1 WHERE id = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a annulé votre trajet en tant que passager'), false, NOW());`
                 ]
                 , data.parameters]
         
-        case ("cancel_conductor"):
+        case ('cancel_conductor'):
             return  [
-                ["UPDATE request SET conductor = NULL WHERE id = ?;",
-                `INSERT INTO notification VALUES (DEFAULT, ?,"? a annulé votre trajet en tant que conducteur", false, NOW());`]
+                ['UPDATE request SET conductor = NULL WHERE id = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ?, ' a annulé votre trajet en tant que conducteur'), false, NOW());`]
                 , data.parameters]
 
-        case ("upload_offer"):
-            return [["INSERT IGNORE INTO offer VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?);"]
+        case ('upload_offer'):
+            return [['INSERT IGNORE INTO offer VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?);']
                 , [data.parameters]]  
        
-        case ("upload_request"):
-            return [["INSERT IGNORE INTO request VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, NULL);"]
+        case ('upload_request'):
+            return [['INSERT IGNORE INTO request VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, NULL);']
                 , [data.parameters]]  
 
-        case ("get_notifications"):
+        case ('get_notifications'):
             return[[`
                 SELECT 
                     n.id,
@@ -352,8 +416,20 @@ function interpret(data) {
             `]
                 , [[data.id]]]
 
+        case ('delete_application_offer'):
+            return [
+                ['DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = (SELECT a.id FROM account AS a WHERE a.user = ?)',
+                `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa candidature à une de vos offres'), false, NOW());`],
+                data.parameters]
+
+        case ('delete_application_request'):
+            return [
+                ['DELETE FROM apply_request WHERE candidate = ? AND id_offer = ? AND author = (SELECT a.id FROM account AS a WHERE a.user = ?)',
+                `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa candidature à une de vos requêtes'), false, NOW());`],
+                data.parameters]
+
         default :
-            return [[""], [[]]];
+            return [[''], [[]]];
     }
 }
 
@@ -380,7 +456,7 @@ const server = http.createServer((req,res) => {
     req.on('end', () => {
         let data = JSON.parse(body);
         let [sql_commands, queries_parameters] = interpret(data);
-        if (sql_commands == [""]) {
+        if (sql_commands == ['']) {
             res.end('No SQL request');
             return;
         }
@@ -403,8 +479,8 @@ const server = http.createServer((req,res) => {
 
 server.listen(port, function(error) {
     if (error) {
-        console.log("ERREUR")
+        console.log('ERREUR')
     } else {
-        console.log("Ecoute sur port " + port)
+        console.log('Ecoute sur port ' + port)
     }
 })

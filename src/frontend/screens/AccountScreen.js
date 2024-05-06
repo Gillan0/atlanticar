@@ -20,13 +20,13 @@ const AccountInfo = () => {
         </View> 
         <View style = {{padding : 8}}>
           <View style = {{justifyContent : "flex-start", paddingVertical: 15}}>
-            <Text>Mot de passe : </Text>
+            <Text style = {{fontSize : 15, fontWeight : 'bold'}}>Mot de passe : </Text>
             <View style = {{flex : 1, flexDirection : "row"}}>
                <View style = {{flex : 0.65, justifyContent : "center"}}>
                   {showPassword ? (
                   <Text>{route.params.password}</Text>
                   ) : (
-                    <Text>{"• ".repeat(route.params.password.length)}</Text>
+                    <Text> {"• ".repeat(route.params.password.length)}</Text>
                   )}
                 </View>
               <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
@@ -40,13 +40,13 @@ const AccountInfo = () => {
             </View>
           </View>
           <View style = {{justifyContent : "flex-start", paddingBottom: 15}}>
-            <Text>Numéro de téléphone : </Text>
+            <Text style = {{fontSize : 15, fontWeight : 'bold'}}>Numéro de téléphone : </Text>
             <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
               <View style = {{flex : 0.65, justifyContent : "center"}}>
                 {showPhone ? (
                   <Text>{route.params.phone_number}</Text>
                 ) : (
-                  <Text>{"• •  ".repeat(5)}</Text>
+                  <Text> {"• •  ".repeat(5)}</Text>
                 )}
               </View>
               <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
