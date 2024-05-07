@@ -4,6 +4,8 @@ import AccountScreen from "../screens/AccountScreen.js";
 import ApplicationScreen from "../screens/ApplicationScreen.js";
 import AnnouncementScreen from '../screens/AnnouncementScreen.js';
 import NotificationScreen from '../screens/NotificationScreen.js';
+import ModificationPasswordScreen from '../screens/ModificationPasswordScreen.js';
+import ModificationPhoneNumberScreen from '../screens/ModificationPhoneNumberScreen.js';
 
 /* 
 Gray : #cbcbcb
@@ -102,6 +104,38 @@ export default function PersonnalHub({route}) {
           initialParams={route.params}
           options = {{
           title : "Notifications",
+          headerStyle : {
+          backgroundColor : "#0c2340"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle : {
+            fontWeight : "bold",
+            color : "#fff"
+          }
+          }}  
+        />
+        <Stack.Screen 
+          name = "ModificationPassword" 
+          component={ModificationPasswordScreen}
+          initialParams={route.params}
+          options = {{
+          title : "",
+          headerStyle : {
+          backgroundColor : "#0c2340"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle : {
+            fontWeight : "bold",
+            color : "#fff"
+          }
+          }}  
+        />
+        <Stack.Screen 
+          name = "ModificationPhoneNumber" 
+          component={ModificationPhoneNumberScreen}
+          initialParams={route.params}
+          options = {{
+          title : "",
           headerStyle : {
           backgroundColor : "#0c2340"
           },
