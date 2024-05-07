@@ -33,7 +33,7 @@ const AccountInfo = () => {
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => setShowPassword(!showPassword)}>
                       <Image source = { showPassword ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
-                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => navigation.navigate("ModificationPassword")}>
                       <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>
@@ -53,7 +53,7 @@ const AccountInfo = () => {
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => setShowPhone(! showPhone)}>
                       <Image source = { showPhone ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
-                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => Alert.alert("FS V3")}>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => navigation.navigate("ModificationPhoneNumber")}>
                       <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>
