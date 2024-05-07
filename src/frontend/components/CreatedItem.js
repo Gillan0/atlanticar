@@ -8,6 +8,8 @@ export default function CreatedItem(props) {
   const [conductor, setConductor] = useState(props.content.conductor);
   const [nbSeat, setNbSeat] = useState(props.content.nb_seat);
 
+  const [render, setRender] = useState(true)
+
   function accept(bool, value_candidate, key_candidate) {
     const [id, name] = value_candidate.split(':');
     const id_candidate = parseInt(id, 10);
@@ -114,16 +116,51 @@ export default function CreatedItem(props) {
       );
   }
 
+  function del() {
+    const dataToSend = {
+      id: props.id,
+      password: props.password,
+      command: props.content.type === 'offer' ? "delete_offer" : "delete_request",
+      parameters: props.content.type === 'offer' ? [props.id, props.username, props.content.id, candidates, passengers] : [props.id, props.username, props.content.id, candidates, conductor],
+    };
+
+    // Envoi de la requête avec fetch
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataToSend),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          Alert.alert('Erreur de connexion', 'Vérifiez l\'état de la connexion');
+          throw new Error('Erreur lors de la requête.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data[0].affectedRows) {
+          setRender(!render)
+        } else {
+          Alert.alert("Error", "No affected Rows")
+        }
+      })
+      .catch((error) => 
+        console.error('Erreur :', error)
+      );
+  }
+
   return (
-    <View style={styles.mainContainer}>
+    <>
+      {render ? 
+        <View style={styles.mainContainer}>
       <View style={{ ...styles.titleContainer }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={{...styles.defaultText, fontWeight : 'bold'}}>PARAMETRES </Text>
           <View style={{ flexDirection: 'row' }}>
-            <Pressable>
+            <Pressable onPress={()=>Alert.alert("A venir V3","FS1")}>
               <Image source={require('../assets/parameters.png')} style={{ width: 30, height: 30, marginRight: 15 }} />
             </Pressable>
-            <Pressable>
+            <Pressable onPress={()=>del()}>
               <Image source={require('../assets/bin.png')} style={{ width: 30, height: 30, marginLeft: 15 }} />
             </Pressable>
           </View>
@@ -223,6 +260,9 @@ export default function CreatedItem(props) {
         </View>
       </View>
     </View>
+      : null}
+    </>
+    
   );
 }
 
