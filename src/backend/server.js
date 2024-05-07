@@ -19,6 +19,17 @@ connection.connect((err) => {
 })
 
 function interpret(data) {
+
+    let queries;
+    let parameters;
+    let id_author;
+    let author;
+    let id_offer;
+    let candidates;
+    let passengers;
+    let id_request;
+    let conductor;
+    
     switch (data.command) {
         case ('get_default_offers') :
             return [[`
@@ -427,6 +438,57 @@ function interpret(data) {
                 ['DELETE FROM apply_request WHERE candidate = ? AND id_offer = ? AND author = (SELECT a.id FROM account AS a WHERE a.user = ?)',
                 `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa candidature à une de vos requêtes'), false, NOW());`],
                 data.parameters]
+
+        case ('delete_offer'):
+            [queries, parameters] = [[],[]];
+            [id_author, author, id_offer, candidates, passengers] = data.parameters;
+
+            candidates.map((value) => {
+                if (value) { 
+                    let id_candidate = parseInt(value.split(':')[0]);
+                    queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a annulé son offre'), false, NOW());`)
+                    parameters.push([id_candidate, author])
+                    queries.push(`DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? and author = ?`)
+                    parameters.push([id_candidate, id_offer, id_author])
+                }   
+            })
+            passengers.map((value) => {
+                if (value) { 
+                    let id_passenger = parseInt(value.split(':')[0]);
+                    queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a annulé son offre'), false, NOW());`)
+                    parameters.push([id_passenger, author])
+                    queries.push(`DELETE FROM offer_client WHERE client = ? AND id_offer = ?`)
+                    parameters.push([id_passenger, id_offer])
+                }   
+            })
+            queries.push(`DELETE FROM offer WHERE id = ?`)
+            parameters.push([id_offer]);
+
+            return [queries, parameters]
+
+        case ('delete_request'):
+            [queries, parameters] = [[],[]];
+            [id_author, author, id_request, candidates, conductor] = data.parameters;
+
+            candidates.map((value) => {
+                if (value) { 
+                    let id_candidate = parseInt(value.split(':')[0]);
+                    queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a annulé sa requête'), false, NOW());`)
+                    parameters.push([id_candidate, author])
+                    queries.push(`DELETE FROM apply_request WHERE candidate = ? AND id_request = ? and author = ?`)
+                    parameters.push([id_candidate, id_request, id_author])
+                }   
+            })
+            if (conductor) { 
+                let id_conductor = parseInt(conductor.split(':')[0]);
+                queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a annulé sa requête'), false, NOW());`)
+                parameters.push([id_conductor, author])
+            }   
+            queries.push(`DELETE FROM request WHERE id = ?`)
+            parameters.push([id_request]);
+
+            return [queries, parameters]
+
 
         default :
             return [[''], [[]]];
