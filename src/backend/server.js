@@ -213,6 +213,20 @@ function interpret(data) {
                       SET password = ? 
                       WHERE phone_number = ? ;`],
             [[data.parameters[0], data.parameters[1]]]]
+        
+        case ('modificationphonenumber'):
+            return [[`
+                SELECT
+                        (CASE
+                             WHEN EXISTS (SELECT phone_number FROM account WHERE phone_number = ?)
+                                 THEN 'TRUE'
+                             ELSE
+                                 'FALSE'
+                        END) AS answer ;`,
+                `UPDATE account
+                SET phone_number = ?
+                WHERE phone_number = ? ;`],
+            [[data.parameters[0]], [data.parameters[0], data.parameters[1]]]]
 
         case ('signUp'):
             return [[`
