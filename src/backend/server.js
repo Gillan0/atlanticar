@@ -208,10 +208,11 @@ function interpret(data) {
                 `,`SELECT phone_number FROM account WHERE user = ? AND password = ?;`],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
-        case  ('accountinfo'):
-            return [[`
-                SELECT password, phone_number FROM account WHERE user = ?'`], 
-                [[data.parameters[0], data.parameters[1]]]]
+        case  ('modificationpassword'):
+            return [[`UPDATE account 
+                      SET password = ? 
+                      WHERE phone_number = ? ;`],
+            [[data.parameters[0], data.parameters[1]]]]
 
         case ('signUp'):
             return [[`
