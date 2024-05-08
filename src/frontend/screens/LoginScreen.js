@@ -56,6 +56,7 @@ export default function LoginScreen() {
                 }
             })
             .catch(error => {
+                Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
                 console.error('Erreur :', error);
             });  
     }

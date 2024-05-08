@@ -42,7 +42,7 @@ export default function SignUpScreen(){
         const dataToSend = {
             id: prompts[0],
             password: prompts[1],
-            phone: prompts[2],
+            phone_number : prompts[2],
             command : "signUp",
             parameters : [prompts[0], prompts[1], prompts[2]]
         };
@@ -69,7 +69,7 @@ export default function SignUpScreen(){
             console.log(data)
             if (data[0].affectedRows == 1) {
                 Alert.alert('Votre compte est bien crée !', 'Bienvenue sur Atlanticar !');
-                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone : prompts[2]})
+                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2]})
             } else {
                 Alert.alert('Erreur ! Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
             }
