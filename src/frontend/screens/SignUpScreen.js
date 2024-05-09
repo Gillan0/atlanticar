@@ -1,5 +1,5 @@
 // Ecran de creation de compte
-import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} from "react-native";
+import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
 import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
@@ -42,9 +42,9 @@ export default function SignUpScreen(){
         const dataToSend = {
             id: prompts[0],
             password: prompts[1],
-            phone_number : prompts[2],
+            phone_number : prompts[2].match(/.{1,2}/g).join(' '),
             command : "signUp",
-            parameters : [prompts[0], prompts[1], prompts[2]]
+            parameters : [prompts[0], prompts[1], prompts[2].match(/.{1,2}/g).join(' ')]
         };
 
         //Options de la requête
@@ -69,7 +69,7 @@ export default function SignUpScreen(){
             console.log(data)
             if (data[0].affectedRows == 1) {
                 Alert.alert('Votre compte est bien crée !', 'Bienvenue sur Atlanticar !');
-                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2]})
+                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2].match(/.{1,2}/g).join(' ')})
             } else {
                 Alert.alert('Erreur ! Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
             }
@@ -81,6 +81,7 @@ export default function SignUpScreen(){
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
           <StatusBar backgroundColor="#99cc33"/>  
+          <ScrollView>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
@@ -96,8 +97,9 @@ export default function SignUpScreen(){
                 </View>
                 <View>
                     <Text style={styles.text}>Numéro de téléphone</Text>
-                    <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 2)}/>
+                    <TextInput  value = {prompts[2] ? prompts[2].match(/.{1,2}/g).join(' ') : ''}
+                                style={styles.input}
+                                onChangeText={(text) => changePrompts(text.replace(/\s/g, ''), 2)}/>
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> SignUp()}>
@@ -105,6 +107,7 @@ export default function SignUpScreen(){
                     </Pressable>
                 </View>
             </View>
+            </ScrollView>
         </View>
     )
 

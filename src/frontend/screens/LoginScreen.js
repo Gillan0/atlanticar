@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} from "react-native";
+import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
 import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
@@ -62,7 +62,8 @@ export default function LoginScreen() {
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
-          <StatusBar backgroundColor="#99cc33"/>  
+          <StatusBar backgroundColor="#99cc33"/> 
+            <ScrollView>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
@@ -90,6 +91,7 @@ export default function LoginScreen() {
                     </Pressable>
                 </View>
             </View>
+            </ScrollView> 
         </View>
     )
 }

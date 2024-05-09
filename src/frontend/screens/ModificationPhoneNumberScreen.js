@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} from "react-native";
+import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
 import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
@@ -6,14 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 export default function ModificationPhoneNumberScreen({route}) {
     
     const navigation = useNavigation();
-    const [prompts, setPrompts] = useState(['']);
-    function changePrompts(text,index) {
-        const newPrompts = [...prompts];
-        newPrompts[index] = text.trim(); 
-        setPrompts(newPrompts);
-    }
+    const [phone, setPhone] = useState('');
+
     function ModificationPhoneNumber() {
-        if (prompts[0].length != 10) {
+        if (phone.length != 10) {
             Alert.alert("Désolé !", "Merci de renseigner un numéro de téléphone valide")
             return;
         }
@@ -22,16 +18,16 @@ export default function ModificationPhoneNumberScreen({route}) {
             return /^\d+$/.test(saisie);
         }
 
-        if (!neContientQueDesChiffres(prompts[0])) {
+        if (!neContientQueDesChiffres(phone)) {
             Alert.alert('Erreur !', 'Le numéro de téléphone doit contenir uniquement des chiffres.');
             return;
         }
 
         const dataToSend = {
-            new_phone_number: prompts[0],
-            phone_number : route.params.phone_number,
-            command : "modificationphonenumber",
-            parameters : [prompts[0], route.params.phone_number]
+            id: route.params.id,
+            password: route.params.password,
+            command : "modify_phone_number",
+            parameters : [phone.match(/.{1,2}/g).join(' '),]
           };
           
           // Options de la requête
@@ -54,9 +50,10 @@ export default function ModificationPhoneNumberScreen({route}) {
             })
             .then(data => {
                 console.log(data)
-                if (data[0][0].answer == "FALSE") {
+                if (data[0].affectedRows == 1) {
                     Alert.alert("Votre numéro de téléphone a bien été modifié");
-                    navigation.replace("Account", {phone_number: prompts[0]})
+                    navigation.goBack()
+                    navigation.replace("Account", {...route.params, phone_number: phone.match(/.{1,2}/g).join(' ')})
                 } else {
                     console.log("Refusé");
                     Alert.alert("Désolé !", "Ce numéro de téléphone est déjà utilisé par un autre utilisateur")
@@ -68,14 +65,16 @@ export default function ModificationPhoneNumberScreen({route}) {
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
-          <StatusBar backgroundColor="#99cc33"/>  
+          <StatusBar backgroundColor="#99cc33"/> 
+          <ScrollView>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
                     <Text style={styles.text}>Entrez votre nouveau numéro de téléphone :</Text>
-                    <TextInput  style={styles.input}
+                    <TextInput  value = {phone ? phone.match(/.{1,2}/g).join(' ') : ''}
+                                style={styles.input}
                                 secureTextEntry={false}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
+                                onChangeText={(text) => setPhone(text.replace(/\s/g, ''))}/>
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> ModificationPhoneNumber()}>
@@ -83,6 +82,7 @@ export default function ModificationPhoneNumberScreen({route}) {
                     </Pressable>
                 </View>
             </View>
+            </ScrollView> 
         </View>
     )
 }

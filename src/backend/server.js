@@ -208,25 +208,18 @@ function interpret(data) {
                 `,`SELECT phone_number FROM account WHERE user = ? AND password = ?;`],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
-        case  ('modificationpassword'):
+        case  ('modify_password'):
             return [[`UPDATE account 
                       SET password = ? 
-                      WHERE phone_number = ? ;`],
-            [[data.parameters[0], data.parameters[1]]]]
+                      WHERE id = ? AND password = ? ;`],
+            [[data.parameters[0], data.id, data.password]]]
         
-        case ('modificationphonenumber'):
-            return [[`
-                SELECT
-                        (CASE
-                             WHEN EXISTS (SELECT phone_number FROM account WHERE phone_number = ?)
-                                 THEN 'TRUE'
-                             ELSE
-                                 'FALSE'
-                        END) AS answer ;`,
+        case ('modify_phone_number'):
+            return [[
                 `UPDATE account
                 SET phone_number = ?
-                WHERE phone_number = ? ;`],
-            [[data.parameters[0]], [data.parameters[0], data.parameters[1]]]]
+                WHERE id = ? AND password = ?;`],
+            [[data.parameters[0], data.id, data.password]]]
 
         case ('signUp'):
             return [[`

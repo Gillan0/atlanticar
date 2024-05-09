@@ -40,8 +40,8 @@ const AccountInfo = () => {
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => setShowPassword(!showPassword)}>
                       <Image source = { showPassword ? require("../assets/white_eye_closed.png") : require("../assets/white_eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
-                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => navigation.navigate("ModificationPassword")}>
-                      <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => navigation.navigate("ModificationPassword")}>
+                      <Image source = {require("../assets/white_parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>
             </View>
@@ -56,8 +56,8 @@ const AccountInfo = () => {
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => setShowPhone(! showPhone)}>
                       <Image source = { showPhone ? require("../assets/white_eye_closed.png") : require("../assets/white_eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
-                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => navigation.navigate("ModificationPhoneNumber")}>
-                      <Image source = {require("../assets/parameters.png")} style = {{height : 25, width : 25}}/>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => navigation.navigate("ModificationPhoneNumber")}>
+                      <Image source = {require("../assets/white_parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>
             </View>
@@ -80,7 +80,7 @@ const AnnouncementsInfo = () => {
           <Text style = {{fontSize : 20, fontWeight : 'bold', color : "#fff"}}> Vos Annonces Créées </Text>
         </View>
         <View style = {{flex : 1, padding : 10}}>
-          <Pressable onPress = {() => navigati1on.navigate("AnnouncementsOffers")} style = {styles.buttonContainer}>  
+          <Pressable onPress = {() => navigation.navigate("AnnouncementsOffers")} style = {styles.buttonContainer}>  
             <View style = {{flexDirection : "row"}}>
               <Image source = {require("../assets/black_offer.png")} style = {{height : 22, width : 22, marginRight : 10}} />
                 <Text style = {styles.buttonText}>Offres</Text>
@@ -132,7 +132,10 @@ const ApplicationsInfo = () => {
 const OtherInfo = () => {
   const navigation = useNavigation();
   const handleLogOut = () => {
-    navigation.replace('Login');
+    navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }], // Définition de la nouvelle pile d'écrans
+    })
     Alert.alert('Vous êtes déconnecté')
   }
   return (
@@ -142,7 +145,7 @@ const OtherInfo = () => {
       </View>
       <View style = {{flex : 1}}>
         <View style = {{paddingLeft : 10}}>
-          <Text style = {{fontSize : 20, fontWeight : 'bold', color : "#fff"}}>  </Text>
+          <Text style = {{fontSize : 20, fontWeight : 'bold', color : "#fff"}}> Autres </Text>
         </View>
         <View style = {{flex : 1, padding : 10}}>    
           <Pressable onPress = {() => navigation.navigate("Notifications")} style = {styles.buttonContainer}>  
