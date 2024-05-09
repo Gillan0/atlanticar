@@ -6,23 +6,18 @@ import { useNavigation } from '@react-navigation/native';
 export default function ModificationPasswordScreen({route}) {
     
     const navigation = useNavigation();
-    const [prompts, setPrompts] = useState(['']);
-    function changePrompts(text,index) {
-        const newPrompts = [...prompts];
-        newPrompts[index] = text.trim(); 
-        setPrompts(newPrompts);
-    }
+    const [password, setPassword] = useState('');
     function ModificationPassword() {
-        if (prompts[0] == "") {
+        if (password) {
             Alert.alert("Désolé !", "Merci de renseigner un mot de passe valide")
             return;
         }
 
         const dataToSend = {
-            password: prompts[0],
-            phone_number : route.params.phone_number,
-            command : "modificationpassword",
-            parameters : [prompts[0], route.params.phone_number]
+            id: route.params.id,
+            password: route.params.password,
+            command : "modify_password",
+            parameters : [password]
           };
           
           // Options de la requête
@@ -47,7 +42,8 @@ export default function ModificationPasswordScreen({route}) {
                 console.log(data)
                 if (data[0].affectedRows == 1) {
                     Alert.alert("Votre mot de passe a bien été modifié");
-                    navigation.replace("Account", {password: prompts[0]})
+                    navigation.goBack()
+                    navigation.replace("Account", {...route.params, password: password})
                 } else {
                     console.log("Refusé")
                 }
@@ -65,7 +61,7 @@ export default function ModificationPasswordScreen({route}) {
                     <Text style={styles.text}>Veuillez entrer votre nouveau mot de passe :</Text>
                     <TextInput  style={styles.input}
                                 secureTextEntry={true}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
+                                onChangeText={(text) => setPassword(text.trim())}/>
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> ModificationPassword()}>

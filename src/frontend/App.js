@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator> 
+      <Stack.Navigator initialRouteName="Login"> 
         <Stack.Screen name = "Login" 
                       component={LoginScreen} 
                       options ={{
@@ -32,8 +32,8 @@ export default function App() {
                       component={SignUpScreen}
                       options = {{
                       title : "Créer mon compte",
+                      headerTintColor: "#fff",
                       headerStyle : {
-                        headerTintColor: "#fff",
                         backgroundColor : "#0c2340"
                       },
                       headerTitleStyle : {
