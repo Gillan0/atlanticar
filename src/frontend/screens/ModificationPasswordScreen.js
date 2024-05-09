@@ -3,30 +3,26 @@ import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
 
-export default function LoginScreen() {
+export default function ModificationPasswordScreen({route}) {
+    
     const navigation = useNavigation();
-    const [prompts, setPrompts] = useState(['','']);
+    const [prompts, setPrompts] = useState(['']);
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
-    function signIn() {
+    function ModificationPassword() {
         if (prompts[0] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un nom d'utilisateur")
+            Alert.alert("Désolé !", "Merci de renseigner un mot de passe valide")
             return;
         }
-        if (prompts[1] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un mot de passe")
-            return;
-        }
-
 
         const dataToSend = {
-            id: prompts[0],
-            password: prompts[1],
-            command : "signIn",
-            parameters : [prompts[0], prompts[1]]
+            password: prompts[0],
+            phone_number : route.params.phone_number,
+            command : "modificationpassword",
+            parameters : [prompts[0], route.params.phone_number]
           };
           
           // Options de la requête
@@ -42,21 +38,21 @@ export default function LoginScreen() {
           fetch(url, requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    Alert.alert("PAS CONNECTÉ")
+                    Alert.alert("PAS DE MODIFICATION")
                     throw new Error('Erreur lors de la requête.');
                 }
                 return response.json(); // Renvoie les données JSON de la réponse
             })
             .then(data => {
                 console.log(data)
-                    if (data[0][0].answer == "TRUE") {
-                        navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone_number : data[1][0].phone_number})
+                if (data[0].affectedRows == 1) {
+                    Alert.alert("Votre mot de passe a bien été modifié");
+                    navigation.replace("Account", {password: prompts[0]})
                 } else {
                     console.log("Refusé")
                 }
             })
             .catch(error => {
-                Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
                 console.error('Erreur :', error);
             });  
     }
@@ -66,27 +62,14 @@ export default function LoginScreen() {
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
-                    <Text style={styles.text}>Nom d'utilisateur</Text>
-                    <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
-                </View>
-                <View>
-                    <Text style={styles.text}>Mot de passe</Text>
+                    <Text style={styles.text}>Veuillez entrer votre nouveau mot de passe :</Text>
                     <TextInput  style={styles.input}
                                 secureTextEntry={true}
-                                onChangeText={(text) => changePrompts(text, 1)}/>
+                                onChangeText={(text) => changePrompts(text, 0)}/>
                 </View>
                 <View style = {styles.button}>
-                    <Pressable onPress = {()=>signIn()}>
-                        <Text style = {styles.buttonText}> Se connecter </Text>
-                    </Pressable>
-                </View>
-                <View style = {{alignItems : "center"}}>
-                    <Pressable onPress={()=>  navigation.navigate('SignUp')}>    
-                        <Text style = {{color : "#656565"}}>Créer un compte</Text>
-                    </Pressable>
-                    <Pressable onPress={()=> Alert.alert("Fonctionalité à ajouter","Lors de la V3")}>    
-                        <Text style = {{color : "#0000ee", textDecorationLine : "underline"}}>Mot de passe oublié ?</Text>
+                    <Pressable onPress = {()=> ModificationPassword()}>
+                        <Text style = {styles.buttonText}> Modifier mon mot de passe </Text>
                     </Pressable>
                 </View>
             </View>

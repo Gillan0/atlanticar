@@ -3,30 +3,35 @@ import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
 
-export default function LoginScreen() {
+export default function ModificationPhoneNumberScreen({route}) {
+    
     const navigation = useNavigation();
-    const [prompts, setPrompts] = useState(['','']);
+    const [prompts, setPrompts] = useState(['']);
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
-    function signIn() {
-        if (prompts[0] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un nom d'utilisateur")
-            return;
-        }
-        if (prompts[1] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un mot de passe")
+    function ModificationPhoneNumber() {
+        if (prompts[0].length != 10) {
+            Alert.alert("Désolé !", "Merci de renseigner un numéro de téléphone valide")
             return;
         }
 
+        function neContientQueDesChiffres(saisie) {
+            return /^\d+$/.test(saisie);
+        }
+
+        if (!neContientQueDesChiffres(prompts[0])) {
+            Alert.alert('Erreur !', 'Le numéro de téléphone doit contenir uniquement des chiffres.');
+            return;
+        }
 
         const dataToSend = {
-            id: prompts[0],
-            password: prompts[1],
-            command : "signIn",
-            parameters : [prompts[0], prompts[1]]
+            new_phone_number: prompts[0],
+            phone_number : route.params.phone_number,
+            command : "modificationphonenumber",
+            parameters : [prompts[0], route.params.phone_number]
           };
           
           // Options de la requête
@@ -42,21 +47,22 @@ export default function LoginScreen() {
           fetch(url, requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    Alert.alert("PAS CONNECTÉ")
+                    Alert.alert("PAS DE MODIFICATION")
                     throw new Error('Erreur lors de la requête.');
                 }
                 return response.json(); // Renvoie les données JSON de la réponse
             })
             .then(data => {
                 console.log(data)
-                    if (data[0][0].answer == "TRUE") {
-                        navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone_number : data[1][0].phone_number})
+                if (data[0][0].answer == "FALSE") {
+                    Alert.alert("Votre numéro de téléphone a bien été modifié");
+                    navigation.replace("Account", {phone_number: prompts[0]})
                 } else {
-                    console.log("Refusé")
+                    console.log("Refusé");
+                    Alert.alert("Désolé !", "Ce numéro de téléphone est déjà utilisé par un autre utilisateur")
                 }
             })
             .catch(error => {
-                Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
                 console.error('Erreur :', error);
             });  
     }
@@ -66,27 +72,14 @@ export default function LoginScreen() {
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
-                    <Text style={styles.text}>Nom d'utilisateur</Text>
+                    <Text style={styles.text}>Entrez votre nouveau numéro de téléphone :</Text>
                     <TextInput  style={styles.input}
+                                secureTextEntry={false}
                                 onChangeText={(text) => changePrompts(text, 0)}/>
                 </View>
-                <View>
-                    <Text style={styles.text}>Mot de passe</Text>
-                    <TextInput  style={styles.input}
-                                secureTextEntry={true}
-                                onChangeText={(text) => changePrompts(text, 1)}/>
-                </View>
                 <View style = {styles.button}>
-                    <Pressable onPress = {()=>signIn()}>
-                        <Text style = {styles.buttonText}> Se connecter </Text>
-                    </Pressable>
-                </View>
-                <View style = {{alignItems : "center"}}>
-                    <Pressable onPress={()=>  navigation.navigate('SignUp')}>    
-                        <Text style = {{color : "#656565"}}>Créer un compte</Text>
-                    </Pressable>
-                    <Pressable onPress={()=> Alert.alert("Fonctionalité à ajouter","Lors de la V3")}>    
-                        <Text style = {{color : "#0000ee", textDecorationLine : "underline"}}>Mot de passe oublié ?</Text>
+                    <Pressable onPress = {()=> ModificationPhoneNumber()}>
+                        <Text style = {styles.buttonText}> Modifier mon numéro de téléphone </Text>
                     </Pressable>
                 </View>
             </View>
