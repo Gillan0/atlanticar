@@ -18,7 +18,7 @@ CREATE TABLE account
 
 CREATE TABLE offer
 (   
-    id              serial primary key auto_increment,
+    id              INT primary key auto_increment,
     departure	  	TEXT,
     arrival		    TEXT,
     date            datetime,
@@ -31,7 +31,7 @@ CREATE TABLE offer
 
 CREATE TABLE request
 (   
-    id              serial primary key auto_increment,
+    id              INT primary key auto_increment,
     departure     	TEXT,
     arrival		    TEXT,
     date            datetime,
@@ -45,7 +45,7 @@ CREATE TABLE request
 create table apply_offer
 (	
     candidate 		INT,
-    id_offer 		serial,
+    id_offer 		INT,
     author 			INT,
     date			datetime,
     FOREIGN KEY (candidate) REFERENCES account(id),
@@ -57,7 +57,7 @@ create table apply_offer
 create table apply_request
 (	
     candidate 		INT,
-    id_request 		serial,
+    id_request 		INT,
     author 			INT,
     date			datetime,
     FOREIGN KEY (candidate) REFERENCES account(id),
@@ -69,7 +69,7 @@ create table apply_request
 create table offer_client
 (
 	client			INT,
-    id_offer 		serial,
+    id_offer 		INT,
     Foreign Key (client) REFERENCES account(id),
     Foreign Key (id_offer) REFERENCES offer(id),
     Primary Key (client, id_offer)
