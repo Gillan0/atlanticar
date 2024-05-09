@@ -149,8 +149,8 @@ export default function CreateAnnouncementScreen({route}) {
                 <View style = {{...styles.titleContainer}}>
                     <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
                         <Text style = {styles.defaultText}>Par {route.params.username}</Text>
-                        <View style ={{flexDirection:"row", flex : 0.3}}>
-                            <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0}} onChangeText={(text) => changeInputs(text, 2)}/>
+                        <View style ={{flexDirection:"row", flex : 0.2}}>
+                            <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0, flex : 1}} onChangeText={(text) => changeInputs(text, 2)}/>
                             <Text style = {styles.defaultText}> €</Text>
                         </View>
                     </View>
@@ -171,7 +171,7 @@ export default function CreateAnnouncementScreen({route}) {
                                 <TextInput value = {inputs[0]} style = {styles.input} onChangeText={(text) => changeInputs(text, 0)}/>
                             </View>
                             <View>
-                                <View style = {{flexDirection : "row"}}>
+                                <View>
                                   <View style = {{flexDirection : "row", marginRight: 10}}>
                                     <Text style={styles.defaultText}>Le</Text>
                                     <Pressable onPress = {showDatepicker}>
@@ -191,13 +191,15 @@ export default function CreateAnnouncementScreen({route}) {
                                         />
                                     )}
                                   </View>
-                                  {(route.params.type == "offer") &&
-                                    <View style ={{flexDirection:"row"}}>
-                                      <TextInput value = {inputs[3]} style = {{...styles.input, margin : 0, minWidth : 25}} onChangeText={(text) => changeInputs(text, 3)}/>
-                                      <Text style = {styles.defaultText}> place(s) restante(s)</Text>
+                                </View>
+                                {(route.params.type == "offer") &&
+                                    <View style = {{alignItems : "flex-start"}}>
+                                      <View style ={{flexDirection:"row"}}>
+                                        <TextInput value = {inputs[3]} style = {{...styles.input, margin : 0, minWidth : 25, flex : 0.1}} onChangeText={(text) => changeInputs(text, 3)}/>
+                                        <Text style = {styles.defaultText}> place(s) restante(s)</Text>
+                                      </View>
                                     </View>
                                   }
-                                </View>
                                 <View style = {styles.revealContainer}>  
                                     <View style = {styles.commentContainer}>
                                         <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
