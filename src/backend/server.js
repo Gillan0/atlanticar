@@ -243,10 +243,10 @@ function interpret(data) {
                 r.date,
                 r.price,
                 r.comment,
-                CONCAT(r.conductor, ':', acc.user) AS conductor,
+                CONCAT(r.conductor, ':', acc.user, ':', acc.phone_number) AS conductor,
                 (
                     SELECT
-                        GROUP_CONCAT(CONCAT(ar.candidate, ':', a.user) SEPARATOR ', ')
+                        GROUP_CONCAT(CONCAT(ar.candidate, ':', a.user, ':', a.phone_number) SEPARATOR ', ')
                     FROM apply_request AS ar
                     JOIN account AS a ON ar.candidate = a.id
                     WHERE
@@ -270,7 +270,7 @@ function interpret(data) {
                 o.comment,
                 (
                     SELECT
-                        GROUP_CONCAT(CONCAT(ao.candidate, ':', a.user) SEPARATOR ', ')
+                        GROUP_CONCAT(CONCAT(ao.candidate, ':', a.user, ':', a.phone_number) SEPARATOR ', ')
                     FROM apply_offer AS ao
                     JOIN account AS a ON ao.candidate = a.id
                     WHERE
@@ -278,7 +278,7 @@ function interpret(data) {
                 ) AS candidates,
                 (
                     SELECT
-                        GROUP_CONCAT(CONCAT(oc.client, ':', a.user) SEPARATOR ', ')
+                        GROUP_CONCAT(CONCAT(oc.client, ':', a.user, ':', a.phone_number) SEPARATOR ', ')
                     FROM offer_client AS oc
                     JOIN account AS a ON oc.client = a.id
                     WHERE

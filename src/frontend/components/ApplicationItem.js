@@ -83,13 +83,18 @@ export default ApplicationItem = props => {
                         <View style = {{flexDirection : "column"}}>
                           
                           <Text style = {styles.defaultText}>Accepté !</Text>
-                          <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Numéro de téléphone du conducteur : </Text>
-                          <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-                            
-                            <Text style = {styles.defaultText}>{showPhone ? props.content.phone : "• •  ".repeat(5)}</Text>
-                            <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#444"}} onPress={() => setShowPhone(! showPhone)}>
-                              <Image source = { showPhone ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
-                            </Pressable>
+                          <View style = {{justifyContent : "flex-start"}}>
+                            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Numéro de téléphone du conducteur : </Text>
+                            <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between", paddingHorizontal : 3}}>
+                              <View style = {{flex : 0.90, justifyContent : "center"}}>
+                                  <Text> {showPhone ? props.content.phone :"• •  ".repeat(5)}</Text>
+                              </View>
+                              <View style = {{flexDirection : "row", flex : 0.10, justifyContent : "space-around"}}>
+                                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#808080"}} onPress={() => setShowPhone(! showPhone)}>
+                                    <Image source = { showPhone ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 25, width : 25}}/>
+                                </Pressable>
+                              </View>
+                            </View>
                           </View>
                         </View>
                         
