@@ -8,10 +8,20 @@ export default function CreatedItem(props) {
   const [conductor, setConductor] = useState(props.content.conductor);
   const [nbSeat, setNbSeat] = useState(props.content.nb_seat);
 
+  const [showPhones, setShowPhones] = useState([...Array(passengers.length)].fill(false))
+  const [showPhoneConductor, setShowPhoneConductor] = useState(false);
+
   const [render, setRender] = useState(true)
 
+  function changePhonesDisplay(bool, index) {
+    const newInputs = [...showPhones];
+    newInputs[index] = bool; 
+    setShowPhones(newInputs);
+  }
+
+
   function accept(bool, value_candidate, key_candidate) {
-    const [id, name] = value_candidate.split(':');
+    const [id, name, phone] = value_candidate.split(':');
     const id_candidate = parseInt(id, 10);
 
     const dataToSend = {
@@ -73,7 +83,7 @@ export default function CreatedItem(props) {
   }
 
   function cancel(value_candidate, key_candidate) {
-    const [id, name] = value_candidate.split(':');
+    const [id, name, phone] = value_candidate.split(':');
     const id_candidate = parseInt(id, 10);
 
     const dataToSend = {
@@ -195,7 +205,7 @@ export default function CreatedItem(props) {
                     <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Candidatures :</Text>
                     {Object.values(candidates).map((value, key) => {
                       if (value) {
-                        const [id, name] = value.split(':');
+                        const [id, name, phone] = value.split(':');
                         return (
                           <View key={key} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={styles.defaultText}>{name}</Text>
@@ -218,18 +228,28 @@ export default function CreatedItem(props) {
                 {passengers && passengers.length > 0 ? (
                   <>
                     <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Passagers déjà validés :</Text>
-                    {Object.values(passengers).map((value, key) => {
+                    {Object.values(passengers).map((value, index) => {
                       if (value) {
-                        const [id, name] = value.split(':');
+                        const [id, name, phone] = value.split(':');
                         return (
-                          <View key={key} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={styles.defaultText}>{name}</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                              <Pressable onPress={() => cancel(value, key)}>
-                                <Image source={require('../assets/cross.png')} style={{ width: 30, height: 30, marginLeft: 15 }} />
-                              </Pressable>
+                          <>
+                            <View key = {index} style = {{justifyContent : "flex-start", padding: 5}}>
+                              <Text style = {{fontSize : 14}}> Numéro de {name} : </Text>
+                              <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
+                                <View style = {{flex : 0.50, justifyContent : "center"}}>
+                                    <Text>  {showPhones[index] ? phone :"• •  ".repeat(5)}</Text>
+                                </View>
+                                <View style = {{flexDirection : "row", flex : 0.50, justifyContent : "space-between"}}>
+                                  <Pressable onPress={() => changePhonesDisplay(!showPhones[index], index)}>
+                                        <Image source = { showPhones[index] ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 30, width : 30}}/>
+                                  </Pressable>
+                                  <Pressable onPress={() => cancel(value, key)}>
+                                        <Image source = {require("../assets/cross.png")} style = {{height : 30, width : 30}}/>
+                                  </Pressable>
+                                </View>
+                              </View>
                             </View>
-                          </View>
+                          </>
                         );
                       }
                     })}
@@ -239,14 +259,22 @@ export default function CreatedItem(props) {
                 )}
                 {conductor  && (
                           <>
-                            <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Conducteur : </Text>
-                            <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
-                                <Text style = {styles.defaultText}>{conductor.split(':')[1]}</Text>
-                                <View style = {{flexDirection : "row"}}>    
-                                    <Pressable onPress = {() => cancel(conductor, 0)}>
-                                      <Image source = {require("../assets/cross.png")} style = {{width : 30, height : 30, marginLeft: 15}}/>
-                                    </Pressable>
+                            <Text style = {{...styles.defaultText, fontWeight : "bold"}}>Conducteur : </Text>
+                            <View style = {{justifyContent : "flex-start", padding: 5}}>
+                              <Text style = {{fontSize : 14}}> Numéro de {conductor.split(':')[1]} : </Text>
+                              <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
+                                <View style = {{flex : 0.50, justifyContent : "center"}}>
+                                    <Text>  {showPhoneConductor ? conductor.split(':')[2] :"• •  ".repeat(5)}</Text>
                                 </View>
+                                <View style = {{flexDirection : "row", flex : 0.50, justifyContent : "space-between"}}>
+                                  <Pressable onPress={() => setShowPhoneConductor(!showPhoneConductor)}>
+                                        <Image source = { showPhoneConductor ? require("../assets/eye_closed.png") : require("../assets/eye.png")} style = {{height : 30, width : 30}}/>
+                                  </Pressable>
+                                  <Pressable onPress={() => cancel(conductor, 0)}>
+                                        <Image source = {require("../assets/cross.png")} style = {{height : 30, width : 30}}/>
+                                  </Pressable>
+                                </View>
+                              </View>
                             </View>
                           </>
                           )
