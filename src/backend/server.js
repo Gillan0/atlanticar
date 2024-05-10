@@ -25,8 +25,8 @@ function interpret(data) {
     let id_author;
     let author;
     let id_offer;
-    let candidates;
-    let passengers;
+    let candidates= [];
+    let passengers = [];
     let id_request;
     let conductor;
     
@@ -420,6 +420,73 @@ function interpret(data) {
         case ('upload_request'):
             return [['INSERT IGNORE INTO request VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, NULL);']
                 , [data.parameters]]  
+
+        case ('modify_offer'):
+            [queries, parameters] = [[],[]];
+            param1 = data.parameters[0];
+            candidates = data.parameters[1];
+            passengers = data.parameters[2];
+            author = data.parameters[3];
+            console.log(data.parameters)
+            queries.push(`
+                            UPDATE 
+                                offer 
+                            SET 
+                                departure = ?,
+                                arrival = ?,
+                                date = ?,
+                                price =  ?,
+                                nb_seat = ?, 
+                                comment = ?
+                            WHERE id = ?;`);
+            parameters.push(param1);
+            candidates.map((value) => {
+                if (value) { 
+                    let id_candidate = parseInt(value.split(':')[0]);
+                    queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié son offre'), false, NOW());`)
+                    parameters.push([id_candidate, author])
+                }   
+            })
+            passengers.map((value) => {
+                if (value) { 
+                    let id_passenger = parseInt(value.split(':')[0]);
+                    queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié son offre'), false, NOW());`)
+                    parameters.push([id_passenger, author])
+                }   
+            })
+
+            return [queries, parameters]  
+       
+        case ('modify_request'):
+            [queries, parameters] = [[],[]];
+            [param1, candidates, conductor, author] = data.parameters;
+            queries.push(`
+                            UPDATE 
+                                request 
+                            SET 
+                                departure = ?,
+                                arrival = ?,
+                                date = ?,
+                                price =  ?,
+                                comment = ?
+                            WHERE id = ?;`);
+            parameters.push(param1);
+
+            candidates.map((value) => {
+                if (value) { 
+                    let id_candidate = parseInt(value.split(':')[0]);
+                    queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié sa requête'), false, NOW());`)
+                    parameters.push([id_candidate, author])
+                }   
+            })
+            if (conductor) { 
+                let id_conductor = parseInt(conductor.split(':')[0]);
+                queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié sa requête'), false, NOW());`)
+                parameters.push([id_conductor, author])
+            }   
+            
+
+            return [queries, parameters]   
 
         case ('get_notifications'):
             return[[`

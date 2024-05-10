@@ -6,6 +6,7 @@ import AnnouncementScreen from '../screens/AnnouncementScreen.js';
 import NotificationScreen from '../screens/NotificationScreen.js';
 import ModificationPasswordScreen from '../screens/ModificationPasswordScreen.js';
 import ModificationPhoneNumberScreen from '../screens/ModificationPhoneNumberScreen.js';
+import ModifyAnnouncementScreen from '../screens/ModifyAnnouncementScreen.js';
 
 /* 
 Gray : #cbcbcb
@@ -88,6 +89,22 @@ export default function PersonnalHub({route}) {
           initialParams={{...route.params, type : "request"}}
           options = {{
           title : "Candidatures - Requêtes",
+          headerStyle : {
+          backgroundColor : "#0c2340"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle : {
+            fontWeight : "bold",
+            color : "#fff"
+          }
+          }}  
+        />
+        <Stack.Screen 
+          name = "ModifyAnnouncement" 
+          component={ModifyAnnouncementScreen}
+          initialParams={route.params}
+          options = {{
+          title : "",
           headerStyle : {
           backgroundColor : "#0c2340"
           },
