@@ -81,6 +81,7 @@ create table notification
 	id_account int,
     message TEXT, 
     seen bool,
+    date DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (id_account) references account(id)
 );
@@ -140,9 +141,9 @@ insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-02-0
 #application aux requêtes avec ajout de la notification
 
 insert into apply_request values (2,1,1,'2024-05-05 16:23:54');
-insert into notification values (default, 1, "Jean-Eude a candidaté à une de vos requêtes", false);
+insert into notification values (default, 1, "Jean-Eude a candidaté à une de vos requêtes", false, NOW());
 insert into apply_request values (3,2,1,'2024-05-05 18:43:14');
-insert into notification values (default, 1, "Eugène a candidaté à une de vos requêtes", false);
+insert into notification values (default, 1, "Eugène a candidaté à une de vos requêtes", false, NOW());
 
 #les annonces de JC
 SELECT * FROM request as r JOIN account as c ON c.id = r.author WHERE c.user = 'JC'; 
@@ -201,7 +202,7 @@ insert into offer values (DEFAULT,'Plouzané-Locmaria','Brest','2025-01-11 12:00
 
 #JC postule aux offres :
 insert into apply_offer values (1,1,4,'2024-05-05 16:23:54');
-insert into notification values (default, 4, "JC a candidaté à une de vos offres", false);
+insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
 
 insert into apply_offer values (1,2,4,'2024-05-06 16:23:54');
-insert into notification values (default, 4, "JC a candidaté à une de vos offres", false);
+insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
