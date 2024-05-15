@@ -438,7 +438,7 @@ function interpret(data) {
                                 price =  ?,
                                 nb_seat = ?, 
                                 comment = ?
-                            WHERE id = ?;`);
+                            WHERE id = ? AND author = ? and ? = (SELECT a.password FROM account AS a WHERE a.id = ?);`);
             parameters.push(param1);
             candidates.map((value) => {
                 if (value) { 
@@ -469,7 +469,7 @@ function interpret(data) {
                                 date = ?,
                                 price =  ?,
                                 comment = ?
-                            WHERE id = ?;`);
+                            WHERE id = ? AND author = ? and ? = (SELECT a.password FROM account AS a WHERE a.id = ?);`);
             parameters.push(param1);
 
             candidates.map((value) => {

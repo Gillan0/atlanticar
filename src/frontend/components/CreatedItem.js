@@ -188,11 +188,11 @@ export default function CreatedItem(props) {
         <View style={{ flexDirection: 'row', flex: 1 }}>
           <View style={{ flexDirection: 'column' }}>
             <View style={{ alignSelf: 'center', borderWidth: 4, borderColor: 'black', borderRadius: 10, width: 20, height: 20 }} />
-            <View style={{ alignSelf: 'center', height: '85%', borderWidth: 3, borderColor: 'black', borderStyle: 'dashed' }} />
+            <View style={{ alignSelf: 'center', height: candidates && candidates.length > 0 ? '85%' : '80%', borderWidth: 3, borderColor: 'black', borderStyle: 'dashed' }} />
             <View style={{ alignSelf: 'center', borderWidth: 4, borderColor: 'black', borderRadius: 10, width: 20, height: 20 }} />
           </View>
           <View style={{ flexDirection: 'column', flex: 1 }}>
-           
+            <Image source = {props.content.type === 'offer' ? require("../assets/offer.png") : require("../assets/request.png")} style={{height: 200, width : 200, right: 0, bottom : 0, position : "absolute"}}/>
             <Text style={styles.destinations}>De {props.content.departure}</Text>
             <View>
               <View style={{flexDirection : 'row', justifyContent : 'space-between'}}>

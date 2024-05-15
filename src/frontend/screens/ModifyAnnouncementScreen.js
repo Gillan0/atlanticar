@@ -88,12 +88,12 @@ export default function ModifyAnnouncementScreen({route}) {
         return;
       }
       if (route.params.type == "offer") {
-        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.content.id],
+        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.content.id, route.params.id, route.params.password, route.params.id],
                   route.params.content.candidates,
                   route.params.content.passengers,
                   route.params.username])
       } else if (route.params.type == "request")  {
-        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[4], route.params.content.id],
+        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[4], route.params.content.id, route.params.id, route.params.password, route.params.id],
                   route.params.content.candidates,
                 route.params.content.conductor,
                 route.params.username])
