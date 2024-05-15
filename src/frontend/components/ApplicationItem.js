@@ -13,7 +13,7 @@ export default ApplicationItem = props => {
   function del() {
     const dataToSend = {
       id: props.id,
-      password: props.password,
+      password: props.account.password,
       command: props.content.type === 'offer' ? "delete_application_offer" : "delete_application_request",
       parameters: [[props.account.id, props.content.id, props.content.author],[props.content.author , props.account.username]],
     };
@@ -57,7 +57,7 @@ export default ApplicationItem = props => {
           <View style = {{flexDirection : "row", flex : 1}}>
             <View style = {{flexDirection : "column"}}>
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'black', borderRadius : 10, width : 20, height : 20}}/>
-              <View style = {{alignSelf : "center", height: props.content.state == "True" ? '87%' : '83%',width :0,  borderWidth: 3, borderColor: 'black', borderStyle: 'dashed'}}/>
+              <View style = {{alignSelf : "center", height: props.content.state == "True" ? (props.content.comment ? '87%' : '83%' ) : (props.content.comment ? '83%' : '80%' ),width :0,  borderWidth: 3, borderColor: 'black', borderStyle: 'dashed'}}/>
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'black', borderRadius : 10, width : 20, height : 20}}/>
             </View>
             <View style = {{flexDirection : "column", flex : 1}}>
@@ -73,10 +73,15 @@ export default ApplicationItem = props => {
                 </View>
                 <View style = {styles.revealContainer}>  
                   <View>
-                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
-                    <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
-                      <Text style = {styles.defaultText}>{props.content.comment}</Text>
-                    </View>
+                    {props.content.comment && (
+                    <>
+                      <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
+                      <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
+                        <Text style = {styles.defaultText}>{props.content.comment}</Text>
+                      </View>
+                    </>
+                    )
+                    } 
                     <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>État de votre candidature : </Text>
                       <View style = {{flexDirection : "row", justifyContent : "space-between"}}>                
                         {props.content.state == "True" ? 
