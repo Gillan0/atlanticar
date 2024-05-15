@@ -97,11 +97,11 @@ const SearchItem = props => {
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.text}>Le </Text>
                     <Pressable onPress = {showDatepicker}>
-                        <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleDateString("fr-FR")}</Text>
+                        <Text style = {{padding : 1, marginHorizontal : 2,  borderRadius : 5, borderColor : "#000", borderWidth:1, fontSize : 16}}> {date.toLocaleDateString("fr-FR")} </Text>
                     </Pressable>
                     <Text style = {styles.text}> à </Text>
                     <Pressable onPress = {showTimepicker}>
-                        <Text style = {{...styles.text, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR").substring(0,5)}</Text>
+                        <Text style = {{padding : 1, marginHorizontal : 2,  borderRadius : 5, borderColor : "#000", borderWidth:1, fontSize : 16}}> {date.toLocaleTimeString("fr-FR").substring(0,5)} </Text>
                     </Pressable>
                     {show && (
                         <DateTimePicker

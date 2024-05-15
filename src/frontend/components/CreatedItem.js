@@ -207,9 +207,13 @@ export default function CreatedItem(props) {
                 <Text style={styles.defaultText}>{props.content.price} € </Text>
               </View>
               <View style={styles.revealContainer}>
-                  <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires affichées :</Text>
-                  <Text style = {styles.defaultText}>{props.content.comment}</Text>
-
+                { props.content.comment && (
+                  <>
+                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires affichées :</Text>
+                    <Text style = {styles.defaultText}>{props.content.comment}</Text>
+                  </>
+                )
+                }
                 {candidates && candidates.length > 0 ? (
                   <>
                     <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Candidatures :</Text>

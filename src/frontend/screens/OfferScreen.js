@@ -84,7 +84,6 @@ export default function OfferScreen({route}) {
       <StatusBar backgroundColor="#99cc33"/>  
         <ScrollView 
         onScrollBeginDrag={({nativeEvent}) => {
-          console.log("scroll")
             if (endScrollReached(nativeEvent)) {
               request("get_default_offers", page + 1)
             }

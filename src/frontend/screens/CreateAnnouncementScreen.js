@@ -172,14 +172,14 @@ export default function CreateAnnouncementScreen({route}) {
                             </View>
                             <View>
                                 <View>
-                                  <View style = {{flexDirection : "row", marginRight: 10}}>
+                                  <View style = {{flexDirection : "row"}}>
                                     <Text style={styles.defaultText}>Le</Text>
                                     <Pressable onPress = {showDatepicker}>
-                                      <Text style = {{...styles.defaultText, paddingHorizontal : 0, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleDateString("fr-FR")}</Text>
+                                      <Text style = {{padding : 1, marginHorizontal : 2,  borderRadius : 8, color : "#fff", borderColor : "#fff", borderWidth:2, fontSize : 16}}> {date.toLocaleDateString("fr-FR")} </Text>
                                     </Pressable>
                                     <Text style = {styles.defaultText}>à</Text>
                                     <Pressable onPress = {showTimepicker}>
-                                      <Text style = {{...styles.defaultText, paddingHorizontal : 0, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR").substring(0,5)}</Text>
+                                      <Text style = {{padding : 1, marginHorizontal : 2,  borderRadius : 8, color : "#fff", borderColor : "#fff", borderWidth:2, fontSize : 16}}> {date.toLocaleTimeString("fr-FR").substring(0,5)} </Text>
                                     </Pressable>
                                     {show && (
                                         <DateTimePicker
