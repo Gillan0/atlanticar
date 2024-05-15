@@ -14,7 +14,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "datetimepicker": "^0.1.39",
-    "expo": "~50.0.4",
+    "expo": "^51.0.5",
     "expo-status-bar": "~1.11.1",
     "http": "^0.0.1-security",
     "react": "18.2.0",
