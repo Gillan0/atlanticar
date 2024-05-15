@@ -86,7 +86,6 @@ export default function RequestScreen({route}) {
     <View style = {{flex : 1, backgroundColor : "white"}}>
       <StatusBar backgroundColor="#99cc33"/>
       <ScrollView onScrollBeginDrag={({nativeEvent}) => {
-          console.log("scroll")
             if (endScrollReached(nativeEvent)) {
               request("get_default_requests", page + 1)
             }

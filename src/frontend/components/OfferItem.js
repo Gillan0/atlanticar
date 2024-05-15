@@ -56,7 +56,7 @@ const OfferItem = props => {
           <View style = {{flexDirection : "row", flex : 1}}>
             <View style = {{flexDirection : "column"}}>
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
-              <View style = {{alignSelf : "center", height: '85%',width :0,  borderWidth: 3, borderColor: 'white', borderStyle: 'dashed'}}/>
+              <View style = {{alignSelf : "center", height: props.offer.comment ? '85%' : '80%',width :0,  borderWidth: 3, borderColor: 'white', borderStyle: 'dashed'}}/>
               <View style = {{alignSelf : "center", borderWidth: 4, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
             </View>
             <View style = {{flexDirection : "column", flex : 1}}>
@@ -69,8 +69,13 @@ const OfferItem = props => {
                 </View>
                 <View style = {styles.revealContainer}>  
                   <View style = {styles.commentContainer}>
-                    <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
-                    <Text style = {styles.defaultText}>{props.offer.comment}</Text>
+                    { props.offer.comment && (
+                      <>
+                        <Text style = {{...styles.defaultText, fontWeight : 'bold'}}>Infos supplémentaires :</Text>
+                        <Text style = {styles.defaultText}>{props.offer.comment}</Text>
+                      </>
+                      )
+                    }
                     <View style={styles.buttonContainer}>
                       <Pressable onPress={toCandidate} style={styles.button}>
                         <Image source={require("../assets/flag.png")} style={{height: 22, width: 22}}/>
