@@ -4,21 +4,21 @@ DROP TABLE IF EXISTS apply_offer;
 DROP TABLE IF EXISTS apply_request;
 DROP TABLE IF EXISTS offer;
 DROP TABLE IF EXISTS request;
-DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS account;
 
 CREATE TABLE account
 (   
     id     			INT auto_increment,
     user 			varchar(30),
-    password		varchar(30) NOT NULL,
+    password			varchar(30) NOT NULL,
     phone_number   	TEXT NOT NULL,
     primary key (id)
 );
 
 CREATE TABLE offer
 (   
-    id              INT primary key auto_increment,
+    id              serial primary key auto_increment,
     departure	  	TEXT,
     arrival		    TEXT,
     date            datetime,
@@ -31,7 +31,7 @@ CREATE TABLE offer
 
 CREATE TABLE request
 (   
-    id              INT primary key auto_increment,
+    id              serial primary key auto_increment,
     departure     	TEXT,
     arrival		    TEXT,
     date            datetime,
@@ -45,7 +45,7 @@ CREATE TABLE request
 create table apply_offer
 (	
     candidate 		INT,
-    id_offer 		INT,
+    id_offer 		serial,
     author 			INT,
     date			datetime,
     FOREIGN KEY (candidate) REFERENCES account(id),
@@ -57,7 +57,7 @@ create table apply_offer
 create table apply_request
 (	
     candidate 		INT,
-    id_request 		INT,
+    id_request 		serial,
     author 			INT,
     date			datetime,
     FOREIGN KEY (candidate) REFERENCES account(id),
@@ -69,7 +69,7 @@ create table apply_request
 create table offer_client
 (
 	client			INT,
-    id_offer 		INT,
+    id_offer 		serial,
     Foreign Key (client) REFERENCES account(id),
     Foreign Key (id_offer) REFERENCES offer(id),
     Primary Key (client, id_offer)
@@ -81,32 +81,68 @@ create table notification
 	id_account int,
     message TEXT, 
     seen bool,
-    date DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (id_account) references account(id)
 );
 
+#ajout de 6 profiles
+insert into account (user,password,phone_number) values (default,'JC','1234','06 12 34 56 78'),(default,'Jean-Eude','1234','06 00 00 00 00'),
+('Eugène','1234','06 11 11 11 11'),('Jean Michel IV', '2146','06 69 96 69 96'),('Albert', 'alibaba','06 69 96 69 96'),
+('Tanya', 'Evil','06 66 66 66 66');
 
-insert into account values (default,'JC','1234','06 12 34 56 78');
-insert into account values (default,'Jean-Eude','1234','06 00 00 00 00');
-insert into account values (default,'Eugène','1234','06 11 11 11 11');
-insert into account values (default,'Jean Michel IV', '2146','06 69 96 69 96');
-
+#41 requêtes
 insert into request values (DEFAULT, 'IMT Atlantique Brest','Carrefour Plouzané','2024-08-01 10:30:00',0,'ne se prononce pas',1,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Carrefour Plouzané', '2024-09-01 11:30:00',0,'ne se prononce pas',1,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Carrefour Plouzané', '2024-10-01 10:30:00',0,'salut',2,null);
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-11-01 10:30:00',0,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Decathlon Brest', '2024-11-01 10:30:00',0,'ne se prononce pas',2,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-11-01 12:00:00',0,'ne se prononce pas',3,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-11-01 10:30:00',10,'ne se prononce pas',2,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2024-11-01 12:00:00',10,'ne se prononce pas',3,null);
 insert into request values (DEFAULT, 'Brest', 'Carrefour', '2024-11-01 10:30:00',35,'ne se prononce pas',2,null);
 insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-11-01 12:00:00',50,'ne se prononce pas',3,null);
- 
-insert into apply_request values (2,1,1,'2024-05-05 16:23:54');
-insert into notification values (default, 1, "Jean-Eude a candidaté à une de vos requêtes", false, NOW());
+insert into request values (DEFAULT, 'Decathlon Brest','Carrefour Plouzané','2024-09-18 10:30:00',0,'ne se prononce pas',1,null);
 
+insert into request values (DEFAULT, 'Locmaria-Plouzané', 'IMT Atlantique Brest', '2024-11-01 11:30:00',0,'ne se prononce pas',1,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-10-11 10:30:00',0,'salut',2,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-11-21 10:30:00',0,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-11-13 12:00:00',0,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Locmaria-Plouzané', 'Aéroport', '2024-10-15 10:30:00',10,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Locmaria-Plouzané', '2024-10-29 12:00:00',10,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Brest', 'Aéroport', '2024-11-01 15:30:00',35,'Je me présente, je m appelle Henry',2,null);
+insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-11-01 08:00:00',50,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2024-10-09 12:30:00',10,'alors, on attend pas Patrique !?',4,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-08-08 14:30:00',60,'60m² avec vu sur le parc',1,null);
+
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-08-07 16:30:00',90,'j ai avec moi beaucoup de matériel',2,null);
+insert into request values (DEFAULT, 'Brest', 'Carrefour', '2024-08-06 18:30:00',35,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-08-05 20:30:00',50,'damn',4,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Decathlon Brest', '2024-12-01 10:30:00',0,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-12-01 12:00:00',0,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-12-01 10:30:00',10,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2024-12-01 12:00:00',10,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Brest', 'Carrefour', '2024-12-01 10:30:00',35,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-12-01 12:00:00',50,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Decathlon Brest','Carrefour Plouzané','2024-12-18 10:30:00',0,'ne se prononce pas',1,null);
+
+insert into request values (DEFAULT, 'Locmaria-Plouzané', 'IMT Atlantique Brest', '2025-01-01 11:30:00',0,'ne se prononce pas',1,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-11 10:30:00',0,'salut',2,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-21 10:30:00',0,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-13 12:00:00',0,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Locmaria-Plouzané', 'Aéroport', '2025-01-15 10:30:00',10,'ne se prononce pas',2,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Locmaria-Plouzané', '2025-01-29 12:00:00',10,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'Brest', 'Aéroport', '2025-01-01 15:30:00',35,'Je me présente, je m appelle Henry',2,null);
+insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2025-01-01 08:00:00',50,'ne se prononce pas',3,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2025-01-09 12:30:00',10,'alors, on attend pas Patrique !?',4,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-01-08 14:30:00',60,'60m² avec vu sur le parc',1,null);
+
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-02-01 16:00:01',60,'100m² avec vu sur la plage',1,null);
+
+#application aux requêtes avec ajout de la notification
+
+insert into apply_request values (2,1,1,'2024-05-05 16:23:54');
+insert into notifications values (default, 1, "Jean-Eude a candidaté à une de vos requêtes", false);
 insert into apply_request values (3,2,1,'2024-05-05 18:43:14');
-insert into notification values (default, 1, "Eugène a candidaté à une de vos requêtes", false, NOW());
+insert into notifications values (default, 1, "Eugène a candidaté à une de vos requêtes", false);
 
 #les annonces de JC
 SELECT * FROM request as r JOIN account as c ON c.id = r.author WHERE c.user = 'JC'; 
@@ -116,13 +152,56 @@ SELECT c1.user as candidate,r.departure,r.arrival,r.date,c2.user as author From 
 JOIN account as c1 ON c1.id = cr.candidate JOIN account as c2 ON c2.id = cr.author JOIN request as r on r.id = cr.id_request;
 
 
-#ajoutons des annonces auquel on est inscrit
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,1,'J ai un gros coffre',4);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-21 12:30:00',8,2,'peu de place',4);
+#ajoutons des offres auquel on est inscrit (il y en a 21)
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,3,'Ya',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Vodka',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-11-11 12:00:00',3,1,'sans commentaire',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-22 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,4,'sans commentaire',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-18 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-15 12:00:00',3,1,'J ai un gros coffre',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-01 12:30:00',8,3,'peu de place',6);
 
-#JC postule aux annonces :
+insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,3,'Ya',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Vodka',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Decathlon Brest','IMT Atlantique Brest','2024-11-11 12:00:00',3,1,'sans commentaire',5);
+insert into offer values (DEFAULT,'Gare Brest','Aéroport Brest','2024-09-22 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,4,'sans commentaire',5);
+insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-09-18 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-15 12:00:00',3,1,'J ai un gros coffre',5);
+insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-09-01 12:30:00',8,3,'peu de place',6);
+
+insert into offer values (DEFAULT,'Brest','Decalthlon Brest','2024-09-12 12:00:00',3,3,'Ya',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-21 12:30:00',8,2,'Vodka',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-21 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-01 12:00:00',3,1,'sans commentaire',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-22 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-30 12:00:00',3,4,'sans commentaire',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-29 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-14 12:00:00',3,1,'J ai un gros coffre',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-02 12:30:00',8,3,'peu de place',6);
+
+insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-12-06 12:00:00',3,3,'Ya',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-19 12:30:00',8,2,'Vodka',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-08 12:00:00',3,2,'pas de bras, pas de chocolat',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-09 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Decathlon Brest','IMT Atlantique Brest','2024-12-13 12:00:00',3,1,'sans commentaire',5);
+insert into offer values (DEFAULT,'Gare Brest','Aéroport Brest','2024-12-22 19:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,4,'sans commentaire',5);
+insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-07-18 12:30:00',8,2,'sans commentaire',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-06-15 12:00:00',3,1,'J ai un gros coffre',5);
+insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-06-01 12:30:00',8,3,'peu de place',6);
+
+insert into offer values (DEFAULT,'Plouzané-Locmaria','Brest','2025-01-11 12:00:00',3,4,'ola',5);
+
+#JC postule aux offres :
 insert into apply_offer values (1,1,4,'2024-05-05 16:23:54');
-insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
+insert into notifications values (default, 4, "JC a candidaté à une de vos offres", false);
 
 insert into apply_offer values (1,2,4,'2024-05-06 16:23:54');
-insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
+insert into notifications values (default, 4, "JC a candidaté à une de vos offres", false);
