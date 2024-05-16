@@ -1,4 +1,5 @@
 node_modules
 .vscode
 .expo
+.env
 src/frontend/components/url.js
