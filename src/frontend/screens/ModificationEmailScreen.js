@@ -1,32 +1,20 @@
-import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
+import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} from "react-native";
 import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
 
-export default function LoginScreen() {
+export default function ModificationEmailScreen({route}) {
+    
     const navigation = useNavigation();
-    const [prompts, setPrompts] = useState(['','']);
-    function changePrompts(text,index) {
-        const newPrompts = [...prompts];
-        newPrompts[index] = text.trim(); 
-        setPrompts(newPrompts);
-    }
-    function signIn() {
-        if (prompts[0] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un nom d'utilisateur")
-            return;
-        }
-        if (prompts[1] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un mot de passe")
-            return;
-        }
+    const [email, setEmail] = useState('');
 
+    function ModificationEmail() {
 
         const dataToSend = {
-            id: prompts[0],
-            password: prompts[1],
-            command : "signIn",
-            parameters : [prompts[0], prompts[1]]
+            id: route.params.id,
+            password: route.params.password,
+            command : "modify_email",
+            parameters : [email.replace(/\s/g, '')]
           };
           
           // Options de la requête
@@ -42,56 +30,41 @@ export default function LoginScreen() {
           fetch(url, requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    Alert.alert("PAS CONNECTÉ")
+                    Alert.alert("PAS DE MODIFICATION")
                     throw new Error('Erreur lors de la requête.');
                 }
                 return response.json(); // Renvoie les données JSON de la réponse
             })
             .then(data => {
                 console.log(data)
-                    if (data[0][0].answer == "TRUE") {
-                        navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone_number : data[1][0].phone_number, email: data[1][0].email})
+                if (data[0].affectedRows == 1) {
+                    Alert.alert("Votre addresse mail a bien été modifié");
+                    navigation.goBack()
+                    navigation.replace("Account", {...route.params, email: email})
                 } else {
                     console.log("Refusé")
                 }
             })
             .catch(error => {
-                Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
                 console.error('Erreur :', error);
             });  
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
-          <StatusBar backgroundColor="#99cc33"/> 
-            <ScrollView>
+          <StatusBar backgroundColor="#99cc33"/>  
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
-                    <Text style={styles.text}>Nom d'utilisateur</Text>
+                    <Text style={styles.text}>Veuillez entrer votre nouvelle addresse mail:</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
-                </View>
-                <View>
-                    <Text style={styles.text}>Mot de passe</Text>
-                    <TextInput  style={styles.input}
-                                secureTextEntry={true}
-                                onChangeText={(text) => changePrompts(text, 1)}/>
+                                onChangeText={(text) => setEmail(text.trim())}/>
                 </View>
                 <View style = {styles.button}>
-                    <Pressable onPress = {()=>signIn()}>
-                        <Text style = {styles.buttonText}> Se connecter </Text>
-                    </Pressable>
-                </View>
-                <View style = {{alignItems : "center"}}>
-                    <Pressable onPress={()=>  navigation.navigate('SignUp')}>    
-                        <Text style = {{color : "#656565"}}>Créer un compte</Text>
-                    </Pressable>
-                    <Pressable onPress={()=> Alert.alert("Fonctionalité à ajouter","Lors de la V3")}>    
-                        <Text style = {{color : "#0000ee", textDecorationLine : "underline"}}>Mot de passe oublié ?</Text>
+                    <Pressable onPress = {()=> ModificationEmail()}>
+                        <Text style = {styles.buttonText}> Modifier mon email </Text>
                     </Pressable>
                 </View>
             </View>
-            </ScrollView> 
         </View>
     )
 }
