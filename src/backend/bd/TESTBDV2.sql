@@ -13,6 +13,7 @@ CREATE TABLE account
     user 			varchar(30),
     password			varchar(30) NOT NULL,
     phone_number   	TEXT NOT NULL,
+    email             varchar(30),
     primary key (id)
 );
 
@@ -87,9 +88,9 @@ create table notification
 );
 
 #ajout de 6 profiles
-insert into account (user,password,phone_number) values ('JC','1234','06 12 34 56 78'),('Jean-Eude','1234','06 00 00 00 00'),
-('Eugène','1234','06 11 11 11 11'),('Jean Michel IV', '2146','06 69 96 69 96'),('Albert', 'alibaba','06 69 96 69 96'),
-('Tanya', 'Evil','06 66 66 66 66');
+insert into account (user,password,phone_number) values ('JC','1234','06 12 34 56 78', 'jc.jean@gmail.com'),('Jean-Eude','1234','06 00 00 00 00','je.jeude@gmail.com'),
+('Eugène','1234','06 11 11 11 11', 'eugene.gene@gmail.com'),('Jean Michel IV', '2146','06 69 96 69 96', 'jeanmi.chel@gmail.com'),('Albert', 'alibaba','06 69 96 69 96', 'ali.baba@gmail.com'),
+('Tanya', 'Evil','06 66 66 66 66', 'ta.nya@gmail.com');
 
 #41 requêtes
 insert into request values (DEFAULT, 'IMT Atlantique Brest','Carrefour Plouzané','2024-08-01 10:30:00',0,'',1,null);

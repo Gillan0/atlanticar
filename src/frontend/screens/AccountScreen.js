@@ -9,8 +9,10 @@ const AccountInfo = () => {
   const route = useRoute();
   const [showPassword, setShowPassword] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
   const password = route.params ? route.params.password : '****';
   const phone_number = route.params ? route.params.phone_number : '****';
+  const email = route.params ? route.params.email: '*****';
 
 
   return (
@@ -57,6 +59,22 @@ const AccountInfo = () => {
                       <Image source = { showPhone ? require("../assets/white_eye_closed.png") : require("../assets/white_eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => navigation.navigate("ModificationPhoneNumber")}>
+                      <Image source = {require("../assets/white_parameters.png")} style = {{height : 25, width : 25}}/>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+          <View style = {{justifyContent : "flex-start", paddingBottom: 15}}>
+            <Text style = {{fontSize : 15, fontWeight : 'bold', color : "#fff"}}>Email : </Text>
+            <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
+              <View style = {{flex : 0.65, justifyContent : "center"}}>
+                  <Text style = {{color : "#fff"}}> {showEmail ? route.params.email :"• ".repeat(route.params.email.length)}</Text>
+              </View>
+              <View style = {{flexDirection : "row", flex : 0.35, justifyContent : "space-around"}}>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => setShowEmail(! showEmail)}>
+                      <Image source = { showEmail ? require("../assets/white_eye_closed.png") : require("../assets/white_eye.png")} style = {{height : 25, width : 25}}/>
+                </Pressable>
+                <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => navigation.navigate("ModificationEmail")}>
                       <Image source = {require("../assets/white_parameters.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
               </View>

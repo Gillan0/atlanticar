@@ -8,10 +8,6 @@ export default function ModificationPasswordScreen({route}) {
     const navigation = useNavigation();
     const [password, setPassword] = useState('');
     function ModificationPassword() {
-        if (password) {
-            Alert.alert("Désolé !", "Merci de renseigner un mot de passe valide")
-            return;
-        }
 
         const dataToSend = {
             id: route.params.id,
