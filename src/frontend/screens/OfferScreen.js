@@ -1,18 +1,11 @@
-import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert, TextInput, Image} from "react-native";
+import {View, StyleSheet, Pressable, ScrollView, StatusBar, Image} from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-import React, {useState, useRef, useCallback} from 'react';
+import React, {useState} from 'react';
 import OfferItem from "../components/OfferItem.js";
 import SearchItem from "../components/SearchItem.js";
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
 import endScrollReached from "../components/endScrollReached.js";
-
-/*
-Gray : #cbcbcb
-Light blue : #00b8de
-Dark blue : #0c2340
-Green : #99cc33
-*/ 
 
 export default function OfferScreen({route}) { 
   const navigation = useNavigation();
@@ -92,7 +85,6 @@ export default function OfferScreen({route}) {
           <SearchItem request={request} type="offer"/>
             {shownOffers.map((item) =>   <OfferItem key ={item.id}
                                       account = {route.params}
-                                      style = {styles.offerItemDetails} 
                                       offer = {item}
                                       />)}
             <View style = {{backgroundColor : "white", flex : 1, padding : 50}}/>
@@ -111,58 +103,3 @@ export default function OfferScreen({route}) {
     </View>
     );
 };
-
-
-const styles = StyleSheet.create({
-  offerItemContainer : {
-    colorInactiveTitle : "#00b8de",
-    colorActiveTitle : "#99cc33",
-    titleSize : 15,
-    titleColor : "#ffffff",
-    titleBorderRadius : 10,
-    titlePadding : 10,
-    margin : 7,
-    childrenPadding : 10,
-    childrenBorderRadius : 10,
-    childrenBackgroundColor : "#55fcff"
-  },
-  offerItemDetails : {
-    buttonColor : "#ddb500",
-    textFontSize :  15,
-    textColor : "#000000"
-  },
-  input : {
-    height: 30,
-    margin: 12,
-    borderWidth: 1,
-    padding: 5,
-    paddingLeft : 7,
-    paddingRight : 7,
-    borderRadius : 10,
-    flex : 1
-  },
-  createItemTitle : {
-    colorInactiveTitle : "#ddb500",
-    colorActiveTitle : "#ddb500",
-    titleSize : 15,
-    titleColor : "#ffffff",
-    titleBorderRadius : 10,
-    titlePadding : 10,
-    margin : 5,
-    childrenPadding : 10,
-    childrenBorderRadius : 10,
-    childrenBackgroundColor : "#fff"
-  },
-  filterItemTitle : {
-    colorInactiveTitle : "#a9a9a9",
-    colorActiveTitle : "#a9a9a9",
-    titleSize : 15,
-    titleColor : "#ffffff",
-    titleBorderRadius : 0,
-    titlePadding : 10,
-    margin : 0,
-    childrenPadding : 10,
-    childrenBorderRadius : 10,
-    childrenBackgroundColor : "#fff"
-  }
-});
