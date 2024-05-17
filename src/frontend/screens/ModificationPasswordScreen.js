@@ -70,9 +70,6 @@ export default function ModificationPasswordScreen({route}) {
 }
 
 const styles = StyleSheet.create({
-    destinations : {
-        backgroundColor : "#aaaaaa"
-    },
     input : {
         borderWidth : 1,
         marginVertical : 10,
