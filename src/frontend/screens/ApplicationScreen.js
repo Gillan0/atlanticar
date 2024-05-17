@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, TextInput, FlatList} from "react-native";
+import {View, ScrollView, StatusBar} from "react-native";
 import React, {useState} from 'react';
 import ApplicationItem from "../components/ApplicationItem";
 import { useFocusEffect } from '@react-navigation/native';

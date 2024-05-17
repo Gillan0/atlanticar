@@ -21,7 +21,6 @@ export default function LoginScreen() {
             return;
         }
 
-
         const dataToSend = {
             id: prompts[0],
             password: prompts[1],

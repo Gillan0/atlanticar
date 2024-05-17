@@ -1,14 +1,8 @@
-import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert, TextInput, Image} from "react-native";
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import React, {useState, useRef, useCallback} from 'react';
+import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Alert, TextInput, Image} from "react-native";
+import {useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import url from "../components/url.js";
-/*
-Gray : #cbcbcb
-Light blue : #00b8de
-Dark blue : #0c2340
-Green : #99cc33
-*/ 
 
 function isValidPrice(str) {
   if (str == '') {
@@ -249,23 +243,6 @@ export default function ModifyAnnouncementScreen({route}) {
 };
 
 const styles = StyleSheet.create({
-  offerItemContainer : {
-    colorInactiveTitle : "#efefef",
-    colorActiveTitle : "#efefef",
-    titleSize : 15,
-    titleColor : "#000",
-    titleBorderRadius : 10,
-    titlePadding : 10,
-    margin : 7,
-    childrenPadding : 10,
-    childrenBorderRadius : 10,
-    childrenBackgroundColor : "#efefef"
-  },
-  offerItemDetails : {
-    buttonColor : "#ddb500",
-    textFontSize :  15,
-    textColor : "#000000"
-  },
   input : {
     height: 30,
     margin: 6,

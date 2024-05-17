@@ -1,21 +1,19 @@
-import { View, Text, StatusBar, ScrollView, Alert } from "react-native";
+import { View, StatusBar, ScrollView} from "react-native";
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import url from "../components/url";
+import NotificationItem from "../components/NotificationItem";
 
-// Composant pour une notification individuelle
-const NotificationItem = (props) => {
-  return (
-    <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd' }}>
-      <Text style={{ fontSize: 12, color: 'black' }}>Le {props.notification.date.substring(8,10)}/{props.notification.date.substring(5,7)}/{props.notification.date.substring(2,4)} à {props.notification.date.substring(11,13)}h{props.notification.date.substring(14,16)}</Text>
-      <Text style={{ fontSize: 18, color: 'black' }}>{props.notification.message}</Text>
-    </View>
-  );
-};
-
-export default function NotificationScreen({ route }) {
+/**
+ * Écran affichant les notifications d'un utilisateur
+ * @returns 
+ */
+function NotificationScreen({ route }) {
   const [notifications, setNotifications] = useState([]);
-
+  
+  /**
+   * Gère la requête serveur afin d'obtenir les notifications
+   */
   const getNotifications = async () => {
     const dataToSend = {
       id: route.params.id,
@@ -67,3 +65,5 @@ export default function NotificationScreen({ route }) {
     </View>
   );
 }
+
+export default NotificationScreen;
