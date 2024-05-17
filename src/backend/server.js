@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
 
 const mailOptions = {
     from: {
-            name: "Atlanticar Services", 
+            name: "AtlantiCar Services", 
             address: "atlanticarservices@gmail.com"
     },
     to: [],
@@ -261,7 +261,7 @@ function interpret(data) {
         case ('mot_de_passe_oublie'):
             const prenom = data.parameters[0];
             const nom = data.parameters[1];
-            const email = `${prenom}.${nom}@imt-atlantique.net`;
+            const email = `${prenom.toLowerCase()}.${nom.toLowerCase()}@imt-atlantique.net`;
             mailOptions.to = [email];
             sendMail(transporter, mailOptions);
             return [[`
