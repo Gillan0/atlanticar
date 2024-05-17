@@ -88,7 +88,7 @@ create table notification
 );
 
 #ajout de 6 profiles
-insert into account (user,password,phone_number) values ('JC','1234','06 12 34 56 78', 'jc.jean@gmail.com'),('Jean-Eude','1234','06 00 00 00 00','je.jeude@gmail.com'),
+insert into account (user,password,phone_number, email) values ('JC','1234','06 12 34 56 78', 'jc.jean@gmail.com'),('Jean-Eude','1234','06 00 00 00 00','je.jeude@gmail.com'),
 ('Eugène','1234','06 11 11 11 11', 'eugene.gene@gmail.com'),('Jean Michel IV', '2146','06 69 96 69 96', 'jeanmi.chel@gmail.com'),('Albert', 'alibaba','06 69 96 69 96', 'ali.baba@gmail.com'),
 ('Tanya', 'Evil','06 66 66 66 66', 'ta.nya@gmail.com');
 
