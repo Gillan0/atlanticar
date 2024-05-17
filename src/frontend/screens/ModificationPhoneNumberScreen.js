@@ -88,9 +88,6 @@ export default function ModificationPhoneNumberScreen({route}) {
 }
 
 const styles = StyleSheet.create({
-    destinations : {
-        backgroundColor : "#aaaaaa"
-    },
     input : {
         borderWidth : 1,
         marginVertical : 10,

@@ -114,9 +114,6 @@ export default function SignUpScreen(){
 }
 
 const styles = StyleSheet.create({
-    destinations : {
-        backgroundColor : "#aaaaaa"
-    },
     input : {
         borderWidth : 1,
         marginVertical : 10,
