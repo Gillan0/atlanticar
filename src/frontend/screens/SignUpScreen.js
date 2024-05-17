@@ -43,9 +43,8 @@ export default function SignUpScreen(){
             id: prompts[0],
             password: prompts[1],
             phone_number : prompts[2].match(/.{1,2}/g).join(' '),
-            email: prompts[3].replace(/\s/g, ''),
             command : "signUp",
-            parameters : [prompts[0], prompts[1], prompts[2].match(/.{1,2}/g).join(' '), prompts[3].replace(/\s/g, '')]
+            parameters : [prompts[0], prompts[1], prompts[2].match(/.{1,2}/g).join(' ')]
         };
 
         //Options de la requête
@@ -70,7 +69,7 @@ export default function SignUpScreen(){
             console.log(data)
             if (data[0].affectedRows == 1) {
                 Alert.alert('Votre compte est bien crée !', 'Bienvenue sur Atlanticar !');
-                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2].match(/.{1,2}/g).join(' '), email: prompts[3].replace(/\s/g, '')})
+                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2].match(/.{1,2}/g).join(' ')})
             } else {
                 Alert.alert('Erreur ! Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
             }
@@ -101,12 +100,6 @@ export default function SignUpScreen(){
                     <TextInput  value = {prompts[2] ? prompts[2].match(/.{1,2}/g).join(' ') : ''}
                                 style={styles.input}
                                 onChangeText={(text) => changePrompts(text.replace(/\s/g, ''), 2)}/>
-                </View>
-                <View>
-                    <Text style={styles.text}>Email: </Text>
-                    <TextInput  value = {prompts[3] ? prompts[3].replace(/\s/g, ''): ''}
-                                style={styles.input}
-                                onChangeText={(text) => changePrompts(text.replace(/\s/g, ''), 3)}/>
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> SignUp()}>

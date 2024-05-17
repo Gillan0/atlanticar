@@ -1,20 +1,26 @@
-import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} from "react-native";
+import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
 import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
 
-export default function ModificationEmailScreen({route}) {
+export default function ForgotPasswordScreen({route}){
     
     const navigation = useNavigation();
-    const [email, setEmail] = useState('');
+    const [prompts, setPrompts] = useState(['','']);
+    function changePrompts(text,index) {
+        const newPrompts = [...prompts];
+        newPrompts[index] = text.trim(); 
+        setPrompts(newPrompts);
+    }
 
-    function ModificationEmail() {
+    function ForgotPassword() {
 
         const dataToSend = {
-            id: route.params.id,
-            password: route.params.password,
-            command : "modify_email",
-            parameters : [email.replace(/\s/g, '')]
+            prenom: prompts[0],
+            nom: prompts[1],
+            user: prompts[2],
+            command : "mot_de_passe_oublie",
+            parameters : [prompts[0], prompts[1], prompts[2]]
           };
           
           // Options de la requête
@@ -30,7 +36,7 @@ export default function ModificationEmailScreen({route}) {
           fetch(url, requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    Alert.alert("PAS DE MODIFICATION")
+                    Alert.alert("PAS DE REINITIALISATION")
                     throw new Error('Erreur lors de la requête.');
                 }
                 return response.json(); // Renvoie les données JSON de la réponse
@@ -38,9 +44,8 @@ export default function ModificationEmailScreen({route}) {
             .then(data => {
                 console.log(data)
                 if (data[0].affectedRows == 1) {
-                    Alert.alert("Votre addresse mail a bien été modifié");
+                    Alert.alert("Un mail sur votre addresse Zimbra vous a été envoyé avec un nouveau mot de passe");
                     navigation.goBack()
-                    navigation.replace("Account", {...route.params, email: email})
                 } else {
                     console.log("Refusé")
                 }
@@ -51,23 +56,36 @@ export default function ModificationEmailScreen({route}) {
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
-          <StatusBar backgroundColor="#99cc33"/>  
+          <StatusBar backgroundColor="#99cc33"/> 
+          <ScrollView>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
-                    <Text style={styles.text}>Veuillez entrer votre nouvelle addresse mail:</Text>
+                    <Text style={styles.text}>Veuillez entrer votre nom d'utilisateur:</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => setEmail(text.trim())}/>
+                                onChangeText={(text) => changePrompts(text, 2)}/>
+                </View>
+                <View>
+                    <Text style={styles.text}>Veuillez entrer votre prenom:</Text>
+                    <TextInput  style={styles.input}
+                                onChangeText={(text) => changePrompts(text, 0)}/>
+                </View>
+                <View>
+                    <Text style={styles.text}>Veuillez entrer votre nom:</Text>
+                    <TextInput  style={styles.input}
+                                onChangeText={(text) => changePrompts(text, 1)}/>
                 </View>
                 <View style = {styles.button}>
-                    <Pressable onPress = {()=> ModificationEmail()}>
-                        <Text style = {styles.buttonText}> Modifier mon email </Text>
+                    <Pressable onPress = {()=> ForgotPassword()}>
+                        <Text style = {styles.buttonText}>Réinitialiser mon mot de passe</Text>
                     </Pressable>
                 </View>
             </View>
+            </ScrollView> 
         </View>
     )
-}
+ }
+
 
 const styles = StyleSheet.create({
     destinations : {
@@ -109,3 +127,4 @@ const styles = StyleSheet.create({
         padding : 10
     }
 })
+

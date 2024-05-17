@@ -86,7 +86,7 @@ export default function LoginScreen() {
                     <Pressable onPress={()=>  navigation.navigate('SignUp')}>    
                         <Text style = {{color : "#656565"}}>Créer un compte</Text>
                     </Pressable>
-                    <Pressable onPress={()=> Alert.alert("Fonctionalité à ajouter","Lors de la V3")}>    
+                    <Pressable onPress={()=> navigation.navigate('ForgotPassword')}>    
                         <Text style = {{color : "#0000ee", textDecorationLine : "underline"}}>Mot de passe oublié ?</Text>
                     </Pressable>
                 </View>
