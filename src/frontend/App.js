@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import MainHub from './hubs/MainHub.js';
 import SignUpScreen from './screens/SignUpScreen.js';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen.js';
 /* 
 Gray : #cbcbcb
 Light blue : #00b8de
@@ -32,6 +33,18 @@ export default function App() {
                       component={SignUpScreen}
                       options = {{
                       title : "Créer mon compte",
+                      headerTintColor: "#fff",
+                      headerStyle : {
+                        backgroundColor : "#0c2340"
+                      },
+                      headerTitleStyle : {
+                        fontWeight : "bold",
+                        color : "#fff"
+                      }}}/>
+        <Stack.Screen name = "ForgotPassword"
+                      component={ForgotPasswordScreen}
+                      options = {{
+                      title : "Réinitialisation du mot de passe",
                       headerTintColor: "#fff",
                       headerStyle : {
                         backgroundColor : "#0c2340"

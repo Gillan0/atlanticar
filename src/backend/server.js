@@ -1,6 +1,10 @@
 const http = require('http');
 const port = 3000;
 const mysql = require('mysql');
+const nodemailer = require("nodemailer");
+require("dotenv").config();
+const path = require("path");
+const new_password = Math.random().toString(36).substr(2, 12);
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -9,6 +13,39 @@ const connection = mysql.createConnection({
     password: 'Ps1d4f9x28Clq5TbN6X810z',
     database: 'atlanticar'
 })
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // Use `true` for port 465, `false` for all other ports
+    auth: {
+      user: "atlanticarservices@gmail.com",
+      pass: "nlkeyzfikaigmlkz",
+    },
+  })
+
+const mailOptions = {
+    from: {
+            name: "Atlanticar Services", 
+            address: "atlanticarservices@gmail.com"
+    },
+    to: [],
+    subject: "Mot de passe oublié",
+    text: "Voici votre nouveau mot de passe: " + new_password,
+    html: "<b>Voici votre nouveau mot de passe: " + new_password + "</b>",
+}
+
+
+const sendMail = async (transporter, mailOptions) => {
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("Email has been sent !");
+    }  catch (error) {
+        console.error(error);
+    }
+}
+
 
 connection.connect((err) => {
     if (err) {
@@ -205,7 +242,7 @@ function interpret(data) {
                 WHERE
                     user = ?
                     AND password = ?;
-                `,`SELECT phone_number, email FROM account WHERE user = ? AND password = ?;`],
+                `,`SELECT phone_number FROM account WHERE user = ? AND password = ?;`],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
         case  ('modify_password'):
@@ -221,12 +258,19 @@ function interpret(data) {
                 WHERE id = ? AND password = ?;`],
             [[data.parameters[0], data.id, data.password]]]
         
-        case ('modify_email'):
-            return [[
-                `UPDATE account
-                SET email = ?
-                WHERE id = ? AND password = ?;`],
-            [[data.parameters[0], data.id, data.password]]]
+        case ('mot_de_passe_oublie'):
+            const prenom = data.parameters[0];
+            const nom = data.parameters[1];
+            const email = `${prenom}.${nom}@imt-atlantique.net`;
+            mailOptions.to = [email];
+            sendMail(transporter, mailOptions);
+            return [[`
+                    UPDATE account
+                    SET password = ?
+                    WHERE user = ?;
+            `],
+            [[new_password, data.parameters[2]]]];
+
 
         case ('signUp'):
             return [[`
@@ -240,6 +284,7 @@ function interpret(data) {
             [
                 [data.parameters[0], data.parameters[1], data.parameters[2], data.parameters[3], data.parameters[0], data.parameters[2]]
             ]];
+
 
         case ('get_announcements_requests') :
             return [[`
