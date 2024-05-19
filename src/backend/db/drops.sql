@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS offer_client;
+DROP TABLE IF EXISTS apply_offer;
+DROP TABLE IF EXISTS apply_request;
+
+DROP TABLE IF EXISTS offer;
+DROP TABLE IF EXISTS request;
+DROP TABLE IF EXISTS account;
+
+DROP DATABASE atlanticar;
