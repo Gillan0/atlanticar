@@ -16,11 +16,10 @@ export default function ForgotPasswordScreen({route}){
     function ForgotPassword() {
 
         const dataToSend = {
-            prenom: prompts[0],
-            nom: prompts[1],
-            user: prompts[2],
+            user: prompts[0],
+            email: prompts[1],
             command : "mot_de_passe_oublie",
-            parameters : [prompts[0], prompts[1], prompts[2]]
+            parameters : [prompts[0], prompts[1]]
           };
           
           // Options de la requête
@@ -44,7 +43,7 @@ export default function ForgotPasswordScreen({route}){
             .then(data => {
                 console.log(data)
                 if (data[0].affectedRows == 1) {
-                    Alert.alert("Un mail sur votre addresse Zimbra vous a été envoyé avec un nouveau mot de passe");
+                    Alert.alert("Un mail sur votre addresse IMT vous a été envoyé avec un nouveau mot de passe");
                     navigation.goBack()
                 } else {
                     console.log("Refusé")
@@ -63,15 +62,10 @@ export default function ForgotPasswordScreen({route}){
                 <View>
                     <Text style={styles.text}>Veuillez entrer votre nom d'utilisateur:</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 2)}/>
-                </View>
-                <View>
-                    <Text style={styles.text}>Veuillez entrer votre prenom:</Text>
-                    <TextInput  style={styles.input}
                                 onChangeText={(text) => changePrompts(text, 0)}/>
                 </View>
                 <View>
-                    <Text style={styles.text}>Veuillez entrer votre nom:</Text>
+                    <Text style={styles.text}>Veuillez entrer votre addresse mail IMT:</Text>
                     <TextInput  style={styles.input}
                                 onChangeText={(text) => changePrompts(text, 1)}/>
                 </View>
