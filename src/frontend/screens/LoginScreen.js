@@ -60,69 +60,46 @@ export default function LoginScreen() {
             });  
     }
     return (
-        <View style = {{flex : 1, backgroundColor : "white"}}>
-          <StatusBar backgroundColor="#99cc33"/> 
-            <ScrollView>
-            <View style = {styles.formContainer}>
-                <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
-                <View>
-                    <Text style={styles.text}>Nom d'utilisateur</Text>
-                    <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
+            <StatusBar backgroundColor="#99cc33" />
+            <ScrollView contentContainerStyle={styles.container}>
+                <View style={styles.formContainer}>
+                    <Image source={require("../assets/logo.jpg")} style={styles.logo} />
+                    <View>
+                        <Text style={styles.text}>Nom d'utilisateur</Text>
+                        <TextInput style={styles.input}
+                            onChangeText={(text) => changePrompts(text, 0)} />
+                    </View>
+                    <View>
+                        <Text style={styles.text}>Mot de passe</Text>
+                        <TextInput style={styles.input}
+                            secureTextEntry={true}
+                            onChangeText={(text) => changePrompts(text, 1)} />
+                    </View>
+                    <View style={styles.button}>
+                        <Pressable onPress={() => signIn()}>
+                            <Text style={styles.buttonText}> Se connecter </Text>
+                        </Pressable>
+                    </View>
+                    <View style={styles.linksContainer}>
+                        <Pressable onPress={() => navigation.navigate('SignUp')}>
+                            <Text style={[styles.linkText, { color: "#00b8de" }]}>Créer un compte</Text>
+                        </Pressable>
+                        <Pressable onPress={() => navigation.navigate('ForgotPassword')}>
+                            <Text style={[styles.linkText, { color: "#00b8de" }]}>Mot de passe oublié ?</Text>
+                        </Pressable>
+                    </View>
                 </View>
-                <View>
-                    <Text style={styles.text}>Mot de passe</Text>
-                    <TextInput  style={styles.input}
-                                secureTextEntry={true}
-                                onChangeText={(text) => changePrompts(text, 1)}/>
-                </View>
-                <View style = {styles.button}>
-                    <Pressable onPress = {()=>signIn()}>
-                        <Text style = {styles.buttonText}> Se connecter </Text>
-                    </Pressable>
-                </View>
-                <View style = {{alignItems : "center"}}>
-                    <Pressable onPress={()=>  navigation.navigate('SignUp')}>    
-                        <Text style = {{color : "#656565"}}>Créer un compte</Text>
-                    </Pressable>
-                    <Pressable onPress={()=> navigation.navigate('ForgotPassword')}>    
-                        <Text style = {{color : "#0000ee", textDecorationLine : "underline"}}>Mot de passe oublié ?</Text>
-                    </Pressable>
-                </View>
-            </View>
-            </ScrollView> 
+            </ScrollView>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    destinations : {
-        backgroundColor : "#aaaaaa"
-    },
-    input : {
-        borderWidth : 1,
-        marginVertical : 10,
-        borderRadius : 10,
-        paddingHorizontal : 10
-    },
-    text : {
-        maxHeight: 30,
-        fontSize : 15,
-        color : '#000000', 
-        alignSelf : "flex-start"
-    },
-    buttonText : {
-        color : "#ffffff",
-        fontSize : 18,
-        fontWeight : 'bold'
-    },
-    button: {
-        margin : 10,
-        borderRadius: 10,
-        padding: 5,
-        backgroundColor: "#00b8de",
-        elevation : 5,
-        alignSelf : "center"
+    container: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     formContainer : {
         backgroundColor : "#fff",
@@ -133,5 +110,44 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         elevation: 5,
         padding : 10
+    },
+    logo: {
+        height : 200,
+        width : 300,
+        alignSelf : "center"
+    },
+    text : {
+        fontSize : 15,
+        color : '#000000', 
+        alignSelf : "flex-start"
+    },
+    input : {
+        borderWidth : 1,
+        marginVertical : 10,
+        borderRadius : 10,
+        paddingHorizontal : 10
+    },
+    button: {
+        margin : 10,
+        borderRadius: 10,
+        padding: 5,
+        backgroundColor: "#00b8de",
+        elevation : 5,
+        alignSelf : "center"
+    },
+    buttonText : {
+        color : "#ffffff",
+        fontSize : 18,
+        fontWeight : 'bold'
+    },
+    linksContainer: {
+        alignItems : "center",
+        marginTop: 20
+    },
+    linkText: {
+        color : "#656565",
+        textDecorationLine : "underline",
+        marginVertical: 5
     }
-})
+});
+
