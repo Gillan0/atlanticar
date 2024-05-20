@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const path = require("path");
-const new_password = Math.random().toString(36).substr(2, 12);
+const new_password = "";
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -266,9 +266,12 @@ function interpret(data) {
             [[data.parameters[0], data.id, data.password]]]
         
         case ('mot_de_passe_oublie'):
+            const new_password = Math.random().toString(36).substr(2, 12);
             const user = data.parameters[0];
             const email = data.parameters[1];
             mailOptions.to = [email];
+            mailOptions.text = "Voici votre nouveau mot de passe: " + new_password;
+            mailOptions.html = "<b>Voici votre nouveau mot de passe: " + new_password + "</b>",
             sendMail(transporter, mailOptions);
             return [[`
                     UPDATE account
