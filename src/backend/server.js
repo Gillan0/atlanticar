@@ -242,7 +242,7 @@ function interpret(data) {
                 WHERE
                     user = ?
                     AND password = ?;
-                `,`SELECT phone_number FROM account WHERE user = ? AND password = ?;`],
+                `,`SELECT phone_number, email FROM account WHERE user = ? AND password = ?;`],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
         case  ('modify_password'):
@@ -255,6 +255,13 @@ function interpret(data) {
             return [[
                 `UPDATE account
                 SET phone_number = ?
+                WHERE id = ? AND password = ?;`],
+            [[data.parameters[0], data.id, data.password]]]
+        
+        case ('modify_email'):
+            return [[
+                `UPDATE account
+                SET email = ?
                 WHERE id = ? AND password = ?;`],
             [[data.parameters[0], data.id, data.password]]]
         
