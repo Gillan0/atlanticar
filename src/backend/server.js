@@ -266,9 +266,8 @@ function interpret(data) {
             [[data.parameters[0], data.id, data.password]]]
         
         case ('mot_de_passe_oublie'):
-            const prenom = data.parameters[0];
-            const nom = data.parameters[1];
-            const email = `${prenom.toLowerCase()}.${nom.toLowerCase()}@imt-atlantique.net`;
+            const user = data.parameters[0];
+            const email = data.parameters[1];
             mailOptions.to = [email];
             sendMail(transporter, mailOptions);
             return [[`
@@ -276,7 +275,7 @@ function interpret(data) {
                     SET password = ?
                     WHERE user = ?;
             `],
-            [[new_password, data.parameters[2]]]];
+            [[new_password, data.parameters[0]]]];
 
 
         case ('signUp'):
