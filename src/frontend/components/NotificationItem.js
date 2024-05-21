@@ -1,3 +1,7 @@
+import {View, Image, StyleSheet, Text, Pressable, StatusBar, Alert, ScrollView} from "react-native";
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 // Composant pour une notification individuelle
 export default NotificationItem = (props) => {
     return (
