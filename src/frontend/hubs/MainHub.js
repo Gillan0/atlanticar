@@ -11,7 +11,7 @@ Light blue : #00b8de
 Dark blue : #0c2340
 Green : #99cc33
 */
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 export default function MainHub({route}) {
   return (

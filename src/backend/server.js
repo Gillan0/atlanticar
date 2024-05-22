@@ -232,7 +232,7 @@ function interpret(data) {
             return [[`
                 SELECT
                     (CASE
-                        WHEN EXISTS (SELECT * FROM account WHERE user = ? AND password = ?)
+                        WHEN EXISTS (SELECT * FROM account WHERE email = ? AND password = ?)
                             THEN 'TRUE'
                         ELSE
                             'FALSE'
@@ -240,9 +240,9 @@ function interpret(data) {
                     id
                 FROM account
                 WHERE
-                    user = ?
+                    email = ?
                     AND password = ?;
-                `,`SELECT phone_number, email FROM account WHERE user = ? AND password = ?;`],
+                `,`SELECT phone_number, user FROM account WHERE email = ? AND password = ?;`],
                 [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
         
         case  ('modify_password'):
@@ -282,6 +282,12 @@ function interpret(data) {
 
 
         case ('signUp'):
+            const email2 = data.parameters[3];
+            mailOptions.subject = "Création de votre compte AtlantiCar",
+            mailOptions.to = [email2];
+            mailOptions.text = "Bienvenue sur AtlantiCar ! Nous vous annonçons que votre compte est bien crée !";
+            mailOptions.html = "<b>Bienvenue sur AtlantiCar ! Nous vous annonçons que votre compte est bien crée !</b>",
+            sendMail(transporter, mailOptions);
             return [[`
                 INSERT INTO account (user, password, phone_number, email)
                 SELECT ?, ?, ?, ? FROM DUAL

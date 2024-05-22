@@ -3,15 +3,24 @@ import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, S
 import React, {useState} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
+import { useRef } from 'react';
+// Ecran de creation de compte
+// import  { useState, useRef } from 'react';
 
 export default function SignUpScreen(){
+
     const navigation = useNavigation();
-    const [prompts, setPrompts] = useState(['','', '']);
-    function changePrompts(text,index) {
+
+    const scrollViewRef = useRef(null);
+    const [prompts, setPrompts] = useState(['', '', '']);
+
+    function changePrompts(text, index) {
         const newPrompts = [...prompts];
+        newPrompts[index] = text.trim();
         newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
+
     function SignUp() {
 
         //Verification des contraintes textuelles 
@@ -19,35 +28,38 @@ export default function SignUpScreen(){
             Alert.alert('Erreur !', 'Le nom d\'utilisateur et/ou le mot de passe ne peut pas dépasser 15 caractères.');
             return;
         }
-
         if (prompts[2].length !== 10 && prompts[1].length !== 0) {
             Alert.alert('Erreur !', 'Le numéro de téléphone ne peut pas dépasser 10 caractères.');
             return;
         }
-
-        if (!prompts[0] || !prompts[1] || !prompts[2] || prompts[3]) {
+        if (!prompts[0] || !prompts[1] || !prompts[2] || !prompts[3]) {
             Alert.alert('Erreur !', 'Veuillez remplir tous les champs.');
             return;
         }
-
         function neContientQueDesChiffres(saisie) {
             return /^\d+$/.test(saisie);
         }
-
+        
+        function ContientlecaractèreIMT(saisie){
+            return saisie.includes("@imt-atlantique.net");
+        }
+        
         if (!neContientQueDesChiffres(prompts[2])) {
             Alert.alert('Erreur !', 'Le numéro de téléphone doit contenir uniquement des chiffres.');
             return;
         }
-
+        if(!ContientlecaractèreIMT(prompts[3])){
+            Alert.alert('Erreur !', 'L\'adresse mail doit être une adresse mail IMT.');
+            return;
+        }
         const dataToSend = {
             id: prompts[0],
-            password: prompts[1],
+            password: prompts[1].replace(/ /g, ''),
             phone_number : prompts[2].match(/.{1,2}/g).join(' '),
             email: prompts[3],
             command : "signUp",
-            parameters : [prompts[0], prompts[1], prompts[2].match(/.{1,2}/g).join(' '), prompts[3]]
+            parameters : [prompts[0], prompts[1].replace(/ /g, ''), prompts[2].match(/.{1,2}/g).join(' '), prompts[3]]
         };
-
         //Options de la requête
         const requestOptions = {
             method: 'POST',
@@ -80,9 +92,12 @@ export default function SignUpScreen(){
         });  
     }
     return (
+        
         <View style = {{flex : 1, backgroundColor : "white"}}>
           <StatusBar backgroundColor="#99cc33"/>  
-          <ScrollView>
+          <ScrollView 
+        contentContainerStyle={{flexGrow: 1}}
+        ref={scrollViewRef}>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
@@ -102,10 +117,11 @@ export default function SignUpScreen(){
                                 style={styles.input}
                                 onChangeText={(text) => changePrompts(text.replace(/\s/g, ''), 2)}/>
                 </View>
-                <View>
+                <View style={{flex: 1}}>
                     <Text style={styles.text}>Adresse mail IMT</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 3)}/>
+                                onChangeText={(text) => changePrompts(text, 3)}
+                                onFocus={() => scrollViewRef.current.scrollToEnd({animated: true})}/>
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> SignUp()}>
@@ -116,7 +132,6 @@ export default function SignUpScreen(){
             </ScrollView>
         </View>
     )
-
 }
 
 const styles = StyleSheet.create({
