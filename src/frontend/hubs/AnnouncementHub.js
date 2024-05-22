@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OfferScreen from "../screens/OfferScreen.js"
 import CreateAnnouncementScreen from "../screens/CreateAnnouncementScreen.js"
 import RequestScreen from '../screens/RequestScreen.js';
+import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
 
 /* 
 Gray : #cbcbcb
@@ -30,10 +31,19 @@ export default function AnnouncementHub({route}) {
             headerTitleStyle : {
               fontWeight : "bold",
               color : "#fff"
-            }
+            },
+            headerRight: () => (
+             <Pressable onPress={() => Alert.alert('Principe des offres', '• Si vous possédez une voiture, vous pouvez créer une offre. \n • Si vous cherchez un conducteur pour votre destination, vous pouvez candidater !')}>
+              <Image
+                source={require('../assets/blue_info.png')}
+                style={{ width: 75, height: 35, marginRight: 45 }}
+                resizeMode="contain"
+              />
+            </Pressable>
+            )
         }}
         />
-        <Stack.Screen 
+          <Stack.Screen 
             name = "CreateOffer" 
             component={CreateAnnouncementScreen}
             initialParams={route.params}
@@ -68,7 +78,16 @@ export default function AnnouncementHub({route}) {
             headerTitleStyle : {
               fontWeight : "bold",
               color : "#fff"
-            }
+            },
+            headerRight: () => (
+              <Pressable onPress={() => Alert.alert('Principe des reqêtes', '• Si vous chercher un voiture pour votre trajet, vous pouvez créer une requête. \n • Si vous cherchez des passagers pour votre destination, vous pouvez candidater !')}>
+               <Image
+                 source={require('../assets/blue_info.png')}
+                 style={{ width: 75, height: 35, marginRight: 45 }}
+                 resizeMode="contain"
+               />
+             </Pressable>
+             )
         }}
         />
         <Stack.Screen 

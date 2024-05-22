@@ -12,8 +12,14 @@ export default function LoginScreen() {
         setPrompts(newPrompts);
     }
     function signIn() {
+        
+        function ContientlecaractèreIMT(saisie){
+            return saisie.includes("@imt-atlantique.net");
+        }
+
+
         if (prompts[0] == "") {
-            Alert.alert("Désolé !", "Merci de renseigner un nom d'utilisateur")
+            Alert.alert("Désolé !", "Merci de renseigner votre addresse mail IMT Atlantique")
             return;
         }
         if (prompts[1] == "") {
@@ -21,8 +27,13 @@ export default function LoginScreen() {
             return;
         }
 
+        if(!ContientlecaractèreIMT(prompts[0])){
+            Alert.alert('Erreur !', 'L\'adresse mail doit être une adresse mail IMT.');
+            return;
+        }
+
         const dataToSend = {
-            id: prompts[0],
+            email: prompts[0],
             password: prompts[1],
             command : "signIn",
             parameters : [prompts[0], prompts[1]]
@@ -49,7 +60,7 @@ export default function LoginScreen() {
             .then(data => {
                 console.log(data)
                     if (data[0][0].answer == "TRUE") {
-                        navigation.replace("Main", {id : data[0][0].id, username : prompts[0], password : prompts[1], phone_number : data[1][0].phone_number, email: data[1][0].email})
+                        navigation.replace("Main", {id : data[0][0].id, username : data[1][0].user, password : prompts[1], phone_number : data[1][0].phone_number, email: prompts[0]})
                 } else {
                     console.log("Refusé")
                 }
@@ -66,7 +77,7 @@ export default function LoginScreen() {
                 <View style={styles.formContainer}>
                     <Image source={require("../assets/logo.jpg")} style={styles.logo} />
                     <View>
-                        <Text style={styles.text}>Nom d'utilisateur</Text>
+                        <Text style={styles.text}>Addresse mail IMT</Text>
                         <TextInput style={styles.input}
                             onChangeText={(text) => changePrompts(text, 0)} />
                     </View>
