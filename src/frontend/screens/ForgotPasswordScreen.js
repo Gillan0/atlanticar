@@ -1,5 +1,5 @@
 import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import url from "../components/url.js";
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,11 +7,15 @@ export default function ForgotPasswordScreen({route}){
     
     const navigation = useNavigation();
     const [prompts, setPrompts] = useState(['','']);
+
+    const scrollContainer = useRef();
+
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
+
 
     function ForgotPassword() {
 
@@ -56,18 +60,33 @@ export default function ForgotPasswordScreen({route}){
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
           <StatusBar backgroundColor="#99cc33"/> 
-          <ScrollView>
+          <ScrollView ref = {scrollContainer}>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
                     <Text style={styles.text}>Veuillez entrer votre nom d'utilisateur:</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
+                                onChangeText={(text) => changePrompts(text, 0)}
+                                onPress={() => 
+                                {
+                                    if (scrollContainer.current) {
+                                        scrollContainer.current.scrollTo({y : 100, animated: true})
+                                    }
+                                }
+                                }   
+                                />
                 </View>
                 <View>
                     <Text style={styles.text}>Veuillez entrer votre addresse mail IMT:</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 1)}/>
+                                onChangeText={(text) => changePrompts(text, 1)}
+                                onPress={() => 
+                                {
+                                    if (scrollContainer.current) {
+                                        scrollContainer.current.scrollTo({y : 150, animated: true})
+                                    }
+                                }
+                                }  />
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> ForgotPassword()}>
@@ -75,6 +94,8 @@ export default function ForgotPasswordScreen({route}){
                     </Pressable>
                 </View>
             </View>
+            
+            <View style = {{flex: 1, height : 100}}/>
             </ScrollView> 
         </View>
     )
