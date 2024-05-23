@@ -13,7 +13,7 @@ CREATE TABLE account
     user 			varchar(30),
     password			varchar(30) NOT NULL,
     phone_number   	TEXT NOT NULL,
-    email varchar(30) NOT NULL,
+    email varchar(100) NOT NULL,
     primary key (id)
 );
 
