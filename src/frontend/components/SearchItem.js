@@ -37,6 +37,11 @@ const SearchItem = props => {
     const reset = () => {
         setInputs(['','',''])
         setDate(new Date())
+        if (props.type == "request") {
+            props.request("get_default_requests", 0, ['','','','9999'], true);
+        } else if (props.type == "offer") {
+            props.request("get_default_offers", 0, ['','','','9999'], true);
+        }
     }
 
     const [inputs, setInputs] = useState(['', '', '']);
@@ -44,7 +49,9 @@ const SearchItem = props => {
 
     const changeInputs = (text, index) => {
         const newInputs = [...inputs];
-        newInputs[index] = text.trim().toUpperCase(); 
+        newInputs[index] = text; 
+        console.log(inputs)
+        console.log(newInputs)
         setInputs(newInputs);
     };
     const toggle = () => {
@@ -63,11 +70,11 @@ const SearchItem = props => {
         } else {
             parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), inputs[2]]
         }
+        console.log(parameters)
         if (props.type == "request") {
-            props.request("get_filter_requests", parameters);
+            props.request("get_filter_requests", 0, parameters, true);
         } else if (props.type == "offer") {
-            console.log("filter_offer")
-            props.request("get_filter_offers", parameters);
+            props.request("get_filter_offers", 0,  parameters, true);
         }
         setInputs(['','',''])
     };
