@@ -48,4 +48,6 @@ const sendMail = async (transporter, mailOptions) => {
 
 }
 
-module.exports = transporter;
+exports.transporter = transporter;
+exports.mailOptions = mailOptions;
+exports.sendMail = sendMail;
