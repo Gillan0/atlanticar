@@ -13,9 +13,23 @@ export default ApplicationItem = props => {
     const dataToSend = {
       id: props.id,
       password: props.account.password,
-      command: props.content.type === 'offer' ? "delete_application_offer" : "delete_application_request",
       parameters: [[props.account.id, props.content.id, props.content.author],[props.content.author , props.account.username]],
     };
+
+    if (props.content.type === 'offer') {
+      if (props.content.state == 'True') {
+        dataToSend.command = "delete_confirmed_application_offer"
+      } else {
+        dataToSend.command = "delete_pending_application_offer"
+      }
+    } else {
+      if (props.content.state == 'True') {
+        dataToSend.command = "delete_confirmed_application_request"
+      } else {
+        dataToSend.command = "delete_pending_application_request"
+      }
+    }
+    console.log(dataToSend)
 
     // Envoi de la requête avec fetch
     fetch(url, {
@@ -49,7 +63,7 @@ export default ApplicationItem = props => {
         <View style = {styles.titleContainer}>
           <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
             <Text style = {styles.defaultText}>Par {props.content.author}</Text>
-            <Pressable onPress={()=>del()}>
+            <Pressable onPress={del}>
               <Image source={require('../assets/bin.png')} style={{ width: 30, height: 30}} />
             </Pressable>
           </View>
@@ -61,7 +75,7 @@ export default ApplicationItem = props => {
             </View>
             <View style = {{flexDirection : "column", flex : 1}}>
                     {
-                      props.content.state == "True" ? <Image source = {require("../assets/white_checkmark.png")} style={{height: 200, width : 200, right: 0, top : 30, position : "absolute"}}/>
+                      props.content.state == "True" ? <Image source = {require("../assets/pale_checkmark.png")} style={{height: 200, width : 200, right: 0, top : 30, position : "absolute"}}/>
                       : <Image source = {require("../assets/white_clock.png")} style={{height: 200, width : 200, right: 0, bottom : 0, position : "absolute"}}/>
                     }
                 <Text style = {styles.destinations}>De {props.content.departure}</Text>

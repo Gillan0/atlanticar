@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const path = require("path");
-const new_password = "";
+const new_password = Math.random().toString(36).substr(2, 12);
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -66,7 +66,7 @@ function interpret(data) {
     let passengers = [];
     let id_request;
     let conductor;
-    
+
     switch (data.command) {
         case ('get_default_offers') :
             return [[`
@@ -191,7 +191,7 @@ function interpret(data) {
                     SELECT client AS user FROM offer_client
                     WHERE id_offer = o.id
                     )
-                ORDER BY o.date;
+                ORDER BY o.date
                 LIMIT 20 OFFSET ?;
                 `],
                     [[data.id, data.id, 20*data.parameters[4]]]]
@@ -223,7 +223,8 @@ function interpret(data) {
                     UNION
                     SELECT client AS user FROM offer_client
                     WHERE id_offer = o.id
-                ORDER BY o.date;
+                    )
+                ORDER BY o.date
                 LIMIT 20 OFFSET ?;
                 `],
                 [[`%${data.parameters[0]}%`, `%${data.parameters[1]}%`, data.parameters[2], data.parameters[3], data.id, data.id, 20*data.parameters[4]]]]
@@ -258,27 +259,18 @@ function interpret(data) {
                 WHERE id = ? AND password = ?;`],
             [[data.parameters[0], data.id, data.password]]]
         
-        case ('modify_email'):
-            return [[
-                `UPDATE account
-                SET email = ?
-                WHERE id = ? AND password = ?;`],
-            [[data.parameters[0], data.id, data.password]]]
-        
         case ('mot_de_passe_oublie'):
-            const new_password = Math.random().toString(36).substr(2, 12);
-            const user = data.parameters[0];
-            const email = data.parameters[1];
+            const prenom = data.parameters[0];
+            const nom = data.parameters[1];
+            const email = `${prenom.toLowerCase()}.${nom.toLowerCase()}@imt-atlantique.net`;
             mailOptions.to = [email];
-            mailOptions.text = "Voici votre nouveau mot de passe: " + new_password;
-            mailOptions.html = "<b>Voici votre nouveau mot de passe: " + new_password + "</b>",
             sendMail(transporter, mailOptions);
             return [[`
                     UPDATE account
                     SET password = ?
                     WHERE user = ?;
             `],
-            [[new_password, data.parameters[0]]]];
+            [[new_password, data.parameters[2]]]];
 
 
         case ('signUp'):
@@ -563,15 +555,29 @@ function interpret(data) {
             `]
                 , [[data.id]]]
 
-        case ('delete_application_offer'):
+        case ('delete_pending_application_offer'):
             return [
                 ['DELETE FROM apply_offer WHERE candidate = ? AND id_offer = ? AND author = (SELECT a.id FROM account AS a WHERE a.user = ?)',
                 `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa candidature à une de vos offres'), false, NOW());`],
                 data.parameters]
-
-        case ('delete_application_request'):
+            
+        
+        case ('delete_confirmed_application_offer'):
             return [
-                ['DELETE FROM apply_request WHERE candidate = ? AND id_offer = ? AND author = (SELECT a.id FROM account AS a WHERE a.user = ?)',
+                ['DELETE FROM offer_client WHERE client = ? AND id_offer = ?;',
+                `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa participation à une de vos offres'), false, NOW());`],
+                data.parameters]
+        
+        case ('delete_pending_application_request'):
+            return [
+                ['DELETE FROM apply_request WHERE candidate = ? AND id_request = ? AND author = (SELECT a.id FROM account AS a WHERE a.user = ?)',
+                `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa candidature à une de vos requêtes'), false, NOW());`],
+                data.parameters]
+        
+        
+        case ('delete_confirmed_application_request'):
+            return [
+                ['UPDATE request SET conductor = NULL WHERE conductor = ? AND id = ?;',
                 `INSERT INTO notification VALUES (DEFAULT, (SELECT a.id FROM account AS a WHERE a.user = ?), CONCAT( ?, ' a annulé sa candidature à une de vos requêtes'), false, NOW());`],
                 data.parameters]
 
