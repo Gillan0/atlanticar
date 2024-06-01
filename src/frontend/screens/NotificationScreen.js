@@ -1,7 +1,7 @@
 import { View, StatusBar, ScrollView} from "react-native";
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import url from "../components/url";
+import url from "../misc/url";
 import NotificationItem from "../components/NotificationItem";
 
 /**

@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Button, Alert,
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import React, {useState, useRef, useCallback} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import url from "../components/url.js";
+import url from "../misc/url.js";
 /*
 Gray : #cbcbcb
 Light blue : #00b8de
