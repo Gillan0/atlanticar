@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar} from "react-na
 import React, {useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import CreatedItem from "../components/CreatedItem.js";
-import url from "../components/url.js";
+import url from "../misc/url.js";
 
 export default function AnnouncementScreen({route}) {
   const [shownAnnouncements,setShownAnnouncements] = useState({});
@@ -63,7 +63,8 @@ export default function AnnouncementScreen({route}) {
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
-          {Object.values(shownAnnouncements).map( (value, index) => (
+          {shownAnnouncements.length > 0 ? 
+            Object.values(shownAnnouncements).map( (value, index) => (
             <CreatedItem key = {index} 
                           content = {{type : route.params.type, 
                                       id : value.id,
@@ -80,7 +81,14 @@ export default function AnnouncementScreen({route}) {
                           username = {route.params.username}
                           password = {route.params.password}
                           />
-          ))}
+          )) 
+          : (
+            route.params.type == "offer" ? 
+              <Text style = {{alignSelf:"center", padding : 20, fontSize : 16}}> Vous n'avez créé aucune Offre </Text>
+              : 
+              <Text style = {{alignSelf:"center", padding : 20, fontSize : 16}}> Vous n'avez créé aucune Requête </Text>
+            )
+          }
         </ScrollView>
       </View>
   )

@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Alert, TextInp
 import {useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import url from "../components/url.js";
+import url from "../misc/url.js";
 
 function isValidPrice(str) {
   if (str == '') {
@@ -151,13 +151,6 @@ export default function ModifyAnnouncementScreen({route}) {
             <ScrollView>
             <View style = {{...styles.mainContainer}}>
                 <View style = {{...styles.titleContainer}}>
-                    <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
-                        <Text style = {styles.defaultText}>Par {route.params.username}</Text>
-                        <View style ={{flexDirection:"row", flex : 0.2}}>
-                            <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0, flex : 1}} onChangeText={(text) => changeInputs(text, 2)}/>
-                            <Text style = {styles.defaultText}> €</Text>
-                        </View>
-                    </View>
 
                     <View style = {{flexDirection : "row", flex : 1}}>
                         <View style = {{flexDirection : "column"}}>
@@ -179,11 +172,11 @@ export default function ModifyAnnouncementScreen({route}) {
                                   <View style = {{flexDirection : "row", marginRight: 10}}>
                                     <Text style={styles.defaultText}>Le</Text>
                                     <Pressable onPress = {showDatepicker}>
-                                      <Text style = {{...styles.defaultText, paddingHorizontal : 0, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleDateString("fr-FR")}</Text>
+                                      <Text style = {{padding : 1, paddingTop : 3, marginHorizontal : 2,  borderRadius : 10, borderColor : "#000", borderWidth:2, fontSize : 16}}> {date.toLocaleDateString("fr-FR")} </Text>
                                     </Pressable>
                                     <Text style = {styles.defaultText}>à</Text>
                                     <Pressable onPress = {showTimepicker}>
-                                      <Text style = {{...styles.defaultText, paddingHorizontal : 0, color : "#0000ee", textDecorationLine : "underline"}}>{date.toLocaleTimeString("fr-FR").substring(0,5)}</Text>
+                                      <Text style = {{padding : 1, paddingTop : 3, marginHorizontal : 2,  borderRadius : 10, borderColor : "#000", borderWidth:2, fontSize : 16}}> {date.toLocaleTimeString("fr-FR").substring(0,5)} </Text>
                                     </Pressable>
                                     {show && (
                                         <DateTimePicker
@@ -194,6 +187,14 @@ export default function ModifyAnnouncementScreen({route}) {
                                         onChange={onChange}
                                         />
                                     )}
+                                  </View>
+                                  
+                                  <View style={{flexDirection : 'row', justifyContent : 'space-between'}}>
+                                    <Text style={styles.defaultText}>Prix affiché : </Text>
+                                    <View style ={{flexDirection:"row", flex : 0.27}}>
+                                      <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0, flex : 1}} onChangeText={(text) => changeInputs(text, 2)}/>
+                                      <Text style = {styles.defaultText}> €</Text>
+                                    </View>
                                   </View>
                                 </View>
                                 {(route.params.type == "offer") &&
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   titleContainer : {
-    backgroundColor : "#cdcdcd",
+    backgroundColor : "#efefef",
     borderRadius : 10,
     padding : 10,
     fontSize : 20

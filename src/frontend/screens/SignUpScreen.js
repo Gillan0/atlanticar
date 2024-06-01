@@ -1,7 +1,7 @@
 // Ecran de creation de compte
 import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
-import React, {useState} from 'react';
-import url from "../components/url.js";
+import React, {useState, useRef} from 'react';
+import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 import { useRef } from 'react';
 // Ecran de creation de compte
@@ -10,11 +10,10 @@ import { useRef } from 'react';
 export default function SignUpScreen(){
 
     const navigation = useNavigation();
+    const [prompts, setPrompts] = useState(['','', '']);
+    const scrollContainer = useRef();
 
-    const scrollViewRef = useRef(null);
-    const [prompts, setPrompts] = useState(['', '', '']);
-
-    function changePrompts(text, index) {
+    function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim();
         newPrompts[index] = text.trim(); 
@@ -32,6 +31,7 @@ export default function SignUpScreen(){
             Alert.alert('Erreur !', 'Le numéro de téléphone ne peut pas dépasser 10 caractères.');
             return;
         }
+
         if (!prompts[0] || !prompts[1] || !prompts[2] || !prompts[3]) {
             Alert.alert('Erreur !', 'Veuillez remplir tous les champs.');
             return;
@@ -91,37 +91,43 @@ export default function SignUpScreen(){
             console.error('Erreur :', error);
         });  
     }
+    
     return (
         
         <View style = {{flex : 1, backgroundColor : "white"}}>
           <StatusBar backgroundColor="#99cc33"/>  
-          <ScrollView 
-        contentContainerStyle={{flexGrow: 1}}
-        ref={scrollViewRef}>
+          <ScrollView ref = {scrollContainer}>
             <View style = {styles.formContainer}>
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
                 <View>
                     <Text style={styles.text}>Nom d'utilisateur</Text>
                     <TextInput  style={styles.input}
-                                onChangeText={(text) => changePrompts(text, 0)}/>
+                                onChangeText={(text) => changePrompts(text, 0)}
+                                onPress={() => scrollContainer.current.scrollTo({y : 75,  animated : true})}
+                                />
                 </View>
                 <View>
                     <Text style={styles.text}>Mot de passe</Text>
                     <TextInput  style={styles.input}
                                 secureTextEntry={true}
-                                onChangeText={(text) => changePrompts(text, 1)}/>
+                                onChangeText={(text) => changePrompts(text, 1)}
+                                onPress={() => scrollContainer.current.scrollTo({y : 125,  animated : true})}
+                                />
                 </View>
                 <View>
                     <Text style={styles.text}>Numéro de téléphone</Text>
                     <TextInput  value = {prompts[2] ? prompts[2].match(/.{1,2}/g).join(' ') : ''}
                                 style={styles.input}
-                                onChangeText={(text) => changePrompts(text.replace(/\s/g, ''), 2)}/>
+                                onChangeText={(text) => changePrompts(text.replace(/\s/g, ''), 2)}
+                                onPress={() => scrollContainer.current.scrollTo({y : 200,  animated : true})}
+                                />
                 </View>
                 <View style={{flex: 1}}>
                     <Text style={styles.text}>Adresse mail IMT</Text>
                     <TextInput  style={styles.input}
                                 onChangeText={(text) => changePrompts(text, 3)}
-                                onFocus={() => scrollViewRef.current.scrollToEnd({animated: true})}/>
+                                onPress={() => scrollContainer.current.scrollTo({y : 300,  animated : true})}
+                                />
                 </View>
                 <View style = {styles.button}>
                     <Pressable onPress = {()=> SignUp()}>
@@ -129,6 +135,7 @@ export default function SignUpScreen(){
                     </Pressable>
                 </View>
             </View>
+            <View style = {{flex: 1, height : 300}}/>
             </ScrollView>
         </View>
     )
