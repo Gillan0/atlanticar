@@ -49,7 +49,7 @@ export default function AccountScreen({route}) {
     return (
       <View>
         <StatusBar backgroundColor="#99cc33"/>
-        <ScrollView>
+        <ScrollView style = {{backgroundColor : "#fff"}}>
           <AccountInfo/>
           <AnnouncementsInfo/>
           <ApplicationsInfo/>

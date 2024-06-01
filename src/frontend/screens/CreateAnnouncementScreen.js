@@ -149,10 +149,6 @@ export default function CreateAnnouncementScreen({route}) {
                 <View style = {{...styles.titleContainer}}>
                     <View style = {{flexDirection : "row", justifyContent : "space-between"}}>
                         <Text style = {styles.defaultText}>Par {route.params.username}</Text>
-                        <View style ={{flexDirection:"row", flex : 0.2}}>
-                            <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0, flex : 1}} onChangeText={(text) => changeInputs(text, 2)}/>
-                            <Text style = {styles.defaultText}> €</Text>
-                        </View>
                     </View>
 
                     <View style = {{flexDirection : "row", flex : 1}}>
@@ -175,11 +171,11 @@ export default function CreateAnnouncementScreen({route}) {
                                   <View style = {{flexDirection : "row"}}>
                                     <Text style={styles.defaultText}>Le</Text>
                                     <Pressable onPress = {showDatepicker}>
-                                      <Text style = {{padding : 1, marginHorizontal : 2,  borderRadius : 8, color : "#fff", borderColor : "#fff", borderWidth:2, fontSize : 16}}> {date.toLocaleDateString("fr-FR")} </Text>
+                                      <Text style = {{padding : 1, paddingTop : 3, marginHorizontal : 2,  borderRadius : 10, color:"#fff",borderColor : "#fff", borderWidth:2, fontSize : 16}}> {date.toLocaleDateString("fr-FR")} </Text>
                                     </Pressable>
                                     <Text style = {styles.defaultText}>à</Text>
                                     <Pressable onPress = {showTimepicker}>
-                                      <Text style = {{padding : 1, marginHorizontal : 2,  borderRadius : 8, color : "#fff", borderColor : "#fff", borderWidth:2, fontSize : 16}}> {date.toLocaleTimeString("fr-FR").substring(0,5)} </Text>
+                                      <Text style = {{padding : 1, paddingTop : 3, marginHorizontal : 2,  borderRadius : 10, color:"#fff", borderColor : "#fff", borderWidth:2, fontSize : 16}}> {date.toLocaleTimeString("fr-FR").substring(0,5)} </Text>
                                     </Pressable>
                                     {show && (
                                         <DateTimePicker
@@ -192,12 +188,15 @@ export default function CreateAnnouncementScreen({route}) {
                                     )}
                                   </View>
                                 </View>
+                                <View style = {{flexDirection : "row", marginTop : 5}}>
+                                    <Text style = {styles.defaultText}>{route.params.type == "offer" ? "Prix par personne" : "Prix reçu par le conducteur"} : </Text>
+                                    <TextInput value = {inputs[2]} style = {{...styles.input, margin : 0, flex : 1}} onChangeText={(text) => changeInputs(text, 2)}/>
+                                    <Text style = {styles.defaultText}> €</Text>
+                                </View> 
                                 {(route.params.type == "offer") &&
-                                    <View style = {{alignItems : "flex-start"}}>
-                                      <View style ={{flexDirection:"row"}}>
-                                        <TextInput value = {inputs[3]} style = {{...styles.input, margin : 0, minWidth : 25, flex : 0.1}} onChangeText={(text) => changeInputs(text, 3)}/>
-                                        <Text style = {styles.defaultText}> place(s) restante(s)</Text>
-                                      </View>
+                                    <View style ={{flexDirection:"row", paddingLeft : 5, marginTop : 5}}>
+                                      <TextInput value = {inputs[3]} style = {{...styles.input, margin : 0, minWidth : 25, flex : 0.1}} onChangeText={(text) => changeInputs(text, 3)}/>
+                                      <Text style = {styles.defaultText}> place(s) restante(s)</Text>
                                     </View>
                                   }
                                 <View style = {styles.revealContainer}>  

@@ -63,7 +63,8 @@ export default function AnnouncementScreen({route}) {
       <View style = {{flex : 1, backgroundColor : "white"}}>
         <StatusBar backgroundColor="#99cc33"/>
         <ScrollView>
-          {Object.values(shownAnnouncements).map( (value, index) => (
+          {shownAnnouncements.length > 0 ? 
+            Object.values(shownAnnouncements).map( (value, index) => (
             <CreatedItem key = {index} 
                           content = {{type : route.params.type, 
                                       id : value.id,
@@ -80,7 +81,14 @@ export default function AnnouncementScreen({route}) {
                           username = {route.params.username}
                           password = {route.params.password}
                           />
-          ))}
+          )) 
+          : (
+            route.params.type == "offer" ? 
+              <Text style = {{alignSelf:"center", padding : 20, fontSize : 16}}> Vous n'avez créé aucune Offre </Text>
+              : 
+              <Text style = {{alignSelf:"center", padding : 20, fontSize : 16}}> Vous n'avez créé aucune Requête </Text>
+            )
+          }
         </ScrollView>
       </View>
   )
