@@ -171,13 +171,7 @@ export default function CreatedItem(props) {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={{...styles.defaultText, fontWeight : 'bold'}}>PARAMETRES </Text>
           <View style={{ flexDirection: 'row' }}>
-            <Pressable onPress={()=>navigation.navigate("ModifyAnnouncement", {
-                                                                                ...route.params,
-                                                                                 content : {...props.content,
-                                                                                              passengers : passengers,
-                                                                                              conductor : conductor,
-                                                                                              nb_seat : nbSeat,
-                                                                                              candidates : candidates}})}>
+            <Pressable onPress={()=> navigation.navigate("ModifyAnnouncement", {...route.params, content : props.content})}>
               <Image source={require('../assets/parameters.png')} style={{ width: 30, height: 30, marginRight: 15 }} />
             </Pressable>
             <Pressable onPress={()=>del()}>
