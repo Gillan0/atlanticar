@@ -3,9 +3,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, {useState} from 'react';
 import OfferItem from "../components/OfferItem.js";
 import SearchItem from "../components/SearchItem.js";
-import url from "../components/url.js";
+import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
-import endScrollReached from "../components/endScrollReached.js";
+import endScrollReached from "../checkFunctions/endScrollReached.js";
 import isArrayEqual from "../checkFunctions/isArrayEqual.js";
 
 export default function OfferScreen({route}) { 
