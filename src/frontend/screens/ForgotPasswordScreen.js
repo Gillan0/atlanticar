@@ -22,7 +22,7 @@ export default function ForgotPasswordScreen({route}){
         const dataToSend = {
             user: prompts[0],
             email: prompts[1],
-            command : "mot_de_passe_oublie",
+            command : "forgotten_password",
             parameters : [prompts[0], prompts[1]]
           };
           
@@ -47,7 +47,7 @@ export default function ForgotPasswordScreen({route}){
             .then(data => {
                 console.log(data)
                 if (data[0].affectedRows == 1) {
-                    Alert.alert("Un mail sur votre addresse IMT vous a été envoyé avec un nouveau mot de passe");
+                    Alert.alert("Mot de passe modifié !", "Un mail sur votre addresse IMT vous a été envoyé avec un nouveau mot de passe");
                     navigation.goBack()
                 } else {
                     console.log("Refusé")

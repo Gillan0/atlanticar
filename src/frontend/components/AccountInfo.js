@@ -91,12 +91,10 @@ const AccountInfo = () => {
 
           
           <View style = {{justifyContent : "flex-start", paddingBottom: 15}}>
+          
+          <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
             <Text style = {styles.subtitleText}>Email : </Text>
-            <View style = {{flex : 1, flexDirection : "row", justifyContent : "space-between"}}>
-              <View style = {{flex : 0.65, justifyContent : "center"}}>
-                  <Text style = {styles.baseText}> {showEmail ? route.params.email :"• ".repeat(route.params.email.length)}</Text>
-              </View>
-              <View style = {styles.imageContainer}>
+            <View style = {{...styles.imageContainer, flex : 0.49}}>
                 <Pressable style = {{borderRadius : 5, borderWidth : 1, borderColor : "#fff"}} onPress={() => setShowEmail(! showEmail)}>
                       <Image source = { showEmail ? require("../assets/white_eye_closed.png") : require("../assets/white_eye.png")} style = {{height : 25, width : 25}}/>
                 </Pressable>
@@ -105,6 +103,9 @@ const AccountInfo = () => {
                 </Pressable>
               </View>
             </View>
+              <View style = {{flex : 0.65, justifyContent : "center"}}>
+                  <Text style = {styles.baseText}> {showEmail ? route.params.email :"• ".repeat(route.params.email.length)}</Text>
+              </View>
           </View>
         
         
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   },
   imageContainer : {
     flexDirection : "row", 
-    flex : 0.35, 
+    flex : 0.45, 
     justifyContent : "space-around"
   }
 })
