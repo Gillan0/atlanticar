@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar} from "react-na
 import React, {useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import CreatedItem from "../components/CreatedItem.js";
-import url from "../components/url.js";
+import url from "../misc/url.js";
 
 export default function AnnouncementScreen({route}) {
   const [shownAnnouncements,setShownAnnouncements] = useState({});

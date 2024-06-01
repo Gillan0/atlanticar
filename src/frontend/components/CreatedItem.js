@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, Pressable, Image, StyleSheet, Alert } from 'react-native';
-import url from './url';
+import url from '../misc/url';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function CreatedItem(props) {

@@ -2,7 +2,7 @@ import {View, ScrollView, StatusBar} from "react-native";
 import React, {useState} from 'react';
 import ApplicationItem from "../components/ApplicationItem";
 import { useFocusEffect } from '@react-navigation/native';
-import url from "../components/url";
+import url from "../misc/url";
 
 export default function ApplicationScreen({route}) {
   const [shownApplications,setShownApplications] = useState([]);

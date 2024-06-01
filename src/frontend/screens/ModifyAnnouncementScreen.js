@@ -2,7 +2,7 @@ import {View, StyleSheet, Text, Pressable, ScrollView, StatusBar, Alert, TextInp
 import {useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import url from "../components/url.js";
+import url from "../misc/url.js";
 
 function isValidPrice(str) {
   if (str == '') {
