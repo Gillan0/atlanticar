@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { Platform, UIManager, Image, Pressable, TextInput, StyleSheet,  View, Text, LayoutAnimation, Alert} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import isValidPrice from '../checkFunctions/isValidPrice';
+
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function isValidPrice(str) {
-    if (str == '') {
-        return true;
-    }
-    const num = parseFloat(str);
-    return !isNaN(num);
-}
+
 
 const SearchItem = props => {
     const [date, setDate] = useState(new Date());

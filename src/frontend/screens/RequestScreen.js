@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import RequestItem from './../components/RequestItem.js';
 import SearchItem from "../components/SearchItem.js";
-import url from "../components/url.js";
+import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
-import endScrollReached from "../components/endScrollReached.js";
+import endScrollReached from "../checkFunctions/endScrollReached.js";
 import isArrayEqual from "../checkFunctions/isArrayEqual.js";
 
 export default function RequestScreen({route}) {
