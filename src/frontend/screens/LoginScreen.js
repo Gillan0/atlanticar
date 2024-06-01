@@ -1,11 +1,13 @@
 import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
-import React, {useState} from 'react';
-import url from "../components/url.js";
+import React, {useState, useRef} from 'react';
+import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
     const navigation = useNavigation();
     const [prompts, setPrompts] = useState(['','']);
+    const scrollContainer = useRef();
+
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim(); 
@@ -33,8 +35,8 @@ export default function LoginScreen() {
         }
 
         const dataToSend = {
-            email: prompts[0],
-            password: prompts[1],
+            id: null,
+            password: null,
             command : "signIn",
             parameters : [prompts[0], prompts[1]]
           };
@@ -73,19 +75,35 @@ export default function LoginScreen() {
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
             <StatusBar backgroundColor="#99cc33" />
-            <ScrollView contentContainerStyle={styles.container}>
+            <ScrollView contentContainerStyle={styles.container} ref={scrollContainer}>
                 <View style={styles.formContainer}>
                     <Image source={require("../assets/logo.jpg")} style={styles.logo} />
                     <View>
                         <Text style={styles.text}>Addresse mail IMT</Text>
                         <TextInput style={styles.input}
-                            onChangeText={(text) => changePrompts(text, 0)} />
+                            onChangeText={(text) => changePrompts(text, 0)}
+                            onPress={() => 
+                            {
+                                if (scrollContainer.current) {
+                                    scrollContainer.current.scrollTo({y : 45, animated: true})
+                                }
+                            }
+                            } 
+                            />
                     </View>
                     <View>
                         <Text style={styles.text}>Mot de passe</Text>
                         <TextInput style={styles.input}
                             secureTextEntry={true}
-                            onChangeText={(text) => changePrompts(text, 1)} />
+                            onChangeText={(text) => changePrompts(text, 1)}
+                            onPress={() => 
+                            {
+                                if (scrollContainer.current) {
+                                    scrollContainer.current.scrollTo({y : 50, animated: true})
+                                }
+                            }
+                            } 
+                            />
                     </View>
                     <View style={styles.button}>
                         <Pressable onPress={() => signIn()}>

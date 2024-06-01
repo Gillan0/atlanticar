@@ -13,7 +13,7 @@ CREATE TABLE account
     user 			varchar(30),
     password			varchar(30) NOT NULL,
     phone_number   	TEXT NOT NULL,
-    email varchar(30) NOT NULL,
+    email varchar(100) NOT NULL,
     primary key (id)
 );
 
@@ -156,7 +156,7 @@ JOIN account as c1 ON c1.id = cr.candidate JOIN account as c2 ON c2.id = cr.auth
 
 #ajoutons des offres auquel on est inscrit (il y en a 21)
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,3,'Ya',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Vodka',6);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Pas de grosses valises, merci.',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,'en avant',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-11-11 12:00:00',3,1,'',5);
@@ -202,8 +202,8 @@ insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-06-01 12:3
 insert into offer values (DEFAULT,'Plouzané-Locmaria','Brest','2025-01-11 12:00:00',3,4,'ola',5);
 
 #JC postule aux offres :
-insert into apply_offer values (1,1,4,'2024-05-05 16:23:54');
+insert into apply_offer values (1,1,5,'2024-05-05 16:23:54');
 insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());
 
-insert into apply_offer values (1,2,4,'2024-05-06 16:23:54');
+insert into apply_offer values (1,2,6,'2024-05-06 16:23:54');
 insert into notification values (default, 4, "JC a candidaté à une de vos offres", false, NOW());

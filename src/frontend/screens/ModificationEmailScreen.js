@@ -1,6 +1,6 @@
 import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} from "react-native";
 import React, {useState} from 'react';
-import url from "../components/url.js";
+import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 
 export default function ModificationEmailScreen({route}) {

@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { Platform, UIManager, Image, Pressable, TextInput, StyleSheet,  View, Text, LayoutAnimation, Alert} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import isValidPrice from '../checkFunctions/isValidPrice';
+
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function isValidPrice(str) {
-    if (str == '') {
-        return true;
-    }
-    const num = parseFloat(str);
-    return !isNaN(num);
-}
+
 
 const SearchItem = props => {
     const [date, setDate] = useState(new Date());
@@ -37,6 +33,11 @@ const SearchItem = props => {
     const reset = () => {
         setInputs(['','',''])
         setDate(new Date())
+        if (props.type == "request") {
+            props.request("get_default_requests", 0, ['','','','9999'], true);
+        } else if (props.type == "offer") {
+            props.request("get_default_offers", 0, ['','','','9999'], true);
+        }
     }
 
     const [inputs, setInputs] = useState(['', '', '']);
@@ -44,7 +45,7 @@ const SearchItem = props => {
 
     const changeInputs = (text, index) => {
         const newInputs = [...inputs];
-        newInputs[index] = text.trim().toUpperCase(); 
+        newInputs[index] = text; 
         setInputs(newInputs);
     };
     const toggle = () => {
@@ -56,20 +57,20 @@ const SearchItem = props => {
             Alert.alert("Erreur !", "Prix invalide")
             return;
         }
-        toggle();
         let parameters = []
         if (inputs[2] == '') {            
             parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), '9999']
         } else {
             parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), inputs[2]]
         }
+        console.log(parameters)
         if (props.type == "request") {
-            props.request("get_filter_requests", parameters);
+            props.request("get_filter_requests", 0, parameters, true);
         } else if (props.type == "offer") {
-            console.log("filter_offer")
-            props.request("get_filter_offers", parameters);
+            props.request("get_filter_offers", 0,  parameters, true);
         }
-        setInputs(['','',''])
+        setInputs(['','','']);
+        //toggle();
     };
     return (
         <View style={styles.mainContainer}>
