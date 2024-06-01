@@ -50,8 +50,6 @@ const SearchItem = props => {
     const changeInputs = (text, index) => {
         const newInputs = [...inputs];
         newInputs[index] = text; 
-        console.log(inputs)
-        console.log(newInputs)
         setInputs(newInputs);
     };
     const toggle = () => {
@@ -63,7 +61,6 @@ const SearchItem = props => {
             Alert.alert("Erreur !", "Prix invalide")
             return;
         }
-        toggle();
         let parameters = []
         if (inputs[2] == '') {            
             parameters = [inputs[0], inputs[1], date.toLocaleString("sv-SE"), '9999']
@@ -76,7 +73,8 @@ const SearchItem = props => {
         } else if (props.type == "offer") {
             props.request("get_filter_offers", 0,  parameters, true);
         }
-        setInputs(['','',''])
+        setInputs(['','','']);
+        //toggle();
     };
     return (
         <View style={styles.mainContainer}>
