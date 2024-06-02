@@ -5,58 +5,73 @@ import {NavigationContainer} from '@react-navigation/native';
 import MainHub from './hubs/MainHub.js';
 import SignUpScreen from './screens/SignUpScreen.js';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen.js';
-/* 
-Gray : #cbcbcb
-Light blue : #00b8de
-Dark blue : #0c2340
-Green : #99cc33
-*/
 
+// Allows for screen navigation
 const Stack = createNativeStackNavigator();
 
+
+/**
+ * Allows navigation between Login, SignUp and ForgottenPassword screens
+ * @returns {React.ReactElement}
+ */
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login"> 
-        <Stack.Screen name = "Login" 
-                      component={LoginScreen} 
-                      options ={{
-                      title : "Se connecter",
-                      headerStyle : {
-                        backgroundColor : "#0c2340"
-                      },
-                      headerTitleStyle : {
-                        fontWeight : "bold",
-                        color : "#fff"
-                      }}}/>
-        <Stack.Screen name = "SignUp"
-                      component={SignUpScreen}
-                      options = {{
-                      title : "Créer mon compte",
-                      headerTintColor: "#fff",
-                      headerStyle : {
-                        backgroundColor : "#0c2340"
-                      },
-                      headerTitleStyle : {
-                        fontWeight : "bold",
-                        color : "#fff"
-                      }}}/>
-        <Stack.Screen name = "ForgotPassword"
-                      component={ForgotPasswordScreen}
-                      options = {{
-                      title : "Réinitialisation du mot de passe",
-                      headerTintColor: "#fff",
-                      headerStyle : {
-                        backgroundColor : "#0c2340"
-                      },
-                      headerTitleStyle : {
-                        fontWeight : "bold",
-                        color : "#fff"
-                      }}}/>
-        <Stack.Screen name = "Main" 
-                      component={MainHub}
-                      options={{ headerShown: false }}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      {/* Main navigation container */}
+      <NavigationContainer>
+
+        {/* Stack navigation type with default screen as the Login Screen */}
+        <Stack.Navigator initialRouteName="Login"> 
+
+          {/* Adds option to go to the Login Screen */}
+          <Stack.Screen name = "Login" 
+                        component={LoginScreen} 
+                        options ={{
+                        title : "Se connecter",
+                        headerStyle : {
+                          backgroundColor : "#0c2340"
+                        },
+                        headerTitleStyle : {
+                          fontWeight : "bold",
+                          color : "#fff"
+                        }}}/>
+
+          {/* Adds option to go to the SignUp Screen */}
+          <Stack.Screen name = "SignUp"
+                        component={SignUpScreen}
+                        options = {{
+                        title : "Créer mon compte",
+                        headerTintColor: "#fff",
+                        headerStyle : {
+                          backgroundColor : "#0c2340"
+                        },
+                        headerTitleStyle : {
+                          fontWeight : "bold",
+                          color : "#fff"
+                        }}}/>
+
+          {/* Adds option to go to the ForgottenPassword Screen */}
+          <Stack.Screen name = "ForgotPassword"
+                        component={ForgotPasswordScreen}
+                        options = {{
+                        title : "Réinitialisation du mot de passe",
+                        headerTintColor: "#fff",
+                        headerStyle : {
+                          backgroundColor : "#0c2340"
+                        },
+                        headerTitleStyle : {
+                          fontWeight : "bold",
+                          color : "#fff"
+                        }}}/>
+
+          {/* Allows navigation to all screens which are linked to MainHub*/}
+          <Stack.Screen name = "Main" 
+                        component={MainHub}
+                        options={{ headerShown: false }}/>
+
+        </Stack.Navigator>
+        
+      </NavigationContainer>
+    </>
   )
 };
