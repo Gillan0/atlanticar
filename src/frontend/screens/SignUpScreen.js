@@ -1,12 +1,12 @@
-// Ecran de creation de compte
 import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, ScrollView} from "react-native";
 import React, {useState, useRef} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
-import { useRef } from 'react';
-// Ecran de creation de compte
-// import  { useState, useRef } from 'react';
+import {isIMTAdress} from '../checkFunctions/isIMTAdress.js'
+import {isOnlyNumbers} from '../checkFunctions/isOnlyNumbers.js'
 
+
+// Ecran de creation de compte
 export default function SignUpScreen(){
 
     const navigation = useNavigation();
@@ -36,19 +36,12 @@ export default function SignUpScreen(){
             Alert.alert('Erreur !', 'Veuillez remplir tous les champs.');
             return;
         }
-        function neContientQueDesChiffres(saisie) {
-            return /^\d+$/.test(saisie);
-        }
         
-        function ContientlecaractèreIMT(saisie){
-            return saisie.includes("@imt-atlantique.net");
-        }
-        
-        if (!neContientQueDesChiffres(prompts[2])) {
+        if (!isOnlyNumbers(prompts[2])) {
             Alert.alert('Erreur !', 'Le numéro de téléphone doit contenir uniquement des chiffres.');
             return;
         }
-        if(!ContientlecaractèreIMT(prompts[3])){
+        if(!isIMTAdress(prompts[3])){
             Alert.alert('Erreur !', 'L\'adresse mail doit être une adresse mail IMT.');
             return;
         }
