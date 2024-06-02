@@ -1,6 +1,10 @@
+require("dotenv").config();
+
+/**
+ * Const and requirements
+ */
 const http = require('http');
 const port = 3000;
-require("dotenv").config();
 const {interpreter} = require("./db_queries/mainInterpreter.js")
 const {connexion, queryAsPromise} = require("./config/dbConSetup.js")
 
