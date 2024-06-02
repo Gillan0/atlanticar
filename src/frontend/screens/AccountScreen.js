@@ -18,6 +18,8 @@ const OtherInfo = () => {
   }
   return (
     <View style = {{...styles.welcomeContainer, padding : 10 ,flex : 1, borderRadius : 10, flexDirection: "row"}}>
+
+      
       <View>
           <View style = {{alignSelf : "center", top : 4, borderWidth: 5, borderColor: 'white', borderRadius : 10, width : 20, height : 20}}/>
       </View>
@@ -45,7 +47,7 @@ const OtherInfo = () => {
   )
 }
 
-export default function AccountScreen({route}) {
+export default function AccountScreen() {
     return (
       <View>
         <StatusBar backgroundColor="#99cc33"/>
