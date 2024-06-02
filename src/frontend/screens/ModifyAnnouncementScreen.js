@@ -3,14 +3,7 @@ import {useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import url from "../misc/url.js";
-
-function isValidPrice(str) {
-  if (str == '') {
-      return true;
-  }
-  const num = parseFloat(str);
-  return !isNaN(num);
-}
+import isValidPrice from "../checkFunctions/isValidPrice.js";
 
 export default function ModifyAnnouncementScreen({route}) { 
     const navigation = useNavigation();

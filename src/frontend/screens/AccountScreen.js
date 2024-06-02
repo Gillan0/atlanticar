@@ -6,7 +6,10 @@ import AnnouncementsInfo from "../components/AnnouncementsInfo";
 import ApplicationsInfo from "../components/ApplicationsInfo";
 import OtherInfo from "../components/OtherInfo.js"
 
-
+/**
+ * Displays the Main Account Screen
+ * @returns {React.ReactElement}
+ */
 export default function AccountScreen() {
     return (
       <View>
@@ -19,5 +22,4 @@ export default function AccountScreen() {
         </ScrollView>
       </View>
     )
-
 }
