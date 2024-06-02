@@ -5,17 +5,25 @@ import AnnouncementHub from "./AnnouncementHub";
 import PersonnalHub from "./PersonnalHub";
 import AnnouncementScreen from '../screens/AnnouncementScreen';
 
-/* 
-Gray : #cbcbcb
-Light blue : #00b8de
-Dark blue : #0c2340
-Green : #99cc33
-*/
+// Navigation Type : Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
 
+/**
+ * Allows navigation to the following hubs : 
+ *    -  OfferHub (instance of AnnouncementHub for Offers)
+ *    -  RequestHub (instance of AnnouncementHub for Requests)
+ *    -  PersonalHub
+ * 
+ * @param {Route<string>} route - Navigation route  
+ * @returns {React.ReactElement}
+ */
 export default function MainHub({route}) {
   return (
+    <>
+      {/* Tab navigation type */}
       <Tab.Navigator>
+
+        {/* Adds option to go to the OfferHub*/}
         <Tab.Screen 
         name = "Offers" 
         component={AnnouncementHub}
@@ -43,6 +51,8 @@ export default function MainHub({route}) {
             )
         }}
         />
+
+        {/* Adds option to go to the ReequestHub*/}
         <Tab.Screen 
             name = "Requests" 
             component={AnnouncementHub}
@@ -70,6 +80,8 @@ export default function MainHub({route}) {
             )
           }}  
         />
+
+        {/* Adds option to go to the PersonalHub*/}
         <Tab.Screen 
           name = "PersonnalHub" 
           component={PersonnalHub}
@@ -90,5 +102,6 @@ export default function MainHub({route}) {
           }}  
         />
       </Tab.Navigator>
+    </>
   )
 };
