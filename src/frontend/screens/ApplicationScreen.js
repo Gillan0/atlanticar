@@ -17,7 +17,7 @@ export default function ApplicationScreen({route}) {
   const [shownApplications,setShownApplications] = useState([]);
 
   /**
-   * Sends a http request to the server and changes rendered 
+   * Sends a HTTP request to the server and changes rendered 
    * announcements based on answer
    * 
    * @param {String} command - command interpreted by server
