@@ -3,20 +3,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import React, {useState, useRef, useCallback} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import url from "../misc/url.js";
-/*
-Gray : #cbcbcb
-Light blue : #00b8de
-Dark blue : #0c2340
-Green : #99cc33
-*/ 
-
-function isValidPrice(str) {
-  if (str == '') {
-      return true;
-  }
-  const num = parseFloat(str);
-  return !isNaN(num);
-}
+import isValidPrice from "../checkFunctions/isValidPrice.js";
 
 export default function CreateAnnouncementScreen({route}) { 
     const navigation = useNavigation();
