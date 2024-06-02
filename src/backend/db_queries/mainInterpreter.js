@@ -1,23 +1,23 @@
 /**
- * Import account interpreter module.
+ * Importe le module d'interprétation des comptes.
  * @module accountInterpreter
  */
 const { accountInterpreter } = require("./account/accountInterpreter.js");
 
 /**
- * Import announcements interpreter module.
+ * Importe le module d'interprétation des annonces.
  * @module announcementsInterpreter
  */
 const { announcementsInterpreter } = require("./announcements/announcementsInterpreter.js");
 
 /**
- * Import applications interpreter module.
+ * Importe le module d'interprétation des applications.
  * @module applicationsInterpreter
  */
 const { applicationsInterpreter } = require("./applications/applicationsInterpreter.js");
 
 /**
- * Combines all interpreters into a single interpreter object.
+ * Combine tous les interprètes en un seul objet d'interprète.
  * @constant
  * @type {Object}
  */
@@ -28,7 +28,7 @@ const interpreter = {
 };
 
 /**
- * Exports the combined interpreter object.
+ * Exporte l'objet d'interprète combiné.
  * @exports interpreter
  */
 exports.interpreter = interpreter;
