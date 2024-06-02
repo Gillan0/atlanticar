@@ -1,3 +1,4 @@
+require('dotenv').config();
 const {transporter, sendMail} = require("../../config/mailSetup.js");
 
 /**
@@ -14,7 +15,7 @@ function signUp(data) {
     const mailOptions = {
         from: {
                 name: "AtlantiCar Services", 
-                address: "atlanticarservices@gmail.com"
+                address: process.env.MAIL_USER
         },
         to: [data.parameters[3]],
         subject: "Création de votre compte AtlantiCar",
