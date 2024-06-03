@@ -3,13 +3,28 @@ import React, {useState} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 
+/**
+ * Displays screen where user can change his account's 
+ * email address
+ * @param {Route<string>} route - Navigation route 
+ * @returns {React.ReactElement}
+ */
 export default function ModificationEmailScreen({route}) {
-    
+    // Get navigation
     const navigation = useNavigation();
+    
+    // Initializes variables to store the new email address
     const [email, setEmail] = useState('');
 
+    /**
+     * Sends a HTTP request to server to change the user's
+     * email address
+     * 
+     * @returns {null} 
+     */
     function ModificationEmail() {
 
+        // Data to send to server
         const dataToSend = {
             id: route.params.id,
             password: route.params.password,
@@ -17,58 +32,84 @@ export default function ModificationEmailScreen({route}) {
             parameters : [email.replace(/\s/g, '')]
           };
           
-          // Options de la requête
-          const requestOptions = {
+        // HTTP request options
+        const requestOptions = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataToSend) // Convertir les données en format JSON
-          };
+            body: JSON.stringify(dataToSend) // Convert data to JSON format
+        };
           
-          // Envoi de la requête avec fetch
-          fetch(url, requestOptions)
+        // Sends HTTP request
+        fetch(url, requestOptions)
+
+            // Checks if answer exploitable
             .then(response => {
                 if (!response.ok) {
                     Alert.alert("PAS DE MODIFICATION")
                     throw new Error('Erreur lors de la requête.');
                 }
-                return response.json(); // Renvoie les données JSON de la réponse
+                return response.json();
             })
+
             .then(data => {
                 console.log(data)
+                // Check if database was changed
                 if (data[0].affectedRows == 1) {
+                    // Pop up confirmation message
                     Alert.alert("Votre addresse mail a bien été modifié");
                     navigation.goBack()
                     navigation.replace("Account", {...route.params, email: email})
                 } else {
-                    console.log("Refusé")
+                    // Pop up error message
+                    Alert.alert("Erreur !","Votre addresse mail n'a pas été modifié");
                 }
             })
+            
+            // Error failsafe
             .catch(error => {
                 console.error('Erreur :', error);
             });  
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
+          
           <StatusBar backgroundColor="#99cc33"/>  
+          
             <View style = {styles.formContainer}>
+
+                {/* App logo */}          
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
+          
+                {/* New email textinput */}
                 <View>
+          
                     <Text style={styles.text}>Veuillez entrer votre nouvelle addresse mail:</Text>
+          
                     <TextInput  style={styles.input}
                                 onChangeText={(text) => setEmail(text.trim())}/>
+          
                 </View>
+          
+                {/* Confirmation button */}
                 <View style = {styles.button}>
+          
                     <Pressable onPress = {()=> ModificationEmail()}>
+          
                         <Text style = {styles.buttonText}> Modifier mon email </Text>
+          
                     </Pressable>
+          
                 </View>
+          
             </View>
+        
         </View>
     )
 }
 
+// Stylesheet for this screen
 const styles = StyleSheet.create({
     destinations : {
         backgroundColor : "#aaaaaa"

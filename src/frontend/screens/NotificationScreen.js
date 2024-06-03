@@ -6,15 +6,21 @@ import NotificationItem from "../components/NotificationItem";
 
 /**
  * Écran affichant les notifications d'un utilisateur
- * @returns 
+ * 
+ * @param {Route<string>} route - Navigation route
+ * @returns {React.ReactElement} 
  */
 function NotificationScreen({ route }) {
   const [notifications, setNotifications] = useState([]);
   
   /**
-   * Gère la requête serveur afin d'obtenir les notifications
-   */
+     * Sends a HTTP request to the server and changes rendered 
+     * notifications based on answer
+     * 
+     */
   const getNotifications = async () => {
+    
+    // Data to send to server
     const dataToSend = {
       id: route.params.id,
       password: route.params.password,
@@ -22,6 +28,7 @@ function NotificationScreen({ route }) {
       parameters: [route.params.id],
     };
 
+    // HTTP request options
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -30,16 +37,23 @@ function NotificationScreen({ route }) {
       body: JSON.stringify(dataToSend),
     };
 
+    // Sends HTTP request
     fetch(url, requestOptions)
+
+        // Checks if answer exploitable
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Erreur lors de la requête.');
             }
             return response.json();
         })  
+        
         .then((data) => {
+            // Changes rendered notifications
             setNotifications(data[0]); 
         })
+
+        // Error failsafe
         .catch((error) => {
             console.error(error.message)
         })
@@ -47,21 +61,34 @@ function NotificationScreen({ route }) {
 
   useFocusEffect(
     useCallback(() => {
-      getNotifications(); // Appel initial pour charger les notifications
+      // Initial call to render notifications
+      getNotifications(); 
       return () => {
-        // Nettoyage optionnel
+        // Optionnal : Clean screen
       };
     }, [])
   );
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      
       <StatusBar backgroundColor="#99cc33" />
+      
       <ScrollView>
-        {notifications.map((notification) => (
-          <NotificationItem key={notification.id} notification={notification} />
-        ))}
+      
+        {/* Rendered notifications */}
+        
+        {notifications.length > 0 ?
+          notifications.map((notification) => (
+            <NotificationItem key={notification.id} notification={notification} />
+          ))
+          /* Message when no notification around */
+        
+          : <Text style = {{alignSelf : "center", padding : 10, fontSize : 16}}> Aucune notification disponible </Text>
+        }
+      
       </ScrollView>
+    
     </View>
   );
 }

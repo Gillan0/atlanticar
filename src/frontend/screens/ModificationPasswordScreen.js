@@ -3,12 +3,28 @@ import React, {useState} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 
+/**
+ * Displays screen where user can change his account's 
+ * password
+ * @param {Route<string>} route - Navigation route 
+ * @returns {React.ReactElement}
+ */
 export default function ModificationPasswordScreen({route}) {
-    
+    // Get navigation
     const navigation = useNavigation();
-    const [password, setPassword] = useState('');
-    function ModificationPassword() {
 
+    // Initializes variables to store the new password
+    const [password, setPassword] = useState('');
+
+    /**
+     * Sends a HTTP request to server to change the user's
+     * password
+     * 
+     * @returns {null} 
+     */
+    function ModificationPassword() {
+        
+        // Data to send to server
         const dataToSend = {
             id: route.params.id,
             password: route.params.password,
@@ -16,59 +32,86 @@ export default function ModificationPasswordScreen({route}) {
             parameters : [password]
           };
           
-          // Options de la requête
-          const requestOptions = {
+        // HTTP request options
+        const requestOptions = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataToSend) // Convertir les données en format JSON
-          };
+            body: JSON.stringify(dataToSend) 
+        };
           
-          // Envoi de la requête avec fetch
-          fetch(url, requestOptions)
+        // Sends HTTP request
+        fetch(url, requestOptions)
+        
+            // Checks if answer exploitable
             .then(response => {
                 if (!response.ok) {
                     Alert.alert("PAS DE MODIFICATION")
                     throw new Error('Erreur lors de la requête.');
                 }
-                return response.json(); // Renvoie les données JSON de la réponse
+                return response.json(); 
             })
+
             .then(data => {
                 console.log(data)
+                
+                // Check if database was changed
                 if (data[0].affectedRows == 1) {
+                    // Pop up confirmation message
                     Alert.alert("Votre mot de passe a bien été modifié");
                     navigation.goBack()
                     navigation.replace("Account", {...route.params, password: password})
                 } else {
-                    console.log("Refusé")
+                    // Pop up error message
+                    Alert.alert("Erreur !","Votre mot de passe n'a pas été modifié");
                 }
             })
+
+            // Error failsafe
             .catch(error => {
                 console.error('Erreur :', error);
             });  
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
+          
           <StatusBar backgroundColor="#99cc33"/>  
+          
             <View style = {styles.formContainer}>
+          
+                {/* App Logo */}
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
+          
+                {/* New password textinput */}
                 <View>
+          
                     <Text style={styles.text}>Veuillez entrer votre nouveau mot de passe :</Text>
+          
                     <TextInput  style={styles.input}
                                 secureTextEntry={true}
                                 onChangeText={(text) => setPassword(text.trim())}/>
+          
                 </View>
+          
+                {/* Confirmation button */}
                 <View style = {styles.button}>
+          
                     <Pressable onPress = {()=> ModificationPassword()}>
+          
                         <Text style = {styles.buttonText}> Modifier mon mot de passe </Text>
+          
                     </Pressable>
+          
                 </View>
+          
             </View>
+        
         </View>
     )
 }
 
+// Stylesheet for this screen
 const styles = StyleSheet.create({
     input : {
         borderWidth : 1,

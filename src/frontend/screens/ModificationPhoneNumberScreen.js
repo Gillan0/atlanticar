@@ -2,27 +2,41 @@ import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, S
 import React, {useState} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
+import isOnlyNumbers from "../checkFunctions/isOnlyNumbers.js"
 
+
+/**
+ * Displays screen where user can change his account's 
+ * phone number
+ * @param {Route<string>} route - Navigation route 
+ * @returns {React.ReactElement}
+ */
 export default function ModificationPhoneNumberScreen({route}) {
-    
+    // Get navigation
     const navigation = useNavigation();
+        
+    // Initializes variables to store the phone number
     const [phone, setPhone] = useState('');
 
+    /**
+     * Sends a HTTP request to server to change the user's
+     * phone number
+     * 
+     * @returns {null} 
+     */
     function ModificationPhoneNumber() {
+        // Checks phone number length
         if (phone.length != 10) {
             Alert.alert("Désolé !", "Merci de renseigner un numéro de téléphone valide")
             return;
         }
 
-        function neContientQueDesChiffres(saisie) {
-            return /^\d+$/.test(saisie);
-        }
-
-        if (!neContientQueDesChiffres(phone)) {
+        // Checks if prompt is made of numbers
+        if (!isOnlyNumbers(phone)) {
             Alert.alert('Erreur !', 'Le numéro de téléphone doit contenir uniquement des chiffres.');
             return;
         }
-
+        // Data to send to server
         const dataToSend = {
             id: route.params.id,
             password: route.params.password,
@@ -30,63 +44,91 @@ export default function ModificationPhoneNumberScreen({route}) {
             parameters : [phone.match(/.{1,2}/g).join(' '),]
           };
           
-          // Options de la requête
-          const requestOptions = {
+        // HTTP request options
+        const requestOptions = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataToSend) // Convertir les données en format JSON
-          };
+            body: JSON.stringify(dataToSend) 
+        };
           
-          // Envoi de la requête avec fetch
-          fetch(url, requestOptions)
+        // Sends HTTP request
+        fetch(url, requestOptions)
+
+            // Checks if answer exploitable
             .then(response => {
                 if (!response.ok) {
                     Alert.alert("PAS DE MODIFICATION")
                     throw new Error('Erreur lors de la requête.');
                 }
-                return response.json(); // Renvoie les données JSON de la réponse
+                return response.json(); 
             })
+
             .then(data => {
                 console.log(data)
+
+                // Check if database was changed
                 if (data[0].affectedRows == 1) {
+                    // Pop up confirmation message
                     Alert.alert("Votre numéro de téléphone a bien été modifié");
                     navigation.goBack()
                     navigation.replace("Account", {...route.params, phone_number: phone.match(/.{1,2}/g).join(' ')})
                 } else {
-                    console.log("Refusé");
+                    // Pop up error message
                     Alert.alert("Désolé !", "Ce numéro de téléphone est déjà utilisé par un autre utilisateur")
                 }
             })
+
+            // Error failsafe
             .catch(error => {
                 console.error('Erreur :', error);
             });  
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
+          
           <StatusBar backgroundColor="#99cc33"/> 
+          
           <ScrollView>
+          
             <View style = {styles.formContainer}>
+
+                {/* App Logo */}          
                 <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
+          
+                {/* New phone number text input */}
                 <View>
+          
                     <Text style={styles.text}>Entrez votre nouveau numéro de téléphone :</Text>
+          
                     <TextInput  value = {phone ? phone.match(/.{1,2}/g).join(' ') : ''}
                                 style={styles.input}
                                 secureTextEntry={false}
                                 onChangeText={(text) => setPhone(text.replace(/\s/g, ''))}/>
+                
                 </View>
+                
+                {/* Confirmation button */}
                 <View style = {styles.button}>
+                
                     <Pressable onPress = {()=> ModificationPhoneNumber()}>
+                
                         <Text style = {styles.buttonText}> Modifier mon numéro de téléphone </Text>
+                
                     </Pressable>
+                
                 </View>
+            
             </View>
+            
             </ScrollView> 
+        
         </View>
     )
 }
 
+// Stylesheet for this screen
 const styles = StyleSheet.create({
     input : {
         borderWidth : 1,
