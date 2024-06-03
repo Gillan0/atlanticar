@@ -145,7 +145,7 @@ const SearchItem = (props) => {
                 
                 <View style={{ flexDirection: "row" }}>
                 
-                    <Text style={styles.text}>Departure: </Text>
+                    <Text style={styles.text}>Départ: </Text>
                     <TextInput
                         value={inputs[0]}
                         style={styles.input}
@@ -156,7 +156,7 @@ const SearchItem = (props) => {
                             
                 <View style={{ flexDirection: "row" }}>
                             
-                    <Text style={styles.text}>Destination: </Text>
+                    <Text style={styles.text}>Arrivée: </Text>
                     <TextInput
                         value={inputs[1]}
                         style={styles.input}
@@ -167,13 +167,13 @@ const SearchItem = (props) => {
                             
                 <View style={{ flexDirection: "row" }}>
                             
-                    <Text style={styles.text}>On </Text>
+                    <Text style={styles.text}>Le </Text>
                             
                     <Pressable onPress={showDatepicker}>
                         <Text style={{ padding: 1, marginHorizontal: 2, borderRadius: 5, borderColor: "#000", borderWidth: 1, fontSize: 16 }}> {date.toLocaleDateString("fr-FR")} </Text>
                     </Pressable>
                             
-                    <Text style={styles.text}> at </Text>
+                    <Text style={styles.text}> à </Text>
                             
                     <Pressable onPress={showTimepicker}>
                         <Text style={{ padding: 1, marginHorizontal: 2, borderRadius: 5, borderColor: "#000", borderWidth: 1, fontSize: 16 }}> {date.toLocaleTimeString("fr-FR").substring(0, 5)} </Text>
@@ -195,7 +195,7 @@ const SearchItem = (props) => {
                         
                     <View style={{ flexDirection: "row", flex: 1 }}>
                         
-                        <Text style={styles.text}>For</Text>
+                        <Text style={styles.text}>Pour</Text>
                         
                         <TextInput
                             value={inputs[2]}
@@ -208,11 +208,11 @@ const SearchItem = (props) => {
                     </View>
                             
                     <Pressable onPress={pushButton} style={styles.button}>
-                        <Text style={styles.buttonText}> Confirm </Text>
+                        <Text style={styles.buttonText}> Valider </Text>
                     </Pressable>
                             
                     <Pressable onPress={reset} style={{ ...styles.button, backgroundColor: "#cc4400" }}>
-                        <Text style={styles.buttonText}> Cancel </Text>
+                        <Text style={styles.buttonText}> Annuler </Text>
                     </Pressable>
                             
                 </View>
