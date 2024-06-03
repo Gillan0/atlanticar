@@ -138,7 +138,7 @@ const SearchItem = (props) => {
     
             <Pressable onPress={toggle} style={styles.titleContainer}>
                 <Image source={require("../assets/loupe.png")} style={{ maxHeight: 30, maxWidth: 30 }} />
-                <Text style={styles.titleText}> Search</Text>
+                <Text style={styles.titleText}> Rechercher </Text>
             </Pressable>
 
             {display && <View style={styles.revealContainer}>
