@@ -15,7 +15,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
  * @param {Object} props - The properties passed to the component.
  * @returns {JSX.Element} The application item component.
  */
-export default ApplicationItem = props => {
+const ApplicationItem = props => {
 
     const [render, setRender] = useState(true);
     const [showPhone, setShowPhone] = useState(false);
