@@ -45,7 +45,7 @@ export default function AnnouncementHub({route}) {
                 <Pressable onPress={() => Alert.alert('Principe des offres', '• Si vous possédez une voiture, vous pouvez créer une offre. \n • Si vous cherchez un conducteur pour votre destination, vous pouvez candidater !')}>
                   <Image
                     source={require('../assets/white_info.png')}
-                    style={{ width: 35, height: 35, marginRight: 5 }}
+                    style={{ width: 40, height: 40, marginRight: 5 }}
                     resizeMode="contain"
                   />
                 </Pressable>
