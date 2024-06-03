@@ -102,10 +102,12 @@ const OfferItem = (props) => {
                                     )}
 
                                     <View style={styles.buttonContainer}>
+                                        
                                         <Pressable onPress={toCandidate} style={styles.button}>
                                             <Image source={require("../assets/flag.png")} style={{ height: 22, width: 22 }} />
                                             <Text style={styles.buttonText}> Candidater </Text>
                                         </Pressable>
+                                        
                                     </View>
                                       
                                 </View>
