@@ -3,22 +3,43 @@ import React, {useState, useRef} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 
-export default function ForgotPasswordScreen({route}){
-    
+
+/**
+ * Displays the screen where a user can reset 
+ * his password because he forgot it
+ * 
+ * @returns {React.ReactElement}
+ */
+export default function ForgotPasswordScreen() {
+    // Get navigation
     const navigation = useNavigation();
+
+    // Initializes variables to store values of textinput
     const [prompts, setPrompts] = useState(['','']);
 
+    // References the Scrollview
     const scrollContainer = useRef();
 
+    /**
+     * Changes value of associated variable 
+     * once textinput is updated
+     * 
+     * @param {string} text - New text
+     * @param {number} index - Index in 'inputs' variable associated to said textinput  
+     */
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
 
-
+    /**
+     * Sends a HTTP request to the server and changes rendered 
+     * announcements based on answer
+     */
     function ForgotPassword() {
-
+        
+        // Data to send to server
         const dataToSend = {
             user: prompts[0],
             email: prompts[1],
@@ -26,46 +47,67 @@ export default function ForgotPasswordScreen({route}){
             parameters : [prompts[0], prompts[1]]
           };
           
-          // Options de la requête
-          const requestOptions = {
+        // HTTP request options
+        const requestOptions = {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataToSend) // Convertir les données en format JSON
-          };
+            body: JSON.stringify(dataToSend) // Convert data to JSON format
+        };
           
-          // Envoi de la requête avec fetch
-          fetch(url, requestOptions)
+        // Sends HTTP request
+        fetch(url, requestOptions)
+
+            // Checks if answer exploitable
             .then(response => {
                 if (!response.ok) {
-                    Alert.alert("PAS DE REINITIALISATION")
                     throw new Error('Erreur lors de la requête.');
                 }
-                return response.json(); // Renvoie les données JSON de la réponse
+                return response.json();
             })
+
             .then(data => {
                 console.log(data)
+
+                // If database was changed
                 if (data[0].affectedRows == 1) {
+
+                    // Pop up confirmation message
                     Alert.alert("Mot de passe modifié !", "Un mail sur votre addresse IMT vous a été envoyé avec un nouveau mot de passe");
+                    
+                    // Go back to Login screen
                     navigation.goBack()
                 } else {
-                    console.log("Refusé")
+
+                    // Pop up error message
+                    Alert.alert("Désolé !", "Nous n'avons pas réussi à modifier votre mot de passe")
+
                 }
             })
+            // Error failsafe
             .catch(error => {
                 console.error('Erreur :', error);
             });  
     }
     return (
         <View style = {{flex : 1, backgroundColor : "white"}}>
+          
           <StatusBar backgroundColor="#99cc33"/> 
+          
           <ScrollView ref = {scrollContainer}>
-            <View style = {styles.formContainer}>
-                <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
-                <View>
-                    <Text style={styles.text}>Veuillez entrer votre nom d'utilisateur:</Text>
-                    <TextInput  style={styles.input}
+          
+                <View style = {styles.formContainer}>
+
+                    {/* Logo */}
+                    <Image source={require("../assets/logo.jpg")} style = {{height : 200, width : 300, alignSelf : "center"}}/>
+          
+                    {/* Username textinput */}
+                    <View>
+          
+                        <Text style={styles.text}>Veuillez entrer votre nom d'utilisateur:</Text>
+          
+                        <TextInput  style={styles.input}
                                 onChangeText={(text) => changePrompts(text, 0)}
                                 onPress={() => 
                                 {
@@ -75,10 +117,14 @@ export default function ForgotPasswordScreen({route}){
                                 }
                                 }   
                                 />
-                </View>
-                <View>
-                    <Text style={styles.text}>Veuillez entrer votre addresse mail IMT:</Text>
-                    <TextInput  style={styles.input}
+                    </View>
+                
+                    {/* Email textinput */}
+                    <View>
+                
+                        <Text style={styles.text}>Veuillez entrer votre addresse mail IMT:</Text>
+                
+                        <TextInput  style={styles.input}
                                 onChangeText={(text) => changePrompts(text, 1)}
                                 onPress={() => 
                                 {
@@ -87,21 +133,32 @@ export default function ForgotPasswordScreen({route}){
                                     }
                                 }
                                 }  />
+                
+                    </View>
+                
+                    {/* Confirm button */}
+                    <View style = {styles.button}>
+                
+                      <Pressable onPress = {()=> ForgotPassword()}>
+                
+                            <Text style = {styles.buttonText}>Réinitialiser mon mot de passe</Text>
+                
+                        </Pressable>
+                
+                    </View>
+           
                 </View>
-                <View style = {styles.button}>
-                    <Pressable onPress = {()=> ForgotPassword()}>
-                        <Text style = {styles.buttonText}>Réinitialiser mon mot de passe</Text>
-                    </Pressable>
-                </View>
-            </View>
             
-            <View style = {{flex: 1, height : 100}}/>
+                {/* White void to allow scroll */}
+                <View style = {{flex: 1, height : 100}}/>
+            
             </ScrollView> 
+        
         </View>
     )
  }
 
-
+// Stylesheet for this screen
 const styles = StyleSheet.create({
     destinations : {
         backgroundColor : "#aaaaaa"
