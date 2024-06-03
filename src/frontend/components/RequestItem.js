@@ -124,7 +124,7 @@ const RequestItem = (props) => {
                         </View>
                                       
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={styles.destinations}>à {props.request.arrival}</Text>
+                            <Text style={styles.destinations}>A {props.request.arrival}</Text>
                         </View>
                                       
                     </View>
