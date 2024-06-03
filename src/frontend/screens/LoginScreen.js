@@ -2,24 +2,43 @@ import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image, S
 import React, {useState, useRef} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
+import isIMTAdress from "../checkFunctions/isIMTAdress.js";
 
+/**
+ * Displays the Login Screen
+ * 
+ * @returns {React.ReactElement}
+ */
 export default function LoginScreen() {
+    // Get navigation
     const navigation = useNavigation();
+
+    // Initializes variables to store values of TextInput
     const [prompts, setPrompts] = useState(['','']);
+    
+    // References ScrollView
     const scrollContainer = useRef();
 
+    /**
+     * Changes value of associated variable 
+     * once textinput is updated
+     * 
+     * @param {string} text - New text
+     * @param {number} index - Index in 'inputs' variable associated to said textinput  
+     */
     function changePrompts(text,index) {
         const newPrompts = [...prompts];
         newPrompts[index] = text.trim(); 
         setPrompts(newPrompts);
     }
+
+    /**
+     * Processes data from textinput then sends the HTTP request
+     * Switches to Main Offer screen if request successful
+     */
     function signIn() {
-        
-        function ContientlecaractèreIMT(saisie){
-            return saisie.includes("@imt-atlantique.net");
-        }
 
-
+        // Checks for empty textinput
         if (prompts[0] == "") {
             Alert.alert("Désolé !", "Merci de renseigner votre addresse mail IMT Atlantique")
             return;
@@ -29,11 +48,13 @@ export default function LoginScreen() {
             return;
         }
 
-        if(!ContientlecaractèreIMT(prompts[0])){
+        // Checks if the email is a valid IMT Adress
+        if(!isIMTAdress(prompts[0])){
             Alert.alert('Erreur !', 'L\'adresse mail doit être une adresse mail IMT.');
             return;
         }
 
+        // Data to send to server
         const dataToSend = {
             id: null,
             password: null,
@@ -41,17 +62,19 @@ export default function LoginScreen() {
             parameters : [prompts[0], prompts[1]]
           };
           
-          // Options de la requête
-          const requestOptions = {
+        // HTTP request options
+        const requestOptions = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(dataToSend) // Convertir les données en format JSON
-          };
+        };
           
-          // Envoi de la requête avec fetch
-          fetch(url, requestOptions)
+        // Sends HTTP request
+        fetch(url, requestOptions)
+
+            // Checks if answer exploitable
             .then(response => {
                 if (!response.ok) {
                     Alert.alert("PAS CONNECTÉ")
@@ -59,14 +82,19 @@ export default function LoginScreen() {
                 }
                 return response.json(); // Renvoie les données JSON de la réponse
             })
+
             .then(data => {
                 console.log(data)
-                    if (data[0][0].answer == "TRUE") {
-                        navigation.replace("Main", {id : data[0][0].id, username : data[1][0].user, password : prompts[1], phone_number : data[1][0].phone_number, email: prompts[0]})
+
+                // If login successful, switch to Main Offers Screen
+                if (data[0][0].answer == "TRUE") {
+                    navigation.replace("Main", {id : data[0][0].id, username : data[1][0].user, password : prompts[1], phone_number : data[1][0].phone_number, email: prompts[0]})
                 } else {
-                    console.log("Refusé")
+                    Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
                 }
             })
+
+            // Error failsafe
             .catch(error => {
                 Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
                 console.error('Erreur :', error);
@@ -74,12 +102,21 @@ export default function LoginScreen() {
     }
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
+            
             <StatusBar backgroundColor="#99cc33" />
+            
             <ScrollView contentContainerStyle={styles.container} ref={scrollContainer}>
+            
                 <View style={styles.formContainer}>
+
+                    {/* Logo */}
                     <Image source={require("../assets/logo.jpg")} style={styles.logo} />
+            
+                    {/* Email address textinput */}
                     <View>
+            
                         <Text style={styles.text}>Addresse mail IMT</Text>
+            
                         <TextInput style={styles.input}
                             onChangeText={(text) => changePrompts(text, 0)}
                             onPress={() => 
@@ -91,8 +128,12 @@ export default function LoginScreen() {
                             } 
                             />
                     </View>
+                    
+                    {/* Password textinput */}
                     <View>
+                    
                         <Text style={styles.text}>Mot de passe</Text>
+                    
                         <TextInput style={styles.input}
                             secureTextEntry={true}
                             onChangeText={(text) => changePrompts(text, 1)}
@@ -105,25 +146,45 @@ export default function LoginScreen() {
                             } 
                             />
                     </View>
+                    
+                    {/* Confirm button */}
                     <View style={styles.button}>
+                    
                         <Pressable onPress={() => signIn()}>
+                    
                             <Text style={styles.buttonText}> Se connecter </Text>
+                    
                         </Pressable>
+                    
                     </View>
+                    
                     <View style={styles.linksContainer}>
+                    
+                        {/* Button to switch to Sign Up Screen */}
                         <Pressable onPress={() => navigation.navigate('SignUp')}>
+                    
                             <Text style={[styles.linkText, { color: "#00b8de" }]}>Créer un compte</Text>
+                    
                         </Pressable>
+
+                        {/* Button to switch to Forgotten Password Screen */}
                         <Pressable onPress={() => navigation.navigate('ForgotPassword')}>
+                    
                             <Text style={[styles.linkText, { color: "#00b8de" }]}>Mot de passe oublié ?</Text>
+                    
                         </Pressable>
+                    
                     </View>
+                
                 </View>
+            
             </ScrollView>
+        
         </View>
     )
 }
 
+// Stylesheet for this screen
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
