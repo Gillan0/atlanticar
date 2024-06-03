@@ -141,7 +141,6 @@ export default function CreateAnnouncementScreen({route}) {
      * Sends a HTTP request to the server and changes rendered 
      * announcements based on answer
      * 
-     * @param {String} command - command interpreted by server
      * @param {Array<*>} parameters - parameters for the sql script 
      */
     function request(parameters) {
@@ -160,7 +159,7 @@ export default function CreateAnnouncementScreen({route}) {
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify(dataToSend) // Convertir les données en format JSON
+          body: JSON.stringify(dataToSend) // Convert data to JSON format
         };
     
         // Sends HTTP request
@@ -171,7 +170,7 @@ export default function CreateAnnouncementScreen({route}) {
               if (!response.ok) {
               throw new Error('Erreur lors de la requête.');
               }
-              return response.json(); // Renvoie les données JSON de la réponse
+              return response.json(); 
           })
 
           .then(data => {
