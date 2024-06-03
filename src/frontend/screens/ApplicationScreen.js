@@ -1,4 +1,4 @@
-import {View, ScrollView, StatusBar} from "react-native";
+import {View, ScrollView, StatusBar, Text} from "react-native";
 import React, {useState} from 'react';
 import ApplicationItem from "../components/ApplicationItem";
 import { useFocusEffect } from '@react-navigation/native';
@@ -93,7 +93,7 @@ export default function ApplicationScreen({route}) {
         <StatusBar backgroundColor="#99cc33"/>
         
         <ScrollView>
-
+          
           {/* Rendered applications */}
           {shownApplications.length > 0 ? 
             shownApplications.map( (value, index) => (
@@ -107,7 +107,7 @@ export default function ApplicationScreen({route}) {
                 <Text style = {{alignSelf:"center", padding : 20, fontSize : 16}}> Vous n'avez candidaté à aucune Requête </Text>
               )
           }
-
+          
         </ScrollView>
       
       </View>

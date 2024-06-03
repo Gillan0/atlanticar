@@ -11,7 +11,7 @@ function signIn(data) {
     return [[`
     SELECT
         (CASE
-            WHEN EXISTS (SELECT * FROM account WHERE user = ? AND password = ?)
+            WHEN EXISTS (SELECT * FROM account WHERE email = ? AND password = ?)
                 THEN 'TRUE'
             ELSE
                 'FALSE'
@@ -19,9 +19,9 @@ function signIn(data) {
         id
     FROM account
     WHERE
-        user = ?
+        email = ?
         AND password = ?;
-    `,`SELECT phone_number, email FROM account WHERE user = ? AND password = ?;`],
+    `,`SELECT phone_number, email FROM account WHERE email = ? AND password = ?;`],
     [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
 }
 
