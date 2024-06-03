@@ -52,11 +52,11 @@ const RequestItem = (props) => {
             .then(data => {
                 if (data[0].affectedRows == 0) {
                   
-                    Alert.alert("Sorry!", "You have already applied to this request.");
+                    Alert.alert("Désolée !", "Vous avez déjà candidaté à cette requête ");
                
                 } else {
                   
-                    Alert.alert("Application sent!", "The passenger just needs to confirm.");
+                    Alert.alert("Candidature envoyée !", "Le conducteur n'a plus qu'à confirmer !");
                 
                 }
             })
@@ -73,7 +73,7 @@ const RequestItem = (props) => {
             <View style={styles.titleContainer}>
   
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={styles.defaultText}>By {props.request.user}</Text>
+                    <Text style={styles.defaultText}>Par {props.request.user}</Text>
                     <Text style={styles.defaultText}>{props.request.price} €</Text>
                 </View>
 
@@ -89,12 +89,12 @@ const RequestItem = (props) => {
   
                         <Image source={require("../assets/blue_request.png")} style={{ height: 200, width: 200, right: 0, bottom: 0, position: "absolute" }} />
   
-                        <Text style={styles.destinations}>From {props.request.departure}</Text>
+                        <Text style={styles.destinations}>De {props.request.departure}</Text>
   
                         <View>
   
                             <View>
-                                <Text style={styles.defaultText}>On {props.request.date.substring(8, 10)}/{props.request.date.substring(5, 7)}/{props.request.date.substring(2, 4)} at {props.request.date.substring(11, 13)}h{props.request.date.substring(14, 16)}</Text>
+                                <Text style={styles.defaultText}>Le {props.request.date.substring(8, 10)}/{props.request.date.substring(5, 7)}/{props.request.date.substring(2, 4)} à {props.request.date.substring(11, 13)}h{props.request.date.substring(14, 16)}</Text>
                             </View>
   
                             <View style={styles.revealContainer}>
@@ -103,7 +103,7 @@ const RequestItem = (props) => {
   
                                     {props.request.comment && (
                                         <>
-                                            <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Additional Info:</Text>
+                                            <Text style={{ ...styles.defaultText, fontWeight: 'bold' }}>Infos supplémentaires:</Text>
                                             <Text style={styles.defaultText}>{props.request.comment}</Text>
                                         </>
                                     )}
@@ -112,7 +112,7 @@ const RequestItem = (props) => {
                                       
                                         <Pressable onPress={toCandidate} style={styles.button}>
                                             <Image source={require("../assets/flag.png")} style={{ height: 22, width: 22 }} />
-                                            <Text style={styles.buttonText}> Apply </Text>
+                                            <Text style={styles.buttonText}> Candidater </Text>
                                         </Pressable>
                                       
                                     </View>
@@ -124,7 +124,7 @@ const RequestItem = (props) => {
                         </View>
                                       
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={styles.destinations}>To {props.request.arrival}</Text>
+                            <Text style={styles.destinations}>à {props.request.arrival}</Text>
                         </View>
                                       
                     </View>
