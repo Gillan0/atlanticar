@@ -1,10 +1,11 @@
 /**
- * Fonction vérifiant que le String entré en paramètre contient '@imt-atlantique.net'
- * @param {String} str - Chaîne de caractères à évaluer 
- * @returns {Boolean} - Indique si la chaîne de caractère contient '@imt-atlantique.net'
+ * Function to check if the input string contains '@imt-atlantique.net'.
+ * 
+ * @param {String} str - The string to evaluate.
+ * @returns {Boolean} - Indicates whether the string contains '@imt-atlantique.net'.
  */
-function isIMTAdress(str){
+function isIMTAdress(str) {
     return str.includes("@imt-atlantique.net");
 }
 
-export default isIMTAdress
+export default isIMTAdress;
