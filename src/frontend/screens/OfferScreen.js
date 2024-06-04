@@ -84,6 +84,7 @@ export default function OfferScreen({route}) {
     React.useCallback(() => {
       console.log('OfferScreen');
       try {
+        setWaitForServer(true)
         setPage(0)
         setShownOffers([])
         request('get_default_offers', 0, ['','','','9999'], true)
@@ -92,10 +93,10 @@ export default function OfferScreen({route}) {
       }
 
       return () => {
-        // Optionnel : nettoyer lorsqu'on quitte l'écran
-        
+        // When screen is quit
         setPage(0)
         setShownOffers([])
+        setWaitForServer(true)
       };
     }, [])
   );

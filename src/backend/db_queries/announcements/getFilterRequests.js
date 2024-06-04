@@ -32,6 +32,7 @@ function getFilterRequests(data) {
                 r.departure LIKE ?
                 AND r.arrival LIKE ?
                 AND ABS(DATEDIFF(r.date, ?)) <= 7
+                AND TIMESTAMPDIFF(MINUTE, NOW(), r.date) > 0
                 AND r.price <= ?
                 AND author != ?
                 AND r.conductor IS NULL

@@ -83,6 +83,7 @@ export default function RequestScreen({route}) {
     React.useCallback(() => {
       console.log('RequestScreen');
       try {
+        setWaitForServer(true)
         setPage(0)
         setShownRequests([])
         request('get_default_requests', 0, ['','','','9999'], true)
@@ -91,10 +92,9 @@ export default function RequestScreen({route}) {
       }
 
       return () => {
-        // Optionnel : nettoyer lorsqu'on quitte l'écran
-        
         setPage(0)
         setShownRequests([])
+        setWaitForServer(true)
       };
     }, [])
   );

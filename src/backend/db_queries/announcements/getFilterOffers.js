@@ -32,6 +32,7 @@ function getFilterOffers(data) {
                 AND o.departure LIKE ?
                 AND o.arrival LIKE ?
                 AND ABS(DATEDIFF(o.date, ?)) <= 7
+                AND TIMESTAMPDIFF(MINUTE, NOW(), o.date) > 0
                 AND o.price <= ?
                 AND author != ?
                 AND ? NOT IN
