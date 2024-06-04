@@ -292,7 +292,7 @@ export default function CreatedItem(props) {
                                                         const [id, name, phone] = value.split(':');
                                                       
                                                         return (
-                                                            <View key={key} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                            <View key={id} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                                                                
                                                                 <Text style={styles.defaultText}>{name}</Text>
                                                                                
@@ -325,7 +325,7 @@ export default function CreatedItem(props) {
                                                         const [id, name, phone] = value.split(':');
                                                         return (
                                                             <>
-                                                                <View key={index} style={{ justifyContent: "flex-start", padding: 5 }}>
+                                                                <View key={id} style={{ justifyContent: "flex-start", padding: 5 }}>
                                                                                
                                                                     <Text style={{ fontSize: 14 }}> Numéro de {name} : </Text>
                                                                                

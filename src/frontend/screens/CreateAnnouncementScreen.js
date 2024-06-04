@@ -201,8 +201,13 @@ export default function CreateAnnouncementScreen({route}) {
               
               } else {
                 // Pop up message : database unchanged 
-                Alert.alert("Désolé !", "Votre Offre n'a pas été enregistrée.")
-              
+                if (route.params.type == "offer") {
+                  Alert.alert("Désolé !", "Votre Offre n'a pas été enregistrée.")
+
+                } else if (route.params.type == "request") {
+                  Alert.alert("Désolé !", "Votre Requête n'a pas été enregistrée.")
+                }
+
               }
           })
 
