@@ -21,7 +21,7 @@ const OtherInfo = () => {
         });
 
         // Pop up message to user
-        Alert.alert('You are logged out', 'See you later!');
+        Alert.alert('Vous êtes déconnecté !', 'A la prochaine sur AtlantiCar !');
     }
 
     return (

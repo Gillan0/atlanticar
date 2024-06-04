@@ -23,6 +23,7 @@ function getDefaultRequests(data) {
             JOIN account as a ON a.id = r.author
             WHERE
                 author != ?
+                AND DATEDIFF(r.date, NOW()) >= 0
                 AND r.conductor IS NULL
             ORDER BY r.date
             LIMIT 20 OFFSET ?;

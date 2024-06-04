@@ -24,6 +24,7 @@ function getDefaultOffers(data) {
             WHERE
                 o.nb_seat > 0
                 AND author != ?
+                AND DATEDIFF(o.date, NOW()) >= 0
                 AND ? NOT IN
                 (
                 SELECT candidate AS user FROM apply_offer
