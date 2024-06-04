@@ -36,9 +36,10 @@ function getAnnouncementsOffers(data) {
             ) AS passengers
             FROM offer AS o
             WHERE o.author = ?
+            LIMIT 5 OFFSET ?;
         `],
         [
-            [data.id]
+            [data.id, data.parameters[0]]
         ]
     ]
 }

@@ -28,10 +28,11 @@ function getAnnouncementsRequests(data) {
                 ) AS candidates
             FROM request AS r
             LEFT JOIN account AS acc ON r.conductor = acc.id 
-            WHERE r.author = ?;
+            WHERE r.author = ?
+            LIMIT 5 OFFSET ?;
         `],
         [
-            [data.id]
+            [data.id, data.parameters[0]]
         ]
     ]
 }

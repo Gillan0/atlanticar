@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import endScrollReached from "../checkFunctions/endScrollReached.js";
 import isArrayEqual from "../checkFunctions/isArrayEqual.js";
 
+
 export default function OfferScreen({route}) { 
   const navigation = useNavigation();
   const [page, setPage] = useState(0);

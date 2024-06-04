@@ -138,8 +138,8 @@ export default function CreateAnnouncementScreen({route}) {
     }
 
     /**
-     * Sends a HTTP request to the server and changes rendered 
-     * announcements based on answer
+     * Sends a HTTP request to the server and 
+     * switches screen
      * 
      * @param {Array<*>} parameters - parameters for the sql script 
      */
@@ -192,8 +192,10 @@ export default function CreateAnnouncementScreen({route}) {
                 
                 // Go to main offer / request screen
                 if (route.params.type == "offer") {
+                  navigation.goBack()
                   navigation.replace("OffersList", route.params)
                 } else if (route.params.type == "request") {
+                  navigation.goBack()
                   navigation.replace("RequestsList", route.params)
                 }
               

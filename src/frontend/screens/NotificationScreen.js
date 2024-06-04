@@ -1,4 +1,4 @@
-import { View, StatusBar, ScrollView} from "react-native";
+import { View, StatusBar, ScrollView, Text} from "react-native";
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import url from "../misc/url";

@@ -21,7 +21,7 @@ function signIn(data) {
     WHERE
         email = ?
         AND password = ?;
-    `,`SELECT phone_number, email FROM account WHERE email = ? AND password = ?;`],
+    `,`SELECT user, phone_number, email FROM account WHERE email = ? AND password = ?;`],
     [[data.parameters[0], data.parameters[1],data.parameters[0], data.parameters[1]], [data.parameters[0], data.parameters[1]]]]
 }
 

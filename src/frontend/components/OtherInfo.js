@@ -38,7 +38,7 @@ const OtherInfo = () => {
 
                     {/* Title */}
                     <View style={{ paddingLeft: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: "#fff" }}> Other </Text>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: "#fff" }}> Autres </Text>
                     </View>
 
                     {/* Buttons */}
@@ -59,7 +59,7 @@ const OtherInfo = () => {
                             
                             <View style={{ flexDirection: "row" }}>
                                 <Image source={require("../assets/logo_deconnexion.png")} style={{ height: 22, width: 22, marginRight: 10 }} />
-                                <Text style={styles.buttonText}>Log Out</Text>
+                                <Text style={styles.buttonText}>Déconnexion</Text>
                             </View>
                             
                         </Pressable>
