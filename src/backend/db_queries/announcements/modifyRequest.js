@@ -26,13 +26,15 @@ function modifyRequest(data) {
     parameters.push(param1);
 
     // Sends a notification to each candidate that the request was changed
-    candidates.map((value) => {
-        if (value) { 
-            let id_candidate = parseInt(value.split(':')[0]);
-            queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié sa requête'), false, NOW());`)
-            parameters.push([id_candidate, author])
-        }   
-    })
+    if (candidates) {
+        candidates.map((value) => {
+            if (value) { 
+                let id_candidate = parseInt(value.split(':')[0]);
+                queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié sa requête'), false, NOW());`)
+                parameters.push([id_candidate, author])
+            }   
+        })
+    }
 
     // Sends a notification to the appointed conductor that the request was changed
     if (conductor) { 

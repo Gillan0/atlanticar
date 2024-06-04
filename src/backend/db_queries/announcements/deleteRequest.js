@@ -13,15 +13,17 @@ function deleteRequest(data) {
     const [id_author, author, id_request, candidates, conductor] = data.parameters;
 
     // Removes all applications and sends a notification to each candidate
-    candidates.map((value) => {
-        if (value) { 
-            let id_candidate = parseInt(value.split(':')[0]);
-            queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a annulé sa requête'), false, NOW());`)
-            parameters.push([id_candidate, author])
-            queries.push(`DELETE FROM apply_request WHERE candidate = ? AND id_request = ? and author = ?`)
-            parameters.push([id_candidate, id_request, id_author])
-        }   
-    })
+    if (candidates) {
+        candidates.map((value) => {
+            if (value) { 
+                let id_candidate = parseInt(value.split(':')[0]);
+                queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a annulé sa requête'), false, NOW());`)
+                parameters.push([id_candidate, author])
+                queries.push(`DELETE FROM apply_request WHERE candidate = ? AND id_request = ? and author = ?`)
+                parameters.push([id_candidate, id_request, id_author])
+            }   
+        })
+    }
     // Sends a notification to the appointed conductor
     if (conductor) { 
         let id_conductor = parseInt(conductor.split(':')[0]);

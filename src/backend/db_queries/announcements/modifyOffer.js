@@ -31,22 +31,25 @@ function modifyOffer(data) {
     parameters.push(param1);
 
     // Sends notification to each candidate that the offer was changed
-    candidates.map((value) => {
-        if (value) { 
-            let id_candidate = parseInt(value.split(':')[0]);
-            queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié son offre'), false, NOW());`)
-            parameters.push([id_candidate, author])
-        }   
-    })
-       
+    if (candidates) {
+        candidates.map((value) => {
+            if (value) { 
+                let id_candidate = parseInt(value.split(':')[0]);
+                queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié son offre'), false, NOW());`)
+                parameters.push([id_candidate, author])
+            }   
+        })
+    }
     // Sends notification to each passenger that the offer was changed
-    passengers.map((value) => {
-        if (value) { 
-            let id_passenger = parseInt(value.split(':')[0]);
-            queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié son offre'), false, NOW());`)
-            parameters.push([id_passenger, author])
-        }   
-    })
+    if (passengers) {
+        passengers.map((value) => {
+            if (value) { 
+                let id_passenger = parseInt(value.split(':')[0]);
+                queries.push(`INSERT INTO notification VALUES (DEFAULT, ?, CONCAT( ? , ' a modifié son offre'), false, NOW());`)
+                parameters.push([id_passenger, author])
+            }   
+        })
+    }
 
     return [queries, parameters]  
 }
