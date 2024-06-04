@@ -88,9 +88,12 @@ create table notification
 );
 
 #ajout de 6 profiles
-insert into account (user,password,phone_number, email) values ('JC','1234','06 12 34 56 78', 'jc@imt-atlantique.net'),('Jean-Eude','1234','06 00 00 00 00','je@imt-atlantique.net'),
-('Eugène','1234','06 11 11 11 11', 'eugene@imt-atlantique.net'),('Jean Michel IV', '2146','06 69 96 69 96', 'jeanmi@imt-atlantique.net'),('Albert', 'alibaba','06 69 96 69 96', 'alibaba@imt-atlantique.net'),
-('Tanya', 'Evil','06 66 66 66 66', 'tanya@imt-atlantique.net');
+INSERT INTO account VALUES (DEFAULT, 'JC', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '06 12 34 56 78', 'jc@imt-atlantique.net');
+INSERT INTO account VALUES (DEFAULT, 'Jean-Eude', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '06 00 00 00 00', 'je@imt-atlantique.net');
+INSERT INTO account VALUES (DEFAULT, 'Eugène', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '06 11 11 11 11', 'eugene@imt-atlantique.net');
+INSERT INTO account VALUES (DEFAULT, 'Jean Michel IV', '2570ce03b300309d1f8d673ad5d5359d30b7a5d9a9c4aaa4b54c19cd2c683a78', '06 69 96 69 96', 'jeanmi@imt-atlantique.net');
+INSERT INTO account VALUES (DEFAULT, 'Albert', '047364b9be67f665eca384b8061d688b8642a8b47b3de35c22a012ed6fe69242', '06 69 96 69 96', 'alibaba@imt-atlantique.net');
+INSERT INTO account VALUES (DEFAULT, 'Tanya', '50bf80da81cf93a98faad116f4afea66abc5f12dcf933908a3a982ca02a1ebdc', '06 66 66 66 66', 'tanya@imt-atlantique.net');
 
 #41 requêtes
 insert into request values (DEFAULT, 'IMT Atlantique Brest','Carrefour Plouzané','2024-08-01 10:30:00',0,'',1,null);

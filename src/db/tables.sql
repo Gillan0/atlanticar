@@ -18,7 +18,7 @@ CREATE TABLE account
     user 			 VARCHAR(30),
     password		 VARCHAR(30)     NOT NULL,
     phone_number   	 TEXT            NOT NULL,
-    email            VARCHAR(50)     NOT NULL
+    email            VARCHAR(50)     NOT NULL,
 );
 
 
@@ -37,13 +37,13 @@ CREATE TABLE account
 CREATE TABLE offer
 (   
     id              INT         PRIMARY KEY     AUTO_INCREMENT,
-    author          INT         NOT NULL,
     departure	  	TEXT        NOT NULL,
     arrival		    TEXT        NOT NULL,
     date            DATETIME,
-    price          	FLOAT,
-    nb_seat	        INT,
+    price          	FLOAT       NOT NULL,
+    nb_seat	        INT         NOT NULL,
     comment		    VARCHAR(200),
+    author          INT         NOT NULL,
     FOREIGN KEY (author) REFERENCES account(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -63,13 +63,13 @@ CREATE TABLE offer
 CREATE TABLE request
 (   
     id              INT         PRIMARY KEY     AUTO_INCREMENT,
-    author          INT         NOT NULL,
     conductor		INT,
     departure     	TEXT        NOT NULL,
     arrival		    TEXT        NOT NULL,
     date            DATETIME,
-    price           FLOAT,
+    price           FLOAT       NOT NULL,
     comment     	VARCHAR(200),
+    author          INT         NOT NULL,
     FOREIGN KEY (author) REFERENCES account(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
