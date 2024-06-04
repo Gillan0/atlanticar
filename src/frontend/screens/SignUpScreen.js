@@ -66,11 +66,11 @@ export default function SignUpScreen(){
         // Define data to send to the server
         const dataToSend = {
             id: prompts[0],
-            password: prompts[1].replace(/ /g, ''),
+            password: prompts[1],//.replace(/ /g, ''),
             phone_number : prompts[2].match(/.{1,2}/g).join(' '),
             email: prompts[3],
             command : "signUp",
-            parameters : [prompts[0], prompts[1].replace(/ /g, ''), prompts[2].match(/.{1,2}/g).join(' '), prompts[3]]
+            parameters : [prompts[0], reateHash('sha256').update(prompts[1]/*.replace(/ /g, '')*/).digest('hex'), prompts[2].match(/.{1,2}/g).join(' '), prompts[3]]
         };
 
         // Options of the http request

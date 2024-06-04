@@ -4,6 +4,8 @@ import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 import isIMTAdress from "../checkFunctions/isIMTAdress.js";
 
+const { createHash } = require('crypto');
+
 /**
  * Displays the Login Screen
  * 
@@ -59,8 +61,8 @@ export default function LoginScreen() {
             id: null,
             password: null,
             command : "signIn",
-            parameters : [prompts[0], prompts[1]]
-          };
+            parameters : [prompts[0], createHash('sha256').update(prompts[1]).digest('hex')]
+        };
           
         // HTTP request options
         const requestOptions = {
