@@ -10,6 +10,9 @@
 function getApplicationsOffers(data) {
     return [
         [`
+            SELECT 
+                * 
+            FROM (
                 SELECT 
                     o.id,
                     o.departure, 
@@ -25,7 +28,7 @@ function getApplicationsOffers(data) {
                 JOIN apply_offer AS ao ON ao.id_offer = o.id 
                 JOIN account AS a ON a.id = o.author 
                 WHERE 
-                    ao.candidate = ? 
+                    ao.candidate = ?
                 UNION 
                 SELECT 
                     o.id, 
@@ -42,10 +45,14 @@ function getApplicationsOffers(data) {
                 JOIN offer_client AS oc ON oc.id_offer = o.id 
                 JOIN account AS a ON a.id = o.author 
                 WHERE 
-                    oc.client = ?;`
+                    oc.client = ?
+            ) AS combined_results
+            ORDER BY combined_results.date
+            LIMIT 5 OFFSET ?;
+            `
         ],
         [
-            [data.id,data.id]
+            [data.id,data.id, data.parameters[0]]
         ]
     ]
 }

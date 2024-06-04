@@ -11,38 +11,45 @@ function getApplicationsRequests(data) {
     return  [
         [`
             SELECT 
-                r.id, 
-                r.departure, 
-                r.arrival, 
-                r.date, 
-                r.price, 
-                r.comment, 
-                a.user AS author, 
-                'False' AS state ,
-                null AS phone
-            FROM request AS r 
-            JOIN apply_request AS ar ON ar.id_request = r.id 
-            JOIN account AS a ON a.id = r.author 
-            WHERE 
-                ar.candidate = ? 
-            UNION 
-            SELECT 
-                r.id, 
-                r.departure, 
-                r.arrival, 
-                r.date, 
-                r.price, 
-                r.comment, 
-                a.user AS author, 
-                'True' AS state ,
-                a.phone_number AS phone
-            FROM request AS r 
-            JOIN account AS a ON a.id = r.author 
-            WHERE 
-                r.conductor = ?;`
+                * 
+            FROM (
+                SELECT 
+                    r.id, 
+                    r.departure, 
+                    r.arrival, 
+                    r.date, 
+                    r.price, 
+                    r.comment, 
+                    a.user AS author, 
+                    'False' AS state,
+                    null AS phone
+                FROM request AS r 
+                JOIN apply_request AS ar ON ar.id_request = r.id 
+                JOIN account AS a ON a.id = r.author 
+                WHERE 
+                    ar.candidate = ?
+                UNION 
+                SELECT 
+                    r.id, 
+                    r.departure, 
+                    r.arrival, 
+                    r.date, 
+                    r.price, 
+                    r.comment, 
+                    a.user AS author, 
+                    'True' AS state,
+                    a.phone_number AS phone
+                FROM request AS r 
+                JOIN account AS a ON a.id = r.author 
+                WHERE 
+                    r.conductor = ?
+            ) AS combined_results
+            ORDER BY combined_results.date
+            LIMIT 5 OFFSET ?;
+    `
         ],
         [
-            [data.id,data.id]
+            [data.id, data.id, data.parameters[0]]
         ]
     ]
 }

@@ -25,7 +25,7 @@ export default function AnnouncementScreen({route}) {
    * announcements based on answer
    * 
    * @param {String} command - command interpreted by server
-   * @param {Array<*>} cPage - parameter for the sql script 
+   * @param {number} newPage - parameter for the sql script 
    */
   function request(command, newPage) {
 
@@ -34,7 +34,7 @@ export default function AnnouncementScreen({route}) {
       id: route.params.id,
       password: route.params.password,
       command : command,
-      parameters : [newPage]
+      parameters : [5*newPage]
     };
   
     // HTTP request options
