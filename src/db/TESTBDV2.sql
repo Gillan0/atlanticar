@@ -11,7 +11,7 @@ CREATE TABLE account
 (   
     id     			INT auto_increment,
     user 			varchar(30),
-    password			varchar(30) NOT NULL,
+    password			varchar(64) NOT NULL,
     phone_number   	TEXT NOT NULL,
     email varchar(100) NOT NULL,
     primary key (id)
