@@ -11,6 +11,7 @@ import SHA256 from 'crypto-js/sha256';
  * @returns {React.ReactElement}
  */
 export default function LoginScreen() {
+
     // Get navigation
     const navigation = useNavigation();
 
@@ -48,13 +49,11 @@ export default function LoginScreen() {
             Alert.alert("Désolé !", "Merci de renseigner un mot de passe")
             return;
         }
-
         // Checks if the email is a valid IMT Adress
         if(!isIMTAdress(prompts[0])){
             Alert.alert('Erreur !', 'L\'adresse mail doit être une adresse mail IMT.');
             return;
         }
-
         // Data to send to server
         const dataToSend = {
             id: null,
@@ -69,7 +68,7 @@ export default function LoginScreen() {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataToSend) // Convertir les données en format JSON
+            body: JSON.stringify(dataToSend) 
         };
           
         // Sends HTTP request
@@ -86,18 +85,19 @@ export default function LoginScreen() {
 
             .then(data => {
                 console.log(data)
-
-                // If login successful, switch to Main Offers Screen
-                if (data[0][0].answer == "TRUE") {
-                    navigation.replace("Main", {id : data[0][0].id, username : data[1][0].user, password : prompts[1], phone_number : data[1][0].phone_number, email: prompts[0]})
-                } else {
-                    Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
+                if (data[0][0]) {
+                    // If login successful, switch to Main Offers Screen
+                    if (data[0][0].answer == "TRUE") {
+                        navigation.replace("Main", {id : data[0][0].id, username : data[1][0].user, password : prompts[1], phone_number : data[1][0].phone_number, email: prompts[0]})
+                        return;
+                    } 
                 }
+                Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect");
             })
 
             // Error failsafe
             .catch(error => {
-                Alert.alert("Désolé !", "Nom d'utilisateur ou mot de passe incorrect")
+                Alert.alert("Désolé !", "Erreur de connexion !")
                 console.error('Erreur :', error);
             });  
     }

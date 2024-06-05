@@ -96,13 +96,16 @@ export default function SignUpScreen(){
         // Exploit useable data
         .then(data => {
             // Changes screen if database modified
-            if (data[0].affectedRows == 1) {
-                Alert.alert('Votre compte est bien crée !', 'Bienvenue sur Atlanticar !');
-                navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2].match(/.{1,2}/g).join(' '), email: prompts[3]})
-            } else {
-                // Shows error message to user
-                Alert.alert('Erreur ! Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
+            
+            if (data[0]) {
+                if (data[0].affectedRows == 1) {
+                    Alert.alert('Votre compte est bien crée !', 'Bienvenue sur Atlanticar !');
+                    navigation.replace("Main", {id : data[0].insertId, username : prompts[0], password : prompts[1], phone_number : prompts[2].match(/.{1,2}/g).join(' '), email: prompts[3]})
+                    return;
+                } 
             }
+            // Shows error message to user
+            Alert.alert('Erreur ! Le nom d\'utilisateur ou le numéro de téléphone existe déjà.');
         })
         
         // Error failsafe
