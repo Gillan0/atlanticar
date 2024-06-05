@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 import isOnlyNumbers from "../checkFunctions/isOnlyNumbers.js"
-
+import SHA256 from 'crypto-js/sha256';
 
 /**
  * Displays screen where user can change his account's 
@@ -39,7 +39,7 @@ export default function ModificationPhoneNumberScreen({route}) {
         // Data to send to server
         const dataToSend = {
             id: route.params.id,
-            password: route.params.password,
+            password: SHA256(route.params.password).toString(),
             command : "modify_phone_number",
             parameters : [phone.match(/.{1,2}/g).join(' '),]
           };

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import url from "../misc/url.js";
 import isValidPrice from "../checkFunctions/isValidPrice.js";
+import SHA256 from 'crypto-js/sha256';
 
 
 /**
@@ -148,7 +149,7 @@ export default function CreateAnnouncementScreen({route}) {
         // Data to send to server
         const dataToSend = {
           id: route.params.id,
-          password: route.params.password,
+          password: SHA256(route.params.password).toString(),
           command : "upload_"+route.params.type,
           parameters : parameters
         };

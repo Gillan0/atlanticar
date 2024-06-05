@@ -66,7 +66,7 @@ export default function SignUpScreen(){
         // Define data to send to the server
         const dataToSend = {
             id: prompts[0],
-            password: prompts[1],//.replace(/ /g, ''),
+            password: SHA256(prompts[1]).toString(),//.replace(/ /g, ''),
             phone_number : prompts[2].match(/.{1,2}/g).join(' '),
             email: prompts[3],
             command : "signUp",

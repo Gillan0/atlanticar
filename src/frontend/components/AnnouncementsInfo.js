@@ -10,9 +10,11 @@ import { useNavigation } from '@react-navigation/native';
  * @function AnnouncementsInfo
  * @returns {JSX.Element} The announcements info component.
  */
-const AnnouncementsInfo = () => {
+const AnnouncementsInfo = (props) => {
     
     const navigation = useNavigation();
+
+    const route = props.route;
 
     return (
         

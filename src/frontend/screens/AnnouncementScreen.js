@@ -4,6 +4,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import CreatedItem from "../components/CreatedItem.js";
 import url from "../misc/url.js";
 import endScrollReached from "../checkFunctions/endScrollReached.js";
+import SHA256 from 'crypto-js/sha256';
+
 
 /**
  * Displays the user's created announcements (offer or request)
@@ -32,7 +34,7 @@ export default function AnnouncementScreen({route}) {
     // Data to send to server
     const dataToSend = {
       id: route.params.id,
-      password: route.params.password,
+      password: SHA256(route.params.password).toString(),
       command : command,
       parameters : [5*newPage]
     };

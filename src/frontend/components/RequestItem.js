@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, UIManager, Pressable, View, Text, Alert, Image, StyleSheet } from 'react-native';
 import url from "../misc/url.js";
+import SHA256 from 'crypto-js/sha256';
 
 
 // Enable LayoutAnimation on Android
@@ -24,7 +25,7 @@ const RequestItem = (props) => {
       
         const dataToSend = {
             id: props.account.id,
-            password: props.account.password,
+            password: SHA256(props.account.password).toString(),
             command: "apply_to_request",
             parameters: [[props.account.id, props.request.id, props.request.author], [props.request.author, props.account.username]],
         };

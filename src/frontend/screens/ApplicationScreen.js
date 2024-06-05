@@ -4,6 +4,7 @@ import ApplicationItem from "../components/ApplicationItem";
 import { useFocusEffect } from '@react-navigation/native';
 import url from "../misc/url";
 import endScrollReached from "../checkFunctions/endScrollReached";
+import SHA256 from 'crypto-js/sha256';
 
 /**
  * Displays the user's applications (offer or request)
@@ -32,7 +33,7 @@ export default function ApplicationScreen({route}) {
     // Data to send to server
     const dataToSend = {
       id: route.params.id,
-      password: route.params.password,
+      password: SHA256(route.params.password).toString(),
       command : command,
       parameters : [5*newPage]
     };

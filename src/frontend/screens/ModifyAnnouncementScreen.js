@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import url from "../misc/url.js";
 import isValidPrice from "../checkFunctions/isValidPrice.js";
+import SHA256 from 'crypto-js/sha256';
 
 /**
  * Displays screen where user can modify one of his
@@ -128,12 +129,15 @@ export default function ModifyAnnouncementScreen({route}) {
       }
       // Sends HTTP request
       if (route.params.type == "offer") {
-        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.content.id, route.params.id, route.params.password, route.params.id],
+        
+        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[3], inputs[4], route.params.content.id, route.params.id, SHA256(route.params.password).toString(), route.params.id],
                   route.params.content.candidates,
                   route.params.content.passengers,
                   route.params.username])
+
       } else if (route.params.type == "request")  {
-        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[4], route.params.content.id, route.params.id, route.params.password, route.params.id],
+        
+        request([[inputs[0], inputs[1], date.toLocaleString("sv-SE") ,inputs[2], inputs[4], route.params.content.id, route.params.id, SHA256(route.params.password).toString(), route.params.id],
                   route.params.content.candidates,
                 route.params.content.conductor,
                 route.params.username])
@@ -151,7 +155,7 @@ export default function ModifyAnnouncementScreen({route}) {
         // Data to send to server
         const dataToSend = {
           id: route.params.id,
-          password: route.params.password,
+          password: SHA256(route.params.password).toString(),
           command : "modify_"+route.params.type,
           parameters : parameters
         };

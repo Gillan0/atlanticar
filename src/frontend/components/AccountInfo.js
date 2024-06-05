@@ -1,7 +1,6 @@
 import { View, Image, StyleSheet, Text, Pressable } from "react-native";
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useFocusEffect, useNavigation } from '@react-navigation/native';
 
 /**
  * Widget which shows the personal info of an account: 
@@ -13,13 +12,20 @@ import { useRoute } from '@react-navigation/native';
  * @function AccountInfo
  * @returns {JSX.Element} The account info component.
  */
-const AccountInfo = () => {
+const AccountInfo = (props) => {
   
     // Get navigation pile to allow navigation between screens
     const navigation = useNavigation();
 
     // Get info from route which contains all personal info
     const route = useRoute();
+
+    useFocusEffect(React.useCallback(() => {
+        if (route.params) {
+            console.log(route.params)
+        }
+      }, [route.params])
+    );
 
     // Variables to change the shown status of sensitive information
     const [showPassword, setShowPassword] = useState(false);
@@ -73,7 +79,7 @@ const AccountInfo = () => {
                                     <Image source={showPassword ? require("../assets/white_eye_closed.png") : require("../assets/white_eye.png")} style={{ height: 25, width: 25 }} />
                                 </Pressable>
   
-                                <Pressable style={{ borderRadius: 5, borderWidth: 1, borderColor: "#fff" }} onPress={() => navigation.navigate("ModificationPassword")}>
+                                <Pressable style={{ borderRadius: 5, borderWidth: 1, borderColor: "#fff" }} onPress={() => navigation.navigate("ModificationPassword", route.params)}>
                                     <Image source={require("../assets/white_parameters.png")} style={{ height: 25, width: 25 }} />
                                 </Pressable>
   

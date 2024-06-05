@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, UIManager, Pressable, View, Text, LayoutAnimation, StyleSheet, Alert, Image } from 'react-native';
 import url from "../misc/url.js";
+import SHA256 from 'crypto-js/sha256';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -22,7 +23,7 @@ const OfferItem = (props) => {
       
         const dataToSend = {
             id: props.account.id,
-            password: props.account.password,
+            password: SHA256(props.account.password).toString(),
             command: "apply_to_offer",
             parameters: [[props.account.id, props.offer.id, props.offer.author], [props.offer.author, props.account.username]],
         };

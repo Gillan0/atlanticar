@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, UIManager, Pressable, View, Text, StyleSheet, Alert, Image } from 'react-native';
 import url from "../misc/url.js"
+import SHA256 from 'crypto-js/sha256';
 
 
 // Enable LayoutAnimation on Android
@@ -15,7 +16,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
  * @param {Object} props - The properties passed to the component.
  * @returns {JSX.Element} The application item component.
  */
-const ApplicationItem = props => {
+const ApplicationItem = (props) => {
 
     const [render, setRender] = useState(true);
     const [showPhone, setShowPhone] = useState(false);
@@ -27,7 +28,7 @@ const ApplicationItem = props => {
       
         const dataToSend = {
             id: props.id,
-            password: props.account.password,
+            password: SHA256(props.account.password).toString(),
             parameters: [
                 [props.account.id, props.content.id, props.content.author],
                 [props.content.author, props.account.username],

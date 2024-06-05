@@ -108,17 +108,17 @@ insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-
 insert into request values (DEFAULT, 'Decathlon Brest','Carrefour Plouzané','2024-09-18 10:30:00',0,'',1,null);
 
 insert into request values (DEFAULT, 'Locmaria-Plouzané', 'IMT Atlantique Brest', '2024-11-01 11:30:00',0,'',1,null);
-insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-10-11 10:30:00',0,'salut',2,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-10-11 10:30:00',0,"J'ai besoin de faire des courses",2,null);
 insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-11-21 10:30:00',0,'',2,null);
 insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2024-11-13 12:00:00',0,'',3,null);
 insert into request values (DEFAULT, 'Locmaria-Plouzané', 'Aéroport', '2024-10-15 10:30:00',10,'',2,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Locmaria-Plouzané', '2024-10-29 12:00:00',10,'',3,null);
-insert into request values (DEFAULT, 'Brest', 'Aéroport', '2024-11-01 15:30:00',35,'Je me présente, je m appelle Henry',2,null);
+insert into request values (DEFAULT, 'Brest', 'Aéroport', '2024-11-01 15:30:00',35,"Je dois prendre l'avion",2,null);
 insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-11-01 08:00:00',50,'',3,null);
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2024-10-09 12:30:00',10,'alors, on attend pas Patrique !?',4,null);
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-08-08 14:30:00',60,'60m² avec vu sur le parc',1,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2024-10-09 12:30:00',10,"J'ai 2 valises !",4,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-08-08 14:30:00',60,"",1,null);
 
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-08-07 16:30:00',90,'j ai avec moi beaucoup de matériel',2,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2024-08-07 16:30:00',90,"J'ai 3 sacs avec moi",2,null);
 insert into request values (DEFAULT, 'Brest', 'Carrefour', '2024-08-06 18:30:00',35,'',3,null);
 insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-08-05 20:30:00',50,'damn',4,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Decathlon Brest', '2024-12-01 10:30:00',0,'',2,null);
@@ -129,18 +129,18 @@ insert into request values (DEFAULT, 'Brest', 'Carrefour', '2024-12-01 10:30:00'
 insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2024-12-01 12:00:00',50,'',3,null);
 insert into request values (DEFAULT, 'Decathlon Brest','Carrefour Plouzané','2024-12-18 10:30:00',0,'',1,null);
 
-insert into request values (DEFAULT, 'Locmaria-Plouzané', 'IMT Atlantique Brest', '2025-01-01 11:30:00',0,'',1,null);
-insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-11 10:30:00',0,'salut',2,null);
+insert into request values (DEFAULT, 'Locmaria-Plouzané', 'IMT Atlantique Brest', '2025-01-01 11:30:00',0,"J'ai 3 sacs avec moi",1,null);
+insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-11 10:30:00',0,'',2,null);
 insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-21 10:30:00',0,'',2,null);
 insert into request values (DEFAULT, 'Lidl Plouzané', 'Brest', '2025-01-13 12:00:00',0,'',3,null);
 insert into request values (DEFAULT, 'Locmaria-Plouzané', 'Aéroport', '2025-01-15 10:30:00',10,'',2,null);
 insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Locmaria-Plouzané', '2025-01-29 12:00:00',10,'',3,null);
-insert into request values (DEFAULT, 'Brest', 'Aéroport', '2025-01-01 15:30:00',35,'Je me présente, je m appelle Henry',2,null);
+insert into request values (DEFAULT, 'Brest', 'Aéroport', '2025-01-01 15:30:00',35,"J'ai 2 valises et 1 sac avec moi",2,null);
 insert into request values (DEFAULT, 'Aéroport', 'IMT Atlantique Brest', '2025-01-01 08:00:00',50,'',3,null);
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2025-01-09 12:30:00',10,'alors, on attend pas Patrique !?',4,null);
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-01-08 14:30:00',60,'60m² avec vu sur le parc',1,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Aéroport Brest', '2025-01-09 12:30:00',10,"J'ai 1 valise",4,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-01-08 14:30:00',60,"Je vais manger en ville avec ma copine",1,null);
 
-insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-02-01 16:00:01',60,'100m² avec vu sur la plage',1,null);
+insert into request values (DEFAULT, 'IMT Atlantique Brest', 'Brest', '2025-02-01 16:00:01',60,"Je dois aller à la préfecture",1,null);
 
 #application aux requêtes avec ajout de la notification
 
@@ -160,49 +160,49 @@ JOIN account as c1 ON c1.id = cr.candidate JOIN account as c2 ON c2.id = cr.auth
 #ajoutons des offres auquel on est inscrit (il y en a 21)
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,3,'Ya',5);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Pas de grosses valises, merci.',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,'Pas de bruit svp',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,'Je conduis vite',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-11-11 12:00:00',3,1,'',5);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-22 12:30:00',8,2,'',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,4,'',5);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-18 12:30:00',8,2,'',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-15 12:00:00',3,1,'J ai un gros coffre',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-01 12:30:00',8,3,'peu de place',6);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-09-01 12:30:00',8,3,'Peu de place',6);
 
-insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,3,'Ya',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Vodka',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,3,'',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-08-21 12:30:00',8,2,'Pas de place dans le coffre',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,2,"Je m'arrête à Thales",5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-10-21 12:30:00',8,1,"Je m'arrête au Multiplex Liberte",6);
 insert into offer values (DEFAULT,'Decathlon Brest','IMT Atlantique Brest','2024-11-11 12:00:00',3,1,'',5);
 insert into offer values (DEFAULT,'Gare Brest','Aéroport Brest','2024-09-22 12:30:00',8,2,'',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-11 12:00:00',3,4,'',5);
 insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-09-18 12:30:00',8,2,'',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-15 12:00:00',3,1,'J ai un gros coffre',5);
-insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-09-01 12:30:00',8,3,'peu de place',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-09-15 12:00:00',3,1,'J ai un petit coffre',5);
+insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-09-01 12:30:00',8,3,'beaucoup de place',6);
 
-insert into offer values (DEFAULT,'Brest','Decalthlon Brest','2024-09-12 12:00:00',3,3,'Ya',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-21 12:30:00',8,2,'Vodka',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-11 12:00:00',3,2,'pas de bras, pas de chocolat',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-21 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Brest','Decalthlon Brest','2024-09-12 12:00:00',3,3,'',5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-21 12:30:00',8,2,'',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-11 12:00:00',3,2,"Je m'arrête à Guilers",5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-21 12:30:00',8,1,"Je m'arrête aux capucins",6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-01 12:00:00',3,1,'',5);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-22 12:30:00',8,2,'',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-30 12:00:00',3,4,'',5);
 insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-29 12:30:00',8,2,'',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-14 12:00:00',3,1,'J ai un gros coffre',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-02 12:30:00',8,3,'peu de place',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-14 12:00:00',3,1,"Je m'arrête au Karting",5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-02 12:30:00',8,3,"Je m'arrête à Naval",6);
 
-insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-12-06 12:00:00',3,3,'Ya',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-19 12:30:00',8,2,'Vodka',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-08 12:00:00',3,2,'pas de bras, pas de chocolat',5);
-insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-09 12:30:00',8,1,'en avant',6);
+insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-12-06 12:00:00',3,3,"Je m'arrête au BK",5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-19 12:30:00',8,2,'',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-12-08 12:00:00',3,2,"Je m'arrête à Dialogues",5);
+insert into offer values (DEFAULT,'Gare Brest','IMT Atlantique Brest','2024-12-09 12:30:00',8,1,"Je m'arrête à la base navale",6);
 insert into offer values (DEFAULT,'Decathlon Brest','IMT Atlantique Brest','2024-12-13 12:00:00',3,1,'',5);
 insert into offer values (DEFAULT,'Gare Brest','Aéroport Brest','2024-12-22 19:30:00',8,2,'',6);
 insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-07-11 12:00:00',3,4,'',5);
 insert into offer values (DEFAULT,'Aéroport Brest','IMT Atlantique Brest','2024-07-18 12:30:00',8,2,'',6);
-insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-06-15 12:00:00',3,1,'J ai un gros coffre',5);
-insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-06-01 12:30:00',8,3,'peu de place',6);
+insert into offer values (DEFAULT,'Brest','IMT Atlantique Brest','2024-06-15 12:00:00',3,1,'J ai que 2 portières',5);
+insert into offer values (DEFAULT,'Gare Brest','Lidl Plouzané','2024-06-01 12:30:00',8,3,"J'ai une Twingo",6);
 
-insert into offer values (DEFAULT,'Plouzané-Locmaria','Brest','2025-01-11 12:00:00',3,4,'ola',5);
+insert into offer values (DEFAULT,'Plouzané-Locmaria','Brest','2025-01-11 12:00:00',3,4,"",5);
 
 #JC postule aux offres :
 insert into apply_offer values (1,1,5,'2024-05-05 16:23:54');

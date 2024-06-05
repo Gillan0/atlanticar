@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import url from "../misc/url";
 import NotificationItem from "../components/NotificationItem";
+import SHA256 from 'crypto-js/sha256';
 
 /**
  * Écran affichant les notifications d'un utilisateur
@@ -23,7 +24,7 @@ function NotificationScreen({ route }) {
     // Data to send to server
     const dataToSend = {
       id: route.params.id,
-      password: route.params.password,
+      password: SHA256(route.params.password).toString(),
       command: "get_notifications",
       parameters: [route.params.id],
     };

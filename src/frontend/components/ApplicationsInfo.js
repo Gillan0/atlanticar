@@ -10,9 +10,11 @@ import { useNavigation } from '@react-navigation/native';
  * @function ApplicationsInfo
  * @returns {JSX.Element} The applications info component.
  */
-const ApplicationsInfo = () => {
+const ApplicationsInfo = (props) => {
     
     const navigation = useNavigation();
+
+    const route = props.route;
 
     return (
         

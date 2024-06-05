@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, Image, StyleSheet, Alert } from 'react-native';
 import url from '../misc/url';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import SHA256 from 'crypto-js/sha256';
 
 /**
  * Component for displaying and managing created items.
@@ -51,7 +52,7 @@ export default function CreatedItem(props) {
 
         const dataToSend = {
             id: props.id,
-            password: props.password,
+            password: SHA256(props.password).toString(),
             command: props.content.type === 'offer' 
                 ? (bool ? 'accept_application_offer' : 'refuse_application_offer') 
                 : (bool ? 'accept_application_request' : 'refuse_application_request'),
@@ -145,7 +146,7 @@ export default function CreatedItem(props) {
 
         const dataToSend = {
             id: props.id,
-            password: props.password,
+            password: SHA256(props.password).toString(),
             command: props.content.type === 'offer' ? "cancel_passenger" : "cancel_conductor",
             parameters: props.content.type === 'offer' 
                 ? [[props.content.id, id_candidate], [props.content.id], [id_candidate, props.username]] 
@@ -191,7 +192,7 @@ export default function CreatedItem(props) {
       
         const dataToSend = {
             id: props.id,
-            password: props.password,
+            password: SHA256(props.password).toString(),
             command: props.content.type === 'offer' ? "delete_offer" : "delete_request",
             parameters: props.content.type === 'offer' ? [props.id, props.username, props.content.id, candidates, passengers] : [props.id, props.username, props.content.id, candidates, conductor],
         };

@@ -2,6 +2,7 @@ import {View, StyleSheet, Text, Pressable, StatusBar, Alert, TextInput, Image} f
 import React, {useState} from 'react';
 import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
+import SHA256 from 'crypto-js/sha256';
 
 /**
  * Displays screen where user can change his account's 
@@ -10,6 +11,9 @@ import { useNavigation } from '@react-navigation/native';
  * @returns {React.ReactElement}
  */
 export default function ModificationPasswordScreen({route}) {
+    console.log(route.params)
+
+
     // Get navigation
     const navigation = useNavigation();
 
@@ -27,9 +31,9 @@ export default function ModificationPasswordScreen({route}) {
         // Data to send to server
         const dataToSend = {
             id: route.params.id,
-            password: route.params.password,
+            password: SHA256(route.params.password).toString(),
             command : "modify_password",
-            parameters : [password]
+            parameters : [SHA256(password).toString()]
           };
           
         // HTTP request options
@@ -61,7 +65,8 @@ export default function ModificationPasswordScreen({route}) {
                     // Pop up confirmation message
                     Alert.alert("Votre mot de passe a bien été modifié");
                     navigation.goBack()
-                    navigation.replace("Account", {...route.params, password: password})
+                    navigation.replace("Account", {...route.params, password: password, merge : true})
+
                 } else {
                     // Pop up error message
                     Alert.alert("Erreur !","Votre mot de passe n'a pas été modifié");

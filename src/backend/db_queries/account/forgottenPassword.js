@@ -21,8 +21,42 @@ function forgottenPassword(data) {
         },
         to: [data.parameters[1]],
         subject: "Mot de passe oublié",
-        text: "Voici votre nouveau mot de passe: " + new_password,
-        html: "<b>Voici votre nouveau mot de passe: " + new_password + "</b>",
+        text: `
+            Réinitialisation de votre mot de passe
+
+
+            Bonjour,
+            
+            Nous avons reçu une demande réinitilisation de votre mot de passe.
+            
+            Votre nouveau mot de passe est ` + new_password + `.
+            
+            N'oubliez pas de le modifier dans votre écran Compte.
+            
+            
+            Cordialement,
+            
+            L'équipe d'Atlanticar
+            
+            
+            Ne répondez pas à cette adresse mail
+        `,
+        html: `
+            <h1>Réinitialisation de votre mot de passe</h1>
+            
+            <div style="padding-top:10px">
+                <h3>Bonjour, </h3>
+                <p>Nous avons reçu une demande réinitilisation de votre mot de passe.</p>
+                <p>Votre nouveau mot de passe est <b> `+ new_password +`</b>.</p>
+                <p>N'oubliez pas de le modifier dans votre écran <b>Compte</b>.</p>
+            </div>
+            <div style="padding-top:10px">
+                <p>Cordialement,</p>
+                <p>L'équipe d'Atlanticar</p>
+            </div>
+            <img src ="../../assets.logo.jpg">
+            <p><i>Ne répondez pas à cette adresse mail</i></p>
+        `,
     }
 
     // Sends email

@@ -6,10 +6,13 @@ import { useNavigation } from '@react-navigation/native';
  * Displays the menu where you can access the notification screen and the log out button.
  * @returns {React.ReactElement} The OtherInfo component.
  */
-const OtherInfo = () => {
+const OtherInfo = (props) => {
     
     const navigation = useNavigation();
     
+    const route = props.route;
+
+
     /**
      * Handles log out procedure.
      */

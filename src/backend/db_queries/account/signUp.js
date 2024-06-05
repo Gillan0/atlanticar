@@ -19,8 +19,37 @@ function signUp(data) {
         },
         to: [data.parameters[3]],
         subject: "Création de votre compte AtlantiCar",
-        text: "Bienvenue sur AtlantiCar ! Nous vous annonçons que votre compte est bien crée !",
-        html: "<b>Bienvenue sur AtlantiCar ! Nous vous annonçons que votre compte est bien crée !</b>",
+        text: `
+            Bienvenue sur AtlantiCar !
+
+            
+            Bonjour,
+
+            Nous vous annonçons que votre compte est bien crée.
+            
+            
+            Cordialement,
+            
+            L'équipe d'Atlanticar
+            
+            
+            Ne répondez pas à cette adresse mail
+        `
+        ,
+        html: `
+        <h1>Bienvenue sur AtlantiCar !</h1>
+            
+        <div style="padding-top:10px">
+            <h3>Bonjour, </h3>
+            <p>Nous vous annonçons que votre compte est bien crée.</p>
+        </div>
+        <div style="padding-top:10px">
+            <p>Cordialement,</p>
+            <p>L'équipe d'Atlanticar</p>
+        </div>
+        <img src ="../../assets.logo.jpg">
+        <p><i>Ne répondez pas à cette adresse mail</i></p>
+        `,
     }
 
     sendMail(transporter, mailOptions);

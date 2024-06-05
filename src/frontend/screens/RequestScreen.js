@@ -7,6 +7,8 @@ import url from "../misc/url.js";
 import { useNavigation } from '@react-navigation/native';
 import endScrollReached from "../checkFunctions/endScrollReached.js";
 import isArrayEqual from "../checkFunctions/isArrayEqual.js";
+import SHA256 from 'crypto-js/sha256';
+
 
 export default function RequestScreen({route}) {
   const navigation = useNavigation();
@@ -21,7 +23,7 @@ export default function RequestScreen({route}) {
     // Données à envoyer
     const dataToSend = {
       id: route.params.id,
-      password: route.params.password,
+      password: SHA256(route.params.password).toString(),
       command : command,
       parameters : [...parameters, reset ? 0 : (shownRequests.length % 20 == 0 ? newPage : page)]
     };
