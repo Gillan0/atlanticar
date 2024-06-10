@@ -189,7 +189,7 @@ DB_NAME=atlanticar
 >
 > `MyUser` : Could be replaced by `root` or `$USER`
 > 
-> `MySecurePassword` : Enter the real password you set up in the database config (cf. [here]())
+> `MySecurePassword` : Enter the real password you set up in the database config (cf. [here](#data-base))
 >
 > `DB_PORT` : By default the port is 3386. Change it only if your configuration is different.
 
@@ -238,9 +238,9 @@ Connected to the MySQL database
 
 ### Frontend
 
-The project uses the `React` framework. More details [here](https://github.com/).
+The project uses the `React` framework. More details [here](https://react.dev/).
 
-For interacting with the application, the project requires `ExpoGo`. More information [here](https://github.com/)
+For interacting with the application, the project requires `ExpoGo`. More information [here](https://expo.dev/go)
 
 #### React
 ![reactLogo](./extras/react_logo.png)
@@ -276,6 +276,33 @@ npm start
 ![output](./extras/npmstartoutput.png)
 > This will print a QR Code for the `ExpoGo` app
 
+From the last output, extract the ip adress of `Metro waiting on`
+```
+Metro waiting on exp://10.22.241.3:8081
+```
+
+So the `extracted IP Adress` would be
+```
+10.22.241.3
+```
+> The address will depend on the output of your application so, adapt this information
+
+Last but not least, you must modify the `./src/frontend/misc/urls.js` file.
+```
+const url = "http://192.168.1.18:3000";
+
+export default url;
+```
+> This is the original content of the `./src/frontend/misc/urls.js` file
+
+Replace the original `IP Adress` from the file with the `extracted IP Adress`
+```
+const url = "http://10.22.241.3:3000";
+
+export default url;
+```
+> Just modify the `IP Adress`, don't modify the original port number
+
 Finally, open the `ExpoGo` application and scan the QR Code of the `frontend` output
 
 Use the default credentials to log in or create a new account
@@ -286,3 +313,8 @@ login  : jc@imt-atlantique.net
 passwd : 1234
 ```
 
+You can now use the application and observe all changes in the database/interface. Enjoy using it!
+
+Check our guide in french [here](./FR_Guide_d_installation_AtlantiCar.pdf) !
+
+*AtlantiCar Team* 2024
