@@ -1,9 +1,9 @@
 # ![AtlantiCar](./extras/logo.jpg)
 # AtlantiCar
 
-IMT Atlantique's CODEVSI Project, the carpooling service for now, tomorrow, the day after tomorrow, and beyond.
+IMT Atlantique's CODEVSI Project, the carpooling service for now, tomorrow, overmorrow, and beyond.
 
-
+## How to start ?
 
 Clone this repository
 ```
@@ -58,7 +58,7 @@ Using `WorkBench`, create a connection to your database !
 ![](./extras/workbenchpasswd.png)
 > Enter your `root` password
 
-create the database named `atlanticar`
+Create the database named `atlanticar`
 ![](./extras/workbench.png)
 > This image shows that the connection to the database is established !
 
@@ -226,7 +226,7 @@ npm install
 
 Finally, run the ```server.js``` file
 ```
-nodejs server.js
+node server.js
 ```
 
 If the server is running correctly, you will see the following output in the terminal
