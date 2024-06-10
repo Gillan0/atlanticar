@@ -1,6 +1,9 @@
+# ![AtlantiCar](./extras/logo.jpg)
 # AtlantiCar
 
-IMT Atlantique's CODEVSI Project, the carpooling service for now, tomorrow, the day after tomorrow, and beyond 
+IMT Atlantique's CODEVSI Project, the carpooling service for now, tomorrow, the day after tomorrow, and beyond.
+
+
 
 Clone this repository
 ```
@@ -41,12 +44,19 @@ Select this version of MySQL in the following page :
 > Don't forget to select your current architecture (X86_64, ARM, etc) when it's requested
 
 Once installed, You will need to set up the `root` password !
+![rootpasswd](./extras/rootpasswd.png)
 
 Finally, don't forget your root password this will be useful then.
 
-Using `WorkBench`, create the database named `atlanticar`
+
+Using `WorkBench`, create a connection to your database !
+![](./extras/workbenchpasswd.png)
+
+create the database named `atlanticar`
+![](./extras/workbench.png)
 
 Run the `testSample.sql` script in the `./src/db` directory in order to fill the database !
+![](./extras/workbenchworkspace.png)
 
 Verify your database
 ```
@@ -130,7 +140,7 @@ If all it's ok, let's switch to the next phase !
 
 
 ### Server
-
+![jodejs](./extras/nodejs.png)
 The project server technology is `NodeJS` and package manager is `npm`
 
 Follow the next instructions in order to download and set up correctly depending on your operating system.
@@ -215,6 +225,7 @@ The project uses the `React` framework. More details [here](https://github.com/)
 For interacting with the application, the project requires `ExpoGo`. More information [here](https://github.com/)
 
 #### React
+![reactLogo](./extras/react_logo.png)
 
 Go to the `./src/frontend` directory and run the following command
 ```
@@ -223,6 +234,7 @@ npm install
 > The `package-lock.json` file has all the required dependencies to install
 
 #### ExpoGO
+![expoGo](./extras/expogo_logo.png)
 
 Download the mobile application in the `Apple Store` or the `Android Store`
 
@@ -243,6 +255,7 @@ In the second one, run the fronted application of the `./src/frontend` directory
 ```
 npm start
 ```
+![output](./extras/npmstartoutput.png)
 > This will print a QR Code for the `ExpoGo` app
 
 Finally, open the `ExpoGo` application and scan the QR Code of the `frontend` output
