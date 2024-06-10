@@ -24,6 +24,8 @@ This config is divided into 3 main parts: Databse setup, server configuration an
 
 ### Data Base
 
+![mysql](./extras/mysql.png)
+
 The project needs a database in order to manage the data of the application.
 
 The project uses [MySQL](mysql.com), a popular relational database manager.
@@ -43,30 +45,25 @@ Select this version of MySQL in the following page :
 
 > Don't forget to select your current architecture (X86_64, ARM, etc) when it's requested
 
-Once installed, You will need to set up the `root` password !
+During installation, select the `Use Strong Password Encryption` option for security reasons
+![encryption](./extras/encryption.png)
+
+
+Then enter the `root` password !
 ![rootpasswd](./extras/rootpasswd.png)
 
-Finally, don't forget your root password this will be useful then.
-
+**Finally, don't forget your root password this will be useful then.**
 
 Using `WorkBench`, create a connection to your database !
 ![](./extras/workbenchpasswd.png)
+> Enter your `root` password
 
 create the database named `atlanticar`
 ![](./extras/workbench.png)
+> This image shows that the connection to the database is established !
 
 Run the `testSample.sql` script in the `./src/db` directory in order to fill the database !
 ![](./extras/workbenchworkspace.png)
-
-Verify your database
-```
-A COMMAND/IMGAGE HERE # TODO
-```
-
-You are supposed to have an output like this one
-```
-A OUTPUT/IMAGE HERE # TODO
-```
 
 if all it's ok, let's switch to the next phase !
 
@@ -126,16 +123,6 @@ cd ./src/db && mysql -u root -pYOURPASSWORD < ./testSample.sql
 ```
 > replace `root` by `$USER` if needed
 
-Verify your database
-```
-A COMMAND/IMGAGE HERE # TODO
-```
-
-You are supposed to have an output like this one
-```
-A OUTPUT/IMAGE HERE # TODO
-```
-
 If all it's ok, let's switch to the next phase !
 
 
@@ -168,6 +155,17 @@ sudo pacman -S nodejs
 
 #### Configuration
 
+Before to proceed, verify your `nodejs` and `npm` version
+```
+node -v && npm -v
+```
+
+You should have at least this version or newer !
+```
+v22.2.0
+10.8.1
+```
+
 For security reasons, the project demand to create an `.env` file where you will write sensitive information about your database permissions.
 
 We did not provide it directly in the source code beaucause some data will depend on your local configuration.
@@ -198,8 +196,27 @@ DB_NAME=atlanticar
 
 The project uses a mail service for some functionalities. you must append these values at the end of the `.env` file.
 ```
-CODE OF MAIL AND PASSWORD MAIL # TODO
+MAIL_SERVICE=gmail
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USER=atlanticarservices@gmail.com
+MAIL_PASSWORD=nlkeyzfikaigmlkz
 ```
+
+The final content of your `.env` file should look like this
+```
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=MyUSer
+DB_PASSWORD=MySecurePassword
+DB_NAME=atlanticar
+MAIL_SERVICE=gmail
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USER=atlanticarservices@gmail.com
+MAIL_PASSWORD=nlkeyzfikaigmlkz
+```
+> Don't forget to adapt the values depending on your environment !
 
 Once done, go the `./src/backend` directory and donwload all needed packages
 ```
@@ -214,7 +231,8 @@ nodejs server.js
 
 If the server is running correctly, you will see the following output in the terminal
 ```
-OUTPUT # TODO
+Listening on port 3000
+Connected to the MySQL database 
 ```
 
 
